@@ -4,13 +4,11 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using ProjectM.Gameplay.Systems;
 using HookDOTS.API.Patches;
-using VampireCommandFramework;
 using VRisingMods.Core.Utilities;
 
 namespace HookDOTS.API;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("gg.deca.VampireCommandFramework")]
 public class ApiPlugin : BasePlugin
 {
     Harmony _harmony;
@@ -25,9 +23,6 @@ public class ApiPlugin : BasePlugin
         // Harmony patching
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
-
-        // Register all commands in the assembly with VCF
-        CommandRegistry.RegisterAll();
 
         // set up HookManager
         HookManager.Initialize();
@@ -54,7 +49,6 @@ public class ApiPlugin : BasePlugin
 
         // and everything after this, is part of this library
         HookManager.UnInitialize();
-        CommandRegistry.UnregisterAssembly();
         PerformanceRecorderSystemPatch.UnInitialize();
         _harmony?.UnpatchSelf();
         return true;
@@ -87,22 +81,4 @@ public class ApiPlugin : BasePlugin
         return false;
     }
 
-    // // Uncomment for example commmand or delete
-
-    // /// <summary> 
-    // /// Example VCF command that demonstrated default values and primitive types
-    // /// Visit https://github.com/decaprime/VampireCommandFramework for more info 
-    // /// </summary>
-    // /// <remarks>
-    // /// How you could call this command from chat:
-    // ///
-    // /// .HookDOTS.API-example "some quoted string" 1 1.5
-    // /// .HookDOTS.API-example boop 21232
-    // /// .HookDOTS.API-example boop-boop
-    // ///</remarks>
-    // [Command("HookDOTS.API-example", description: "Example command from HookDOTS.API", adminOnly: true)]
-    // public void ExampleCommand(ICommandContext ctx, string someString, int num = 5, float num2 = 1.5f)
-    // { 
-    //     ctx.Reply($"You passed in {someString} and {num} and {num2}");
-    // }
 }
