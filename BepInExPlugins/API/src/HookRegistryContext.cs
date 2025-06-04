@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Il2CppInterop.Runtime;
 using HookDOTS.API.Hooks;
 

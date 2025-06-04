@@ -1,10 +1,7 @@
 using System;
 using System.Reflection;
-using HarmonyLib;
 using HookDOTS.API.Attributes;
-using HookDOTS.API.ExamplePatches;
 using HookDOTS.API.Hooks;
-using VRisingMods.Core.Utilities;
 
 namespace HookDOTS.API;
 

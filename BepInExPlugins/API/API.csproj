@@ -16,6 +16,7 @@
     <PackageReference Include="BepInEx.Unity.IL2CPP" Version="$(BepInExVersion)" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.Core" Version="$(BepInExVersion)" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    <!-- todo: package that isn't tied to vrising. we just need Unity things -->
     <PackageReference Include="VRising.Unhollowed.Client" Version="1.1.8.*" />
   </ItemGroup>
 

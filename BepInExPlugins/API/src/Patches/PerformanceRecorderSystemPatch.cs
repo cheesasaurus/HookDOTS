@@ -16,8 +16,7 @@ public unsafe class PerformanceRecorderSystemPatch
         {
             return;
         }
-        // PerformanceRecorderSystem.StaticRecordingEnabled = _wasStaticRecordingEnabled; // todo: go back to this after fixing initial plugin setup to only happen after type manager indexes are ready
-        PerformanceRecorderSystem.StaticRecordingEnabled = false;
+        PerformanceRecorderSystem.StaticRecordingEnabled = _wasStaticRecordingEnabled;
         _wasStaticRecordingEnabled = false;
         _initialized = false;
     }
@@ -26,7 +25,9 @@ public unsafe class PerformanceRecorderSystemPatch
     [HarmonyPrefix]
     static bool PerformanceRecorderSystem_OnUpdate_Prefix(PerformanceRecorderSystem __instance)
     {
-       if (_initialized) {
+        // todo: maybe move some of this to an Initialize method
+        if (_initialized)
+        {
             return false;
         }
         _wasStaticRecordingEnabled = PerformanceRecorderSystem.StaticRecordingEnabled;
@@ -35,8 +36,6 @@ public unsafe class PerformanceRecorderSystemPatch
         // unless desired, Disable PerformanceRecorderSystem.OnUpdate() call as it would do actual data recording and log output.
         return _wasStaticRecordingEnabled;
     }
-
-    private static SystemTypeIndex DealDamageSystem;
 
     [HarmonyPatch(typeof(PerformanceRecorderSystem), nameof(PerformanceRecorderSystem.StartSystem))]
     [HarmonyPrefix]

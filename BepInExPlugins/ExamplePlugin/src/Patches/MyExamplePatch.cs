@@ -4,7 +4,7 @@ using ProjectM.Gameplay.Systems;
 using HookDOTS.API.Attributes;
 using VRisingMods.Core.Utilities;
 
-namespace HookDOTS.API.ExamplePatches;
+namespace ExamplePlugin.Patches;
 
 public class MyExamplePatch
 {
