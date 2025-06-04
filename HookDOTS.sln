@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "BepInExPlugins\API\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRisingBootstrapper", "BepInExPlugins\VRisingBootstrapper\VRisingBootstrapper.csproj", "{49740838-4AEA-487A-86D3-4F8AB6A38B5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePlugin", "BepInExPlugins\ExamplePlugin\ExamplePlugin.csproj", "{892BB096-4CD1-483C-A62E-0EFFE82A68DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,18 @@ Global
 		{49740838-4AEA-487A-86D3-4F8AB6A38B5A}.Release|x64.Build.0 = Release|Any CPU
 		{49740838-4AEA-487A-86D3-4F8AB6A38B5A}.Release|x86.ActiveCfg = Release|Any CPU
 		{49740838-4AEA-487A-86D3-4F8AB6A38B5A}.Release|x86.Build.0 = Release|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Debug|x64.Build.0 = Debug|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Release|x64.ActiveCfg = Release|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Release|x64.Build.0 = Release|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +64,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7597990F-CCEC-4483-96FA-E6392C6EA5AD} = {7D8597F0-604A-73FE-498F-EB701F30ED31}
 		{49740838-4AEA-487A-86D3-4F8AB6A38B5A} = {7D8597F0-604A-73FE-498F-EB701F30ED31}
+		{892BB096-4CD1-483C-A62E-0EFFE82A68DA} = {7D8597F0-604A-73FE-498F-EB701F30ED31}
 	EndGlobalSection
 EndGlobal
