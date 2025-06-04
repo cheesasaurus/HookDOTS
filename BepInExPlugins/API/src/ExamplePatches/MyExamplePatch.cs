@@ -1,10 +1,10 @@
 using System;
 using ProjectM;
 using ProjectM.Gameplay.Systems;
-using SystemHooksPOC.Attributes;
+using HookDOTS.API.Attributes;
 using VRisingMods.Core.Utilities;
 
-namespace SystemHooksPOC.ExamplePatches;
+namespace HookDOTS.API.ExamplePatches;
 
 public class MyExamplePatch
 {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Il2CppInterop.Runtime;
-using SystemHooksPOC.Hooks;
+using HookDOTS.API.Hooks;
 
 
-namespace SystemHooksPOC;
+namespace HookDOTS.API;
 
 public class HookRegistryContext
 {

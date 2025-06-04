@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using SystemHooksPOC.Hooks;
+using HookDOTS.API.Hooks;
 using Unity.Entities;
 using VRisingMods.Core.Utilities;
 
-namespace SystemHooksPOC;
+namespace HookDOTS.API;
 
 using HooksFor_System_OnUpdate_Prefix = Dictionary<HookRegistry.HookHandle, HookRegistry.HookWrapper_System_OnUpdate_Prefix>;
 

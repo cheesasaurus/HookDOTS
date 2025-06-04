@@ -3,15 +3,15 @@ using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using ProjectM.Gameplay.Systems;
-using SystemHooksPOC.Patches;
+using HookDOTS.API.Patches;
 using VampireCommandFramework;
 using VRisingMods.Core.Utilities;
 
-namespace SystemHooksPOC;
+namespace HookDOTS.API;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency("gg.deca.VampireCommandFramework")]
-public class Plugin : BasePlugin
+public class ApiPlugin : BasePlugin
 {
     Harmony _harmony;
     MainEntryPoint _systemHooksEntry;
@@ -96,11 +96,11 @@ public class Plugin : BasePlugin
     // /// <remarks>
     // /// How you could call this command from chat:
     // ///
-    // /// .systemhookspoc-example "some quoted string" 1 1.5
-    // /// .systemhookspoc-example boop 21232
-    // /// .systemhookspoc-example boop-boop
+    // /// .HookDOTS.API-example "some quoted string" 1 1.5
+    // /// .HookDOTS.API-example boop 21232
+    // /// .HookDOTS.API-example boop-boop
     // ///</remarks>
-    // [Command("systemhookspoc-example", description: "Example command from systemhookspoc", adminOnly: true)]
+    // [Command("HookDOTS.API-example", description: "Example command from HookDOTS.API", adminOnly: true)]
     // public void ExampleCommand(ICommandContext ctx, string someString, int num = 5, float num2 = 1.5f)
     // { 
     //     ctx.Reply($"You passed in {someString} and {num} and {num2}");

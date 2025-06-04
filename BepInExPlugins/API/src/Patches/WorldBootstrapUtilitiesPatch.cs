@@ -2,7 +2,7 @@ using HarmonyLib;
 using Stunlock.Core;
 using VRisingMods.Core.Utilities;
 
-namespace SystemHooksPOC.Patches;
+namespace HookDOTS.API.Patches;
 
 [HarmonyPatch]
 public static class WorldBootrapPatch

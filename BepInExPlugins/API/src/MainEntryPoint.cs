@@ -1,12 +1,12 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
-using SystemHooksPOC.Attributes;
-using SystemHooksPOC.ExamplePatches;
-using SystemHooksPOC.Hooks;
+using HookDOTS.API.Attributes;
+using HookDOTS.API.ExamplePatches;
+using HookDOTS.API.Hooks;
 using VRisingMods.Core.Utilities;
 
-namespace SystemHooksPOC;
+namespace HookDOTS.API;
 
 public class MainEntryPoint
 {

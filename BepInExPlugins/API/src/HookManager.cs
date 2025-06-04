@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Il2CppInterop.Runtime;
-using SystemHooksPOC.Hooks;
+using HookDOTS.API.Hooks;
 using Unity.Entities;
 
-namespace SystemHooksPOC;
+namespace HookDOTS.API;
 
 public static class HookManager
 {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Il2CppInterop.Runtime;
-using SystemHooksPOC.Hooks;
+using HookDOTS.API.Hooks;
 using VRisingMods.Core.Utilities;
 
-namespace SystemHooksPOC;
+namespace HookDOTS.API;
 
 public class HookRegistryStaging
 {

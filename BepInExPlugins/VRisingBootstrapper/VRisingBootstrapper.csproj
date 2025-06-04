@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>SystemHooksPOC</AssemblyName>
-    <Description>Description of your mod</Description>
+    <AssemblyName>HookDOTS.VRisingBootstrapper</AssemblyName>
+    <Description>Bootstraps HookDOTS for use with VRising</Description>
     <Version>1.0.0</Version>
-    <WebsiteURL>https://github.com/cheesasaurus/v-rising-mods/tree/master/Mods/$(AssemblyName)</WebsiteURL>
+    <WebsiteURL>https://github.com/cheesasaurus/HookDOTS</WebsiteURL>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>SystemHooksPOC</RootNamespace>
+    <RootNamespace>HookDOTS.VRisingBootstrapper</RootNamespace>
     <BepInExVersion>6.0.0-be.733</BepInExVersion>
   </PropertyGroup>
 

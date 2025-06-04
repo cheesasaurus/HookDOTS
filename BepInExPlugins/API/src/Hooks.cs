@@ -1,4 +1,4 @@
-namespace SystemHooksPOC.Hooks;
+namespace HookDOTS.API.Hooks;
 
 
 // todo: what to pass in, and what NOT to pass in. do we want to avoid unsafe contexts?

@@ -1,4 +1,4 @@
-namespace SystemHooksPOC;
+namespace HookDOTS.API;
 
 public delegate void GameReadyForRegistrationHandler();
 

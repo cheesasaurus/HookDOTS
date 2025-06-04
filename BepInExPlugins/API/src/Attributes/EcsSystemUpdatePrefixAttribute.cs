@@ -1,6 +1,6 @@
 using System;
 
-namespace SystemHooksPOC.Attributes;
+namespace HookDOTS.API.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class EcsSystemUpdatePrefixAttribute : Attribute

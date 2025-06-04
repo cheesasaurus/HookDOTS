@@ -1,7 +1,7 @@
 using HarmonyLib;
 using Unity.Entities;
 
-namespace SystemHooksPOC.Patches;
+namespace HookDOTS.API.Patches;
 
 [HarmonyPatch]
 public unsafe class PerformanceRecorderSystemPatch
