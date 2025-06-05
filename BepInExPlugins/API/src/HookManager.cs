@@ -61,18 +61,18 @@ public static class HookManager
     {
         // todo: error handling
         var systemTypeIndex = systemState->m_SystemTypeIndex;
-        var hookWrappers = _hookRegistry.GetHooksInReverseOrderFor_System_OnUpdate_Prefix(systemTypeIndex);
+        var registryEntries = _hookRegistry.GetHooksInReverseOrderFor_System_OnUpdate_Prefix(systemTypeIndex);
         bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
 
         bool shouldStopExecutingPrefixesAndSkipTheOriginal = false;
-        foreach (var hookWrapper in hookWrappers)
+        foreach (var registryEntry in registryEntries)
         {
-            if (!wouldRunSystem && hookWrapper.Options.OnlyWhenSystemRuns)
+            if (!wouldRunSystem && registryEntry.Options.OnlyWhenSystemRuns)
             {
                 continue;
             }
 
-            if (false == hookWrapper.Hook(systemState))
+            if (false == registryEntry.Hook(systemState))
             {
                 shouldStopExecutingPrefixesAndSkipTheOriginal = true;
                 break;
@@ -109,7 +109,7 @@ public static class HookManager
 
     internal static HookRegistrar NewHookRegistrar(string id, ManualLogSource log)
     {
-        var staging = new HookRegistryStaging(id, _hookRegistry, Bus, _isGameReadyForRegistration);
+        var staging = new HookRegistryStaging(id, _hookRegistry, Bus, _isGameReadyForRegistration, log);
         return new HookRegistrar(id, staging, log);
     }
     

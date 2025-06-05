@@ -82,7 +82,7 @@ internal class HookRegistryStaging
 
     private void RegisterHook_System_OnUpdate_Prefix(RegistryEntries.System_OnUpdate_Prefix entry)
     {
-        var handle = _hookRegistry.RegisterHook_System_OnUpdate_Prefix(entry.Hook, entry.SystemType, entry.Options);
+        var handle = _hookRegistry.RegisterHook_System_OnUpdate_Prefix(entry);
         _registeredHookHandles.Add(handle);
     }
 

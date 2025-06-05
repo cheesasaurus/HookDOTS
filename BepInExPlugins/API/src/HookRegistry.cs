@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
+using HookDOTS.API.HookRegistration;
 using HookDOTS.API.Hooks;
 using HookDOTS.API.Utilities;
 using Unity.Entities;
 
 namespace HookDOTS.API;
 
-using HooksFor_System_OnUpdate_Prefix = Dictionary<HookRegistry.HookHandle, HookRegistry.HookWrapper_System_OnUpdate_Prefix>;
+using HooksFor_System_OnUpdate_Prefix = Dictionary<HookRegistry.HookHandle, RegistryEntries.System_OnUpdate_Prefix>;
 
 internal class HookRegistry
 {
     private int _autoIncrement = 0;
 
     private Dictionary<SystemTypeIndex, HooksFor_System_OnUpdate_Prefix> _hooksBySystemFor_System_OnUpdate_Prefix = new();
-    private ICollection<HookWrapper_System_OnUpdate_Prefix> _emptyCollectionFor_System_OnUpdate_Prefix = Array.Empty<HookWrapper_System_OnUpdate_Prefix>();
+    private ICollection<RegistryEntries.System_OnUpdate_Prefix> _emptyCollectionFor_System_OnUpdate_Prefix = Array.Empty<RegistryEntries.System_OnUpdate_Prefix>();
 
     internal void UnregisterHook(HookHandle hookHandle)
     {
@@ -28,12 +29,13 @@ internal class HookRegistry
         }
     }
 
-    internal HookHandle RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    internal HookHandle RegisterHook_System_OnUpdate_Prefix(RegistryEntries.System_OnUpdate_Prefix registryEntry)
     {
+        var systemType = registryEntry.SystemType;
         var systemTypeIndex = TypeManager.GetSystemTypeIndex(systemType);
         if (systemTypeIndex.Equals(SystemTypeIndex.Null))
         {
-            throw new Exception($"HookDOTS: null sytem type index for {systemType.FullName}");
+            throw new Exception($"HookDOTS: null SystemTypeIndex for {systemType.FullName}");
         }
         else
         {
@@ -61,17 +63,13 @@ internal class HookRegistry
         }
 
         // register the hook
-        hooksForSystem.Add(handle, new HookWrapper_System_OnUpdate_Prefix()
-        {
-            Hook = hook,
-            Options = options
-        });
+        hooksForSystem.Add(handle, registryEntry);
 
         return handle;
     }
 
     // todo: more performant way of dealing with this in the actual implementation (not the POC)
-    internal ICollection<HookWrapper_System_OnUpdate_Prefix> GetHooksInReverseOrderFor_System_OnUpdate_Prefix(SystemTypeIndex systemTypeIndex)
+    internal ICollection<RegistryEntries.System_OnUpdate_Prefix> GetHooksInReverseOrderFor_System_OnUpdate_Prefix(SystemTypeIndex systemTypeIndex)
     {
         var lookup = _hooksBySystemFor_System_OnUpdate_Prefix;
         if (!lookup.ContainsKey(systemTypeIndex))
@@ -94,18 +92,6 @@ internal class HookRegistry
     {
         System_OnUpdate_Prefix,
         System_OnUpdate_Postfix
-    }
-
-    internal class HookWrapper_System_OnUpdate_Prefix
-    {
-        public System_OnUpdate_Prefix.Hook Hook;
-        public System_OnUpdate_Prefix.Options Options;
-    }
-
-    internal class HookWrapper_System_OnUpdate_Postfix
-    {
-        public System_OnUpdate_Postfix.Hook Hook;
-        public System_OnUpdate_Postfix.Options Options;
     }
 
 }
