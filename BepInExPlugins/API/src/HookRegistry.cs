@@ -104,8 +104,8 @@ public class HookRegistry
 
     public class HookWrapper_System_OnUpdate_Postfix
     {
-        public Hook_System_OnUpdate_Postfix Hook;
-        public HookOptions_System_OnUpdate_Postfix Options;
+        public System_OnUpdate_Postfix.Func Hook;
+        public System_OnUpdate_Postfix.Options Options;
     }
 
 }
