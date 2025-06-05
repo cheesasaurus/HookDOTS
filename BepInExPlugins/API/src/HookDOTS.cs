@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using HookDOTS.API.Attributes;
 using HookDOTS.API.Hooks;
+using HookDOTS.API.Utilities;
 
 namespace HookDOTS.API;
 
@@ -82,10 +83,18 @@ public class HookDOTS
             return false;
         }
 
-        var hook = System_OnUpdate_Prefix.HookAdapter.Adapt(methodInfo);
-        var options = new System_OnUpdate_Prefix.Options(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
-        HookRegistrar.RegisterHook_System_OnUpdate_Prefix(hook, attribute.SystemType, options);
-        return true;
+        try
+        {
+            var hook = System_OnUpdate_Prefix.HookAdapter.Adapt(methodInfo);
+            var options = new System_OnUpdate_Prefix.Options(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
+            HookRegistrar.RegisterHook_System_OnUpdate_Prefix(hook, attribute.SystemType, options);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LogUtil.LogError(ex);
+            return false;
+        }
     }
 
 }

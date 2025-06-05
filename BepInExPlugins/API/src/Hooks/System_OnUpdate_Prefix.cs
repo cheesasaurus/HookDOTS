@@ -18,9 +18,9 @@ public static class System_OnUpdate_Prefix
 
     public static class HookAdapter
     {
-        unsafe public delegate bool HookVariant1();
+        public delegate bool HookVariant1();
         unsafe public delegate void HookVariant2(SystemState* systemState);
-        unsafe public delegate void HookVariant3();
+        public delegate void HookVariant3();
 
         public static Hook Adapt(MethodInfo methodInfo)
         {
