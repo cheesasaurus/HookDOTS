@@ -1,7 +1,6 @@
 using HarmonyLib;
 using HookDOTS.API;
 using Unity.Entities;
-using VRisingMods.Core.Utilities;
 
 namespace HookDOTS.VRisingBootstrapper.Patches;
 
@@ -19,7 +18,7 @@ public static class TimeableComponentSystemGroupPatch
             return;
         }
         _initialized = true;
-        LogUtil.LogInfo("Game has bootstrapped. Worlds and systems now exist.");
+        VRisingBootstrapperPlugin.LogInstance.LogInfo("Game has bootstrapped. Worlds and systems now exist.");
         HookManager.Bus.TriggerGameReadyForRegistration();
     }
 }

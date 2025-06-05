@@ -2,7 +2,7 @@ using BepInEx.Logging;
 
 namespace VRisingMods.Core.Utilities;
 
-public static class LogUtil {
+internal static class LogUtil {
     public static ManualLogSource Logger;
 
     public static void Init(ManualLogSource logger) {

@@ -1,7 +1,7 @@
 ﻿using BepInEx;
+using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using VRisingMods.Core.Utilities;
 
 namespace HookDOTS.VRisingBootstrapper;
 
@@ -9,12 +9,13 @@ namespace HookDOTS.VRisingBootstrapper;
 [BepInDependency("HookDOTS.API")]
 public class VRisingBootstrapperPlugin : BasePlugin
 {
+    public static ManualLogSource LogInstance { get; private set; }
     Harmony _harmony;
 
     public override void Load()
     {
         // Plugin startup logic
-        LogUtil.Init(Log);
+        LogInstance = Log;
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 
         // Harmony patching

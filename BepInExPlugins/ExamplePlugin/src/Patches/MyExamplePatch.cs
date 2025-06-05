@@ -1,8 +1,6 @@
 using System;
-using ProjectM;
 using ProjectM.Gameplay.Systems;
 using HookDOTS.API.Attributes;
-using VRisingMods.Core.Utilities;
 using Unity.Entities;
 
 namespace ExamplePlugin.Patches;
@@ -24,7 +22,7 @@ public class MyExamplePatch
             return returnVal;
         }
         nextTime = DateTime.Now.Add(twoSeconds);
-        LogUtil.LogInfo($"[{DateTime.Now}] ExamplePrefix executing. (debounce 2 seconds)");
+        ExamplePlugin.LogInstance.LogInfo($"[{DateTime.Now}] ExamplePrefix executing. (debounce 2 seconds)");
         return returnVal;
     }
 

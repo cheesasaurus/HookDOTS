@@ -1,11 +1,11 @@
 ﻿using System;
 using BepInEx;
+using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using HookDOTS.API;
 using ProjectM.Gameplay.Systems;
 using Unity.Entities;
-using VRisingMods.Core.Utilities;
 
 namespace ExamplePlugin;
 
@@ -14,13 +14,14 @@ namespace ExamplePlugin;
 [BepInDependency("HookDOTS.VRisingBootstrapper")]
 public class ExamplePlugin : BasePlugin
 {
+    public static ManualLogSource LogInstance { get; private set; }
     Harmony _harmony;
     MainEntryPoint _systemHooksEntry;
 
     public override void Load()
     {
         // Plugin startup logic
-        LogUtil.Init(Log);
+        LogInstance = Log;
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 
         // Harmony patching
@@ -64,7 +65,7 @@ public class ExamplePlugin : BasePlugin
             return true;
         }
         nextTime1 = DateTime.Now.Add(twoSeconds);
-        LogUtil.LogInfo($"[{DateTime.Now}] MyHook executing. (debounce 2 seconds)");
+        Log.LogInfo($"[{DateTime.Now}] MyHook executing. (debounce 2 seconds)");
         return true;
     }
 
@@ -77,7 +78,7 @@ public class ExamplePlugin : BasePlugin
             return false;
         }
         nextTime2 = DateTime.Now.Add(twoSeconds);
-        LogUtil.LogInfo($"[{DateTime.Now}] MyHookWithSkip executing. (debounce 2 seconds)");
+        Log.LogInfo($"[{DateTime.Now}] MyHookWithSkip executing. (debounce 2 seconds)");
         return false;
     }
 
