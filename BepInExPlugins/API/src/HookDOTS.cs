@@ -81,7 +81,7 @@ public class HookDOTS
         {
             return false;
         }
-        var hook = methodInfo.CreateDelegate<System_OnUpdate_Prefix.Func>();
+        var hook = methodInfo.CreateDelegate<System_OnUpdate_Prefix.Hook>();
         var options = new System_OnUpdate_Prefix.Options(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
         HookRegistrar.RegisterHook_System_OnUpdate_Prefix(hook, attribute.SystemType, options);
         var declaringType = methodInfo.DeclaringType;

@@ -5,7 +5,7 @@ namespace HookDOTS.API.Hooks;
 
 public static class System_OnUpdate_Postfix
 {
-    unsafe public delegate void Func(SystemState* systemState);
+    unsafe public delegate void Hook(SystemState* systemState);
 
     public struct Options(bool onlyWhenSystemRuns = true)
     {

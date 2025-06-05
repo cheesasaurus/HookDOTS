@@ -62,7 +62,7 @@ public class HookRegistryStaging
         }
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Func hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
     {
         var registryEntry = new RegistryEntry_System_OnUpdate_Prefix(hook, systemType, options);
         if (_canRegister)
@@ -83,6 +83,6 @@ public class HookRegistryStaging
     }
 
     // todo: maybe better for HookRegistry to use these RegistryEntry records too
-    private record RegistryEntry_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Func Hook, Il2CppSystem.Type SystemType, System_OnUpdate_Prefix.Options Options);
+    private record RegistryEntry_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook Hook, Il2CppSystem.Type SystemType, System_OnUpdate_Prefix.Options Options);
 
 }

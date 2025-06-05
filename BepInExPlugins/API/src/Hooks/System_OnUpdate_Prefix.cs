@@ -5,7 +5,7 @@ namespace HookDOTS.API.Hooks;
 
 public static class System_OnUpdate_Prefix
 {
-    unsafe public delegate bool Func(SystemState* systemState);
+    unsafe public delegate bool Hook(SystemState* systemState);
 
     public struct Options(bool onlyWhenSystemRuns = true)
     {

@@ -28,7 +28,7 @@ public class HookRegistry
         }
     }
 
-    public HookHandle RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Func hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    public HookHandle RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
     {
         var systemTypeIndex = TypeManager.GetSystemTypeIndex(systemType);
         if (systemTypeIndex.Equals(SystemTypeIndex.Null))
@@ -98,13 +98,13 @@ public class HookRegistry
 
     public class HookWrapper_System_OnUpdate_Prefix
     {
-        public System_OnUpdate_Prefix.Func Hook;
+        public System_OnUpdate_Prefix.Hook Hook;
         public System_OnUpdate_Prefix.Options Options;
     }
 
     public class HookWrapper_System_OnUpdate_Postfix
     {
-        public System_OnUpdate_Postfix.Func Hook;
+        public System_OnUpdate_Postfix.Hook Hook;
         public System_OnUpdate_Postfix.Options Options;
     }
 

@@ -26,35 +26,35 @@ public class HookRegistrar
 
     #region Hook Registration: System_OnUpdate_Prefix
 
-    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.Func hook)
+    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.Hook hook)
     {
         var options = System_OnUpdate_Prefix.Options.Default;
         RegisterHook_System_OnUpdate_Prefix<TSystemType>(hook, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.Func hook, System_OnUpdate_Prefix.Options options)
+    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.Hook hook, System_OnUpdate_Prefix.Options options)
     {
         RegisterHook_System_OnUpdate_Prefix(hook, Il2CppType.Of<TSystemType>(), options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Func hook, Type systemType)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Type systemType)
     {
         var options = System_OnUpdate_Prefix.Options.Default;
         RegisterHook_System_OnUpdate_Prefix(hook, systemType, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Func hook, Type systemType, System_OnUpdate_Prefix.Options options)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Type systemType, System_OnUpdate_Prefix.Options options)
     {
         RegisterHook_System_OnUpdate_Prefix(hook, Il2CppType.From(systemType), options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Func hook, Il2CppSystem.Type systemType)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType)
     {
         var options = System_OnUpdate_Prefix.Options.Default;
         RegisterHook_System_OnUpdate_Prefix(hook, systemType, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Func hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
     {
         _hookRegistryStaging.RegisterHook_System_OnUpdate_Prefix(hook, systemType, options);
     }
