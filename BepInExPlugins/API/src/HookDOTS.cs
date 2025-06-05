@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using BepInEx.Logging;
 using HookDOTS.API.Attributes;
 using HookDOTS.API.Hooks;
 using HookDOTS.API.Utilities;
@@ -13,6 +14,7 @@ namespace HookDOTS.API;
 public class HookDOTS
 {
     public string Id { get; }
+    private ManualLogSource _log;
 
     //
     // Summary:
@@ -26,17 +28,20 @@ public class HookDOTS
     // Parameters:
     //   id:
     //     A unique identifier (you choose your own)
+    //   log:
+    //     The log to log to (e.g. when there is an error)
     //
     // Returns:
     //     A HookDOTS instance
-    public HookDOTS(string id)
+    public HookDOTS(string id, ManualLogSource log)
     {
         if (string.IsNullOrEmpty(id))
         {
             throw new ArgumentException("id cannot be null or empty");
         }
         Id = id;
-        HookRegistrar = HookManager.NewHookRegistrar(id);
+        _log = log;
+        HookRegistrar = HookManager.NewHookRegistrar(id, _log);
     }
 
     public void RegisterHooks()
@@ -92,7 +97,7 @@ public class HookDOTS
         }
         catch (Exception ex)
         {
-            LogUtil.LogError(ex);
+            _log.LogError(ex);
             return false;
         }
     }

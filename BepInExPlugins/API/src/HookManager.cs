@@ -4,6 +4,7 @@ using System.Linq;
 using Il2CppInterop.Runtime;
 using HookDOTS.API.Hooks;
 using Unity.Entities;
+using BepInEx.Logging;
 
 namespace HookDOTS.API;
 
@@ -103,10 +104,10 @@ public static class HookManager
 
     ////////////////////////////////////////////////////////////////////
 
-    public static HookRegistrar NewHookRegistrar(string id)
+    internal static HookRegistrar NewHookRegistrar(string id, ManualLogSource log)
     {
         var staging = new HookRegistryStaging(id, _hookRegistry, Bus, _isGameReadyForRegistration);
-        return new HookRegistrar(id, staging);
+        return new HookRegistrar(id, staging, log);
     }
     
 }

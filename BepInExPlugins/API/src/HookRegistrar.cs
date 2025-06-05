@@ -1,19 +1,22 @@
 using System;
 using Il2CppInterop.Runtime;
 using HookDOTS.API.Hooks;
+using BepInEx.Logging;
 
 
 namespace HookDOTS.API;
 
 public class HookRegistrar
 {
-    private HookRegistryStaging _hookRegistryStaging;
     private string _id;
+    private HookRegistryStaging _hookRegistryStaging;
+    private ManualLogSource _log;
 
-    public HookRegistrar(string id, HookRegistryStaging hookRegistryStaging)
+    internal HookRegistrar(string id, HookRegistryStaging hookRegistryStaging, ManualLogSource log)
     {
         _id = id;
         _hookRegistryStaging = hookRegistryStaging;
+        _log = log;
     }
 
     public void UnregisterHooks()

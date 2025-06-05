@@ -27,11 +27,11 @@ public class ExamplePlugin : BasePlugin
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
 
-        // register hooks from attributes. (you can see some used in src/patches/MyExamplePatch.cs)
-        _hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID);
+        // register hooks from attributes. (you can see some used in src/patches/EcsSystemUpdatePrefix_ExamplePatch.cs)
+        _hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
         _hookDOTS.RegisterHooks();
 
-        // procedurally register some hooks too
+        // It's also possible to procedurally register hooks
         ProcedurallyRegisterHooks();
     }
 
