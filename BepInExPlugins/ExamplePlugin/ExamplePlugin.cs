@@ -4,6 +4,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using HookDOTS.API;
 using ProjectM.Gameplay.Systems;
+using Unity.Entities;
 using VRisingMods.Core.Utilities;
 
 namespace ExamplePlugin;
@@ -26,14 +27,20 @@ public class ExamplePlugin : BasePlugin
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
 
-        // register hooks (checking attributes)
+        // register hooks from attributes. (you can see some used in src/patches/MyExamplePatch.cs)
         _systemHooksEntry = new MainEntryPoint(MyPluginInfo.PLUGIN_GUID);
         _systemHooksEntry.RegisterHooks();
 
         // procedurally register some hooks too
+        ProcedurallyRegisterHooks();
+    }
+
+    unsafe private void ProcedurallyRegisterHooks()
+    {
         var registrar = _systemHooksEntry.HookRegistrar;
         //registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHookWithSkip);
         registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHook);
+        
     }
 
     public override bool Unload()
@@ -46,10 +53,11 @@ public class ExamplePlugin : BasePlugin
         return true;
     }
 
+    
     private TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2);
 
     private DateTime nextTime1 = DateTime.MinValue;
-    private bool MyHook()
+    unsafe private bool MyHook(SystemState* systemState)
     {
         if (DateTime.Now < nextTime1)
         {
@@ -61,8 +69,9 @@ public class ExamplePlugin : BasePlugin
     }
 
     private DateTime nextTime2 = DateTime.MinValue;
-    private bool MyHookWithSkip()
+    unsafe private bool MyHookWithSkip(SystemState* systemState)
     {
+        // return false to skip  further prefixes and the original
         if (DateTime.Now < nextTime2)
         {
             return false;

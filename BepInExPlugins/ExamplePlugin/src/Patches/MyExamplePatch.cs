@@ -3,6 +3,7 @@ using ProjectM;
 using ProjectM.Gameplay.Systems;
 using HookDOTS.API.Attributes;
 using VRisingMods.Core.Utilities;
+using Unity.Entities;
 
 namespace ExamplePlugin.Patches;
 
@@ -12,7 +13,7 @@ public class MyExamplePatch
     private static DateTime nextTime = DateTime.MinValue;
 
     [EcsSystemUpdatePrefix(typeof(StatChangeSystem), onlyWhenSystemRuns: true)]
-    public static bool ExamplePrefix() //note: must be public
+    unsafe public static bool ExamplePrefix(SystemState* systemState) //note: must be public
     {
         // return false, to skip further prefixes and the original
         bool shouldSkipFurtherPrefixesAndTheOriginal = false; // this is false
@@ -26,5 +27,10 @@ public class MyExamplePatch
         LogUtil.LogInfo($"[{DateTime.Now}] ExamplePrefix executing. (debounce 2 seconds)");
         return returnVal;
     }
+
+    // todo: what if we want to return void
+    // todo: what if we don't want parameters
+    // todo: Can we create a wrapper to hold the variations?
+    // todo: handling for invalid method signatures
 
 }

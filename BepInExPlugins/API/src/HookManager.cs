@@ -70,7 +70,7 @@ public static class HookManager
                 continue;
             }
 
-            if (false == hookWrapper.Hook())
+            if (false == hookWrapper.Hook(systemState))
             {
                 shouldStopExecutingPrefixesAndSkipTheOriginal = true;
                 break;
