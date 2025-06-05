@@ -2,7 +2,7 @@
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using HookDOTS.API.Patches;
-using VRisingMods.Core.Utilities;
+using HookDOTS.API.Utilities;
 
 namespace HookDOTS.API;
 

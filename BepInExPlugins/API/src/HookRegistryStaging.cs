@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HookDOTS.API.Hooks;
-using VRisingMods.Core.Utilities;
+using HookDOTS.API.Utilities;
 
 namespace HookDOTS.API;
 

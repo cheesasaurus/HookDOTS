@@ -27,7 +27,6 @@
     </PropertyGroup>
   </Target>
 
-  <Import Project="..\..\Core\Core.projitems" Label="Shared" />
   <Import Project="..\..\ModTasks.props"/>
 
 </Project>

@@ -1,6 +1,6 @@
 using BepInEx.Logging;
 
-namespace VRisingMods.Core.Utilities;
+namespace HookDOTS.API.Utilities;
 
 internal static class LogUtil {
     public static ManualLogSource Logger;
