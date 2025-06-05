@@ -1,17 +1,24 @@
 using HarmonyLib;
 using HookDOTS.API;
-using Stunlock.Core;
+using Unity.Entities;
 using VRisingMods.Core.Utilities;
 
 namespace HookDOTS.VRisingBootstrapper.Patches;
 
 [HarmonyPatch]
-public static class WorldBootrapPatch
+public static class TimeableComponentSystemGroupPatch
 {
-    [HarmonyPatch(typeof(WorldBootstrapUtilities), nameof(WorldBootstrapUtilities.AddSystemsToWorld))]
+    private static bool _initialized = false;
+
+    [HarmonyPatch(typeof(TimeableComponentSystemGroup), nameof(TimeableComponentSystemGroup.OnUpdate))]
     [HarmonyPostfix]
     public static void Initialize()
     {
+        if (_initialized)
+        {
+            return;
+        }
+        _initialized = true;
         LogUtil.LogInfo("Game has bootstrapped. Worlds and systems now exist.");
         HookManager.Bus.TriggerGameReadyForRegistration();
     }
