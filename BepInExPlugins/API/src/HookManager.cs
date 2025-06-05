@@ -59,7 +59,6 @@ public static class HookManager
 
     unsafe internal static void HandleSystemUpdatePrefix(SystemState* systemState)
     {
-        // todo: error handling
         var systemTypeIndex = systemState->m_SystemTypeIndex;
         var registryEntries = _hookRegistry.GetHooksInReverseOrderFor_System_OnUpdate_Prefix(systemTypeIndex);
         bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
@@ -67,16 +66,25 @@ public static class HookManager
         bool shouldStopExecutingPrefixesAndSkipTheOriginal = false;
         foreach (var registryEntry in registryEntries)
         {
-            if (!wouldRunSystem && registryEntry.Options.OnlyWhenSystemRuns)
+            try
             {
+                if (!wouldRunSystem && registryEntry.Options.OnlyWhenSystemRuns)
+                {
+                    continue;
+                }
+
+                if (false == registryEntry.Hook(systemState))
+                {
+                    shouldStopExecutingPrefixesAndSkipTheOriginal = true;
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                registryEntry.Log.LogError(ex);
                 continue;
             }
-
-            if (false == registryEntry.Hook(systemState))
-            {
-                shouldStopExecutingPrefixesAndSkipTheOriginal = true;
-                break;
-            }
+            
         }
 
         if (shouldStopExecutingPrefixesAndSkipTheOriginal)
