@@ -3,7 +3,6 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using HookDOTS.API;
 using ProjectM.Gameplay.Systems;
 using Unity.Entities;
 
@@ -16,7 +15,7 @@ public class ExamplePlugin : BasePlugin
 {
     public static ManualLogSource LogInstance { get; private set; }
     Harmony _harmony;
-    MainEntryPoint _systemHooksEntry;
+    HookDOTS.API.HookDOTS _hookDOTS;
 
     public override void Load()
     {
@@ -29,8 +28,8 @@ public class ExamplePlugin : BasePlugin
         _harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
 
         // register hooks from attributes. (you can see some used in src/patches/MyExamplePatch.cs)
-        _systemHooksEntry = new MainEntryPoint(MyPluginInfo.PLUGIN_GUID);
-        _systemHooksEntry.RegisterHooks();
+        _hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID);
+        _hookDOTS.RegisterHooks();
 
         // procedurally register some hooks too
         ProcedurallyRegisterHooks();
@@ -38,7 +37,7 @@ public class ExamplePlugin : BasePlugin
 
     unsafe private void ProcedurallyRegisterHooks()
     {
-        var registrar = _systemHooksEntry.HookRegistrar;
+        var registrar = _hookDOTS.HookRegistrar;
         //registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHookWithSkip);
         registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHook);
         
@@ -46,8 +45,8 @@ public class ExamplePlugin : BasePlugin
 
     public override bool Unload()
     {
-        // unregister hooks like this
-        _systemHooksEntry.UnregisterHooks();
+        // unregister hooks
+        _hookDOTS.UnregisterHooks();
 
         // Harmony unpatching
         _harmony?.UnpatchSelf();

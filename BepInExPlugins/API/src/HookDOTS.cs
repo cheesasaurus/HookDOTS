@@ -5,12 +5,30 @@ using HookDOTS.API.Hooks;
 
 namespace HookDOTS.API;
 
-public class MainEntryPoint
+//
+// Summary:
+//     The HookDOTS instance is the main entry to HookDOTS. After creating one with a
+//     unique identifier, it is used to patch and query the current application domain
+public class HookDOTS
 {
     public string Id { get; }
+
+    //
+    // Summary:
+    //     The HookRegistrar can be used to procedurally register hooks
     public HookRegistrar HookRegistrar { get; }
 
-    public MainEntryPoint(string id)
+    //
+    // Summary:
+    //     Creates a new HookDOTS instance
+    //
+    // Parameters:
+    //   id:
+    //     A unique identifier (you choose your own)
+    //
+    // Returns:
+    //     A HookDOTS instance
+    public HookDOTS(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
@@ -54,7 +72,8 @@ public class MainEntryPoint
 
     internal bool RegisterEcsSystemUpdatePrefix(MethodInfo methodInfo)
     {
-        if (!methodInfo.IsStatic) {
+        if (!methodInfo.IsStatic)
+        {
             return false;
         }
         var attribute = methodInfo.GetCustomAttribute<EcsSystemUpdatePrefixAttribute>();
