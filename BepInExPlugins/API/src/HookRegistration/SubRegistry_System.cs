@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Entities;
 
 namespace HookDOTS.API.HookRegistration;
@@ -17,21 +18,20 @@ internal abstract class SubRegistry_System<TRegistryEntry>
         _hooksBySystem[hookHandle.SystemTypeIndex].Remove(hookHandle);
     }
 
-    // todo: more performant way of dealing with this
-    internal ICollection<TRegistryEntry> GetEntriesInReverseRegistrationOrder(SystemTypeIndex systemTypeIndex)
+    internal IEnumerable<TRegistryEntry> GetEntriesInReverseRegistrationOrder(SystemTypeIndex systemTypeIndex)
     {
         if (!_hooksBySystem.ContainsKey(systemTypeIndex))
         {
             return _emptyCollection;
         }
-        // todo: OrderedDictionary kind of thing. Problem is that it's not generic, so just using a regular Dictionary for now
-        //return lookup[systemTypeIndex].Values.Reverse();
-        return _hooksBySystem[systemTypeIndex].Values; // todo: actually reverse it, and also optimize things
+        // todo: OrderedDictionary kind of thing. Problem is that it's not generic, so using a regular Dictionary for now
+        // it seems to just work
+        return _hooksBySystem[systemTypeIndex].Values.Reverse();
     }
 
     protected HookHandle RegisterHook(SystemTypeIndex systemTypeIndex, HookHandle handle, TRegistryEntry registryEntry)
     {
-        // ensure we have a registry for that system
+        // ensure we have a dictionary for that system
         Dictionary<HookHandle, TRegistryEntry> hooksForSystem;
         if (_hooksBySystem.ContainsKey(systemTypeIndex))
         {
