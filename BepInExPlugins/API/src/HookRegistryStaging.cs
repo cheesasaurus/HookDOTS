@@ -42,7 +42,7 @@ public class HookRegistryStaging
     private void HandleGameReadyForRegistration()
     {
         _canRegister = true;
-        LogUtil.LogDebug($"processing pending hook registrations for {_id}");
+        LogUtil.LogDebug($"HookDOTS: processing pending hook registrations for {_id}");
         ProcessPendingRegistrations_System_OnUpdate_Prefix();
     }
 
@@ -71,7 +71,7 @@ public class HookRegistryStaging
         }
         else
         {
-            LogUtil.LogDebug("added pending registration");
+            LogUtil.LogDebug($"HookDOTS: added a pending hook registration for {_id}");
             _pendingRegistrations_System_OnUpdate_Prefix.Enqueue(registryEntry);
         }
     }

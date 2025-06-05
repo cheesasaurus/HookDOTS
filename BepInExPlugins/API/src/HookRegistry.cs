@@ -33,11 +33,11 @@ public class HookRegistry
         var systemTypeIndex = TypeManager.GetSystemTypeIndex(systemType);
         if (systemTypeIndex.Equals(SystemTypeIndex.Null))
         {
-            throw new Exception($"null sytem type index for {systemType.FullName}");
+            throw new Exception($"HookDOTS: null sytem type index for {systemType.FullName}");
         }
         else
         {
-            LogUtil.LogDebug($"registered OnUpdate prefix hook for: {TypeManager.GetSystemType(systemTypeIndex).FullName}");
+            LogUtil.LogDebug($"HookDOTS: registered OnUpdate prefix hook for: {TypeManager.GetSystemType(systemTypeIndex).FullName}");
         }
 
         var handle = new HookHandle()
