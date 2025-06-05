@@ -12,4 +12,11 @@ internal static class RegistryEntries
         ManualLogSource Log
     );
 
+    internal record System_OnUpdate_Postfix(
+        Hooks.System_OnUpdate_Postfix.Hook Hook,
+        Il2CppSystem.Type SystemType,
+        Hooks.System_OnUpdate_Postfix.Options Options,
+        ManualLogSource Log
+    );
+
 }

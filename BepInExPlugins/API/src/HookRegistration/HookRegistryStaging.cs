@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using BepInEx.Logging;
-using HookDOTS.API.Hooks;
-using HookDOTS.API.Utilities;
 
 namespace HookDOTS.API.HookRegistration;
 
+// todo: split this up
 internal class HookRegistryStaging
 {
     private string _id;
@@ -16,6 +15,7 @@ internal class HookRegistryStaging
 
     private List<HookHandle> _registeredHookHandles = new();
     private Queue<RegistryEntries.System_OnUpdate_Prefix> _pendingRegistrations_System_OnUpdate_Prefix = new();
+    private Queue<RegistryEntries.System_OnUpdate_Postfix> _pendingRegistrations_System_OnUpdate_Postfix = new();
 
     internal HookRegistryStaging(string id, HookRegistry hookRegistry, Bus bus, bool isGameReadyForRegistration, ManualLogSource log)
     {
@@ -40,13 +40,15 @@ internal class HookRegistryStaging
     internal void CancelPendingRegistrations()
     {
         _pendingRegistrations_System_OnUpdate_Prefix.Clear();
+        _pendingRegistrations_System_OnUpdate_Postfix.Clear();
     }
 
     internal void HandleGameReadyForRegistration()
     {
         _canRegister = true;
-        LogUtil.LogDebug($"HookDOTS: processing pending hook registrations for {_id}");
+        _log.LogDebug($"HookDOTS: processing pending hook registrations for {_id}");
         ProcessPendingRegistrations_System_OnUpdate_Prefix();
+        ProcessPendingRegistrations_System_OnUpdate_Postfix();
     }
 
     internal void ProcessPendingRegistrations_System_OnUpdate_Prefix()
@@ -60,12 +62,28 @@ internal class HookRegistryStaging
             }
             catch (Exception ex)
             {
-                LogUtil.LogError(ex);
+                _log.LogError(ex);
             }
         }
     }
 
-    internal void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    internal void ProcessPendingRegistrations_System_OnUpdate_Postfix()
+    {
+        while (_pendingRegistrations_System_OnUpdate_Postfix.Count != 0)
+        {
+            var registryEntry = _pendingRegistrations_System_OnUpdate_Postfix.Dequeue();
+            try
+            {
+                RegisterHook_System_OnUpdate_Postfix(registryEntry);
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex);
+            }
+        }
+    }
+
+    internal void RegisterHook_System_OnUpdate_Prefix(Hooks.System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, Hooks.System_OnUpdate_Prefix.Options options)
     {
         var registryEntry = new RegistryEntries.System_OnUpdate_Prefix(hook, systemType, options, _log);
         if (_canRegister)
@@ -74,7 +92,7 @@ internal class HookRegistryStaging
         }
         else
         {
-            LogUtil.LogDebug($"HookDOTS: added a pending hook registration for {_id}");
+            _log.LogDebug($"HookDOTS: added a pending hook registration for {_id}");
             _pendingRegistrations_System_OnUpdate_Prefix.Enqueue(registryEntry);
         }
     }
@@ -82,6 +100,26 @@ internal class HookRegistryStaging
     private void RegisterHook_System_OnUpdate_Prefix(RegistryEntries.System_OnUpdate_Prefix entry)
     {
         var handle = _hookRegistry.SubRegistry_System_OnUpdate_Prefix.RegisterHook(entry);
+        _registeredHookHandles.Add(handle);
+    }
+
+    internal void RegisterHook_System_OnUpdate_Postfix(Hooks.System_OnUpdate_Postfix.Hook hook, Il2CppSystem.Type systemType, Hooks.System_OnUpdate_Postfix.Options options)
+    {
+        var registryEntry = new RegistryEntries.System_OnUpdate_Postfix(hook, systemType, options, _log);
+        if (_canRegister)
+        {
+            RegisterHook_System_OnUpdate_Postfix(registryEntry);
+        }
+        else
+        {
+            _log.LogDebug($"HookDOTS: added a pending hook registration for {_id}");
+            _pendingRegistrations_System_OnUpdate_Postfix.Enqueue(registryEntry);
+        }
+    }
+
+    private void RegisterHook_System_OnUpdate_Postfix(RegistryEntries.System_OnUpdate_Postfix entry)
+    {
+        var handle = _hookRegistry.SubRegistry_System_OnUpdate_Postfix.RegisterHook(entry);
         _registeredHookHandles.Add(handle);
     }
 

@@ -66,7 +66,7 @@ public class EcsSystemUpdatePrefix_ExamplePatch
     [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
     public static bool ExamplePrefixThrows()
     {
-        throw new Exception("OH NO! I CAN THROW! YO HO! I'M A PIRATE AND I HAVE A HOOK FOR A HAND, BRO!");
+        throw new Exception("OH NO! I CAN THROW! (in the prefix)");
     }
 
 }

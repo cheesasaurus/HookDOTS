@@ -6,6 +6,9 @@ using BepInEx.Logging;
 
 namespace HookDOTS.API.HookRegistration;
 
+//
+// Summary:
+//     A HookRegistrar instance provides a public way to register and unregister hooks.
 public class HookRegistrar
 {
     private string _id;
@@ -65,6 +68,45 @@ public class HookRegistrar
     #endregion
 
     ////////////////////////////////////////////////////////////////////
-    
+
+    #region Hook Registration: System_OnUpdate_Postfix
+
+    public void RegisterHook_System_OnUpdate_Postfix<TSystemType>(System_OnUpdate_Postfix.Hook hook)
+    {
+        var options = System_OnUpdate_Postfix.Options.Default;
+        RegisterHook_System_OnUpdate_Postfix<TSystemType>(hook, options);
+    }
+
+    public void RegisterHook_System_OnUpdate_Postfix<TSystemType>(System_OnUpdate_Postfix.Hook hook, System_OnUpdate_Postfix.Options options)
+    {
+        RegisterHook_System_OnUpdate_Postfix(hook, Il2CppType.Of<TSystemType>(), options);
+    }
+
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Type systemType)
+    {
+        var options = System_OnUpdate_Postfix.Options.Default;
+        RegisterHook_System_OnUpdate_Postfix(hook, systemType, options);
+    }
+
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Type systemType, System_OnUpdate_Postfix.Options options)
+    {
+        RegisterHook_System_OnUpdate_Postfix(hook, Il2CppType.From(systemType), options);
+    }
+
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Il2CppSystem.Type systemType)
+    {
+        var options = System_OnUpdate_Postfix.Options.Default;
+        RegisterHook_System_OnUpdate_Postfix(hook, systemType, options);
+    }
+
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Postfix.Options options)
+    {
+        _hookRegistryStaging.RegisterHook_System_OnUpdate_Postfix(hook, systemType, options);
+    }
+
+    #endregion
+
+    ////////////////////////////////////////////////////////////////////
+
 
 }

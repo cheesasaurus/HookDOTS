@@ -52,6 +52,7 @@ public static class HookManager
         _isGameReadyForRegistration = true;
     }
 
+    // todo: partition things by world. it's possible for a system class to be used in multiple worlds.
     private static Dictionary<SystemTypeIndex, bool> _restoreEnabledAfterPrefixSkip_System_OnUpdate = new();
     private static Dictionary<SystemTypeIndex, bool> _didPrefixExpectSystemToRun = new();
 
@@ -95,10 +96,6 @@ public static class HookManager
 
     unsafe internal static void HandleSystemUpdatePostfix(SystemState* systemState)
     {
-        // todo: error handling
-
-        // todo: onlyWhenSystemRuns option
-
         var systemTypeIndex = systemState->m_SystemTypeIndex;
         if (_restoreEnabledAfterPrefixSkip_System_OnUpdate.ContainsKey(systemTypeIndex))
         {
@@ -106,7 +103,25 @@ public static class HookManager
             _restoreEnabledAfterPrefixSkip_System_OnUpdate.Remove(systemTypeIndex);
         }
 
-        // todo: run postfix hooks
+        var didSystemProbablyRun = _didPrefixExpectSystemToRun[systemTypeIndex];
+        var subRegistry = _hookRegistry.SubRegistry_System_OnUpdate_Postfix;
+        
+        foreach (var registryEntry in subRegistry.GetEntriesInReverseRegistrationOrder(systemTypeIndex))
+        {
+            try
+            {
+                if (!didSystemProbablyRun && registryEntry.Options.OnlyWhenSystemRuns)
+                {
+                    continue;
+                }
+                registryEntry.Hook(systemState);
+            }
+            catch (Exception ex)
+            {
+                registryEntry.Log.LogError(ex);
+                continue;
+            }
+        }
     }
 
     #endregion

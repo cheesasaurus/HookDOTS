@@ -9,7 +9,7 @@ namespace HookDOTS.API;
 
 //
 // Summary:
-//     The HookDOTS instance is the main entry to HookDOTS. After creating one with a
+//     A HookDOTS instance is the main entry to HookDOTS. After creating one with a
 //     unique identifier, it is used to patch and query the current application domain
 public class HookDOTS
 {
@@ -73,7 +73,7 @@ public class HookDOTS
     internal void RegisterHooks(MethodInfo methodInfo)
     {
         RegisterEcsSystemUpdatePrefix(methodInfo);
-        // todo: register postfix
+        RegisterEcsSystemUpdatePostfix(methodInfo);
     }
 
     internal bool RegisterEcsSystemUpdatePrefix(MethodInfo methodInfo)
@@ -93,6 +93,32 @@ public class HookDOTS
             var hook = System_OnUpdate_Prefix.HookAdapter.Adapt(methodInfo);
             var options = new System_OnUpdate_Prefix.Options(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
             HookRegistrar.RegisterHook_System_OnUpdate_Prefix(hook, attribute.SystemType, options);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex);
+            return false;
+        }
+    }
+
+    internal bool RegisterEcsSystemUpdatePostfix(MethodInfo methodInfo)
+    {
+        if (!methodInfo.IsStatic)
+        {
+            return false;
+        }
+        var attribute = methodInfo.GetCustomAttribute<EcsSystemUpdatePostfixAttribute>();
+        if (attribute is null)
+        {
+            return false;
+        }
+
+        try
+        {
+            var hook = System_OnUpdate_Postfix.HookAdapter.Adapt(methodInfo);
+            var options = new System_OnUpdate_Postfix.Options(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
+            HookRegistrar.RegisterHook_System_OnUpdate_Postfix(hook, attribute.SystemType, options);
             return true;
         }
         catch (Exception ex)
