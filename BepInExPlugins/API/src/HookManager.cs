@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Il2CppInterop.Runtime;
-using HookDOTS.API.Hooks;
 using Unity.Entities;
 using BepInEx.Logging;
+using HookDOTS.API.HookRegistration;
 
 namespace HookDOTS.API;
 
@@ -60,11 +58,11 @@ public static class HookManager
     unsafe internal static void HandleSystemUpdatePrefix(SystemState* systemState)
     {
         var systemTypeIndex = systemState->m_SystemTypeIndex;
-        var registryEntries = _hookRegistry.GetHooksInReverseOrderFor_System_OnUpdate_Prefix(systemTypeIndex);
         bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
+        var subRegistry = _hookRegistry.SubRegistry_System_OnUpdate_Prefix;
 
         bool shouldStopExecutingPrefixesAndSkipTheOriginal = false;
-        foreach (var registryEntry in registryEntries)
+        foreach (var registryEntry in subRegistry.GetEntriesInReverseRegistrationOrder(systemTypeIndex))
         {
             try
             {

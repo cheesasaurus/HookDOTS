@@ -4,7 +4,7 @@ using HookDOTS.API.Hooks;
 using BepInEx.Logging;
 
 
-namespace HookDOTS.API;
+namespace HookDOTS.API.HookRegistration;
 
 public class HookRegistrar
 {
@@ -12,9 +12,9 @@ public class HookRegistrar
     private HookRegistryStaging _hookRegistryStaging;
     private ManualLogSource _log;
 
-    internal HookRegistrar(string id, HookRegistryStaging hookRegistryStaging, ManualLogSource log)
+    internal HookRegistrar(string registrarId, HookRegistryStaging hookRegistryStaging, ManualLogSource log)
     {
-        _id = id;
+        _id = registrarId;
         _hookRegistryStaging = hookRegistryStaging;
         _log = log;
     }

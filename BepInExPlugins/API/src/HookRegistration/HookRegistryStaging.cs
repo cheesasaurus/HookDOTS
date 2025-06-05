@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using BepInEx.Logging;
-using HookDOTS.API.HookRegistration;
 using HookDOTS.API.Hooks;
 using HookDOTS.API.Utilities;
 
-namespace HookDOTS.API;
+namespace HookDOTS.API.HookRegistration;
 
 internal class HookRegistryStaging
 {
@@ -15,7 +14,7 @@ internal class HookRegistryStaging
     private ManualLogSource _log;
     private bool _canRegister = false;
 
-    private List<HookRegistry.HookHandle> _registeredHookHandles = new();
+    private List<HookHandle> _registeredHookHandles = new();
     private Queue<RegistryEntries.System_OnUpdate_Prefix> _pendingRegistrations_System_OnUpdate_Prefix = new();
 
     internal HookRegistryStaging(string id, HookRegistry hookRegistry, Bus bus, bool isGameReadyForRegistration, ManualLogSource log)
@@ -82,7 +81,7 @@ internal class HookRegistryStaging
 
     private void RegisterHook_System_OnUpdate_Prefix(RegistryEntries.System_OnUpdate_Prefix entry)
     {
-        var handle = _hookRegistry.RegisterHook_System_OnUpdate_Prefix(entry);
+        var handle = _hookRegistry.SubRegistry_System_OnUpdate_Prefix.RegisterHook(entry);
         _registeredHookHandles.Add(handle);
     }
 
