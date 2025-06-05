@@ -5,7 +5,7 @@ using HookDOTS.API.Utilities;
 
 namespace HookDOTS.API;
 
-public class HookRegistryStaging
+internal class HookRegistryStaging
 {
     private string _id;
     private HookRegistry _hookRegistry;
@@ -15,7 +15,7 @@ public class HookRegistryStaging
     private List<HookRegistry.HookHandle> _registeredHookHandles = new();
     private Queue<RegistryEntry_System_OnUpdate_Prefix> _pendingRegistrations_System_OnUpdate_Prefix = new();
 
-    public HookRegistryStaging(string id, HookRegistry hookRegistry, Bus bus, bool isGameReadyForRegistration)
+    internal HookRegistryStaging(string id, HookRegistry hookRegistry, Bus bus, bool isGameReadyForRegistration)
     {
         _id = id;
         _hookRegistry = hookRegistry;
@@ -25,7 +25,7 @@ public class HookRegistryStaging
         // todo: way to cleanup event handler
     }
 
-    public void UnregisterRegisteredHooks()
+    internal void UnregisterRegisteredHooks()
     {
         foreach (var hookHandle in _registeredHookHandles)
         {
@@ -34,19 +34,19 @@ public class HookRegistryStaging
         _registeredHookHandles.Clear();
     }
 
-    public void CancelPendingRegistrations()
+    internal void CancelPendingRegistrations()
     {
         _pendingRegistrations_System_OnUpdate_Prefix.Clear();
     }
 
-    private void HandleGameReadyForRegistration()
+    internal void HandleGameReadyForRegistration()
     {
         _canRegister = true;
         LogUtil.LogDebug($"HookDOTS: processing pending hook registrations for {_id}");
         ProcessPendingRegistrations_System_OnUpdate_Prefix();
     }
 
-    private void ProcessPendingRegistrations_System_OnUpdate_Prefix()
+    internal void ProcessPendingRegistrations_System_OnUpdate_Prefix()
     {
         while (_pendingRegistrations_System_OnUpdate_Prefix.Count != 0)
         {
@@ -62,7 +62,7 @@ public class HookRegistryStaging
         }
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    internal void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
     {
         var registryEntry = new RegistryEntry_System_OnUpdate_Prefix(hook, systemType, options);
         if (_canRegister)

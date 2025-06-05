@@ -8,14 +8,14 @@ namespace HookDOTS.API;
 
 using HooksFor_System_OnUpdate_Prefix = Dictionary<HookRegistry.HookHandle, HookRegistry.HookWrapper_System_OnUpdate_Prefix>;
 
-public class HookRegistry
+internal class HookRegistry
 {
     private int _autoIncrement = 0;
 
     private Dictionary<SystemTypeIndex, HooksFor_System_OnUpdate_Prefix> _hooksBySystemFor_System_OnUpdate_Prefix = new();
     private ICollection<HookWrapper_System_OnUpdate_Prefix> _emptyCollectionFor_System_OnUpdate_Prefix = Array.Empty<HookWrapper_System_OnUpdate_Prefix>();
 
-    public void UnregisterHook(HookHandle hookHandle)
+    internal void UnregisterHook(HookHandle hookHandle)
     {
         switch (hookHandle.HookType)
         {
@@ -28,7 +28,7 @@ public class HookRegistry
         }
     }
 
-    public HookHandle RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    internal HookHandle RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
     {
         var systemTypeIndex = TypeManager.GetSystemTypeIndex(systemType);
         if (systemTypeIndex.Equals(SystemTypeIndex.Null))
@@ -71,7 +71,7 @@ public class HookRegistry
     }
 
     // todo: more performant way of dealing with this in the actual implementation (not the POC)
-    public ICollection<HookWrapper_System_OnUpdate_Prefix> GetHooksInReverseOrderFor_System_OnUpdate_Prefix(SystemTypeIndex systemTypeIndex)
+    internal ICollection<HookWrapper_System_OnUpdate_Prefix> GetHooksInReverseOrderFor_System_OnUpdate_Prefix(SystemTypeIndex systemTypeIndex)
     {
         var lookup = _hooksBySystemFor_System_OnUpdate_Prefix;
         if (!lookup.ContainsKey(systemTypeIndex))
@@ -83,26 +83,26 @@ public class HookRegistry
         return lookup[systemTypeIndex].Values; // todo: actually reverse it, and also optimize things
     }
 
-    public struct HookHandle
+    internal struct HookHandle
     {
         public int Value;
         public HookType HookType;
         public SystemTypeIndex SystemTypeIndex;
     }
 
-    public enum HookType
+    internal enum HookType
     {
         System_OnUpdate_Prefix,
         System_OnUpdate_Postfix
     }
 
-    public class HookWrapper_System_OnUpdate_Prefix
+    internal class HookWrapper_System_OnUpdate_Prefix
     {
         public System_OnUpdate_Prefix.Hook Hook;
         public System_OnUpdate_Prefix.Options Options;
     }
 
-    public class HookWrapper_System_OnUpdate_Postfix
+    internal class HookWrapper_System_OnUpdate_Postfix
     {
         public System_OnUpdate_Postfix.Hook Hook;
         public System_OnUpdate_Postfix.Options Options;

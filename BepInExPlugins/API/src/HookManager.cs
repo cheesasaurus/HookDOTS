@@ -10,7 +10,7 @@ namespace HookDOTS.API;
 
 public static class HookManager
 {
-    public static Bus Bus = new();
+    public static Bus Bus = new(); // todo: maybe move this out of HookManager, and make the manager internal
     private static bool _initialized = false;
     private static bool _isGameReadyForRegistration = false;
 
@@ -20,7 +20,7 @@ public static class HookManager
 
     #region Setup / Teardown
 
-    public static void Initialize()
+    internal static void Initialize()
     {
         if (_initialized)
         {
@@ -31,7 +31,7 @@ public static class HookManager
         _initialized = true;
     }
 
-    public static void UnInitialize()
+    internal static void UnInitialize()
     {
         if (!_initialized)
         {
@@ -57,8 +57,9 @@ public static class HookManager
     private static Dictionary<SystemTypeIndex, bool> _restoreEnabledAfterPrefixSkip_System_OnUpdate = new();
     private static Dictionary<SystemTypeIndex, bool> _didPrefixExpectSystemToRun = new();
 
-    unsafe public static void HandleSystemUpdatePrefix(SystemState* systemState)
+    unsafe internal static void HandleSystemUpdatePrefix(SystemState* systemState)
     {
+        // todo: error handling
         var systemTypeIndex = systemState->m_SystemTypeIndex;
         var hookWrappers = _hookRegistry.GetHooksInReverseOrderFor_System_OnUpdate_Prefix(systemTypeIndex);
         bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
@@ -86,8 +87,10 @@ public static class HookManager
         _didPrefixExpectSystemToRun[systemTypeIndex] = wouldRunSystem && !shouldStopExecutingPrefixesAndSkipTheOriginal;
     }
 
-    unsafe public static void HandleSystemUpdatePostfix(SystemState* systemState)
+    unsafe internal static void HandleSystemUpdatePostfix(SystemState* systemState)
     {
+        // todo: error handling
+
         // todo: onlyWhenSystemRuns option
 
         var systemTypeIndex = systemState->m_SystemTypeIndex;
