@@ -31,9 +31,9 @@ public class ExamplePlugin : BasePlugin
         _systemHooksEntry.RegisterHooks();
 
         // procedurally register some hooks too
-        var context = _systemHooksEntry.HookRegistryContext;
-        //context.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHookWithSkip);
-        context.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHook);
+        var registrar = _systemHooksEntry.HookRegistrar;
+        //registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHookWithSkip);
+        registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHook);
     }
 
     public override bool Unload()

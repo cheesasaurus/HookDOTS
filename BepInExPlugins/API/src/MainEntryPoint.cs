@@ -8,7 +8,7 @@ namespace HookDOTS.API;
 public class MainEntryPoint
 {
     public string Id { get; }
-    public HookRegistryContext HookRegistryContext { get; }
+    public HookRegistrar HookRegistrar { get; }
 
     public MainEntryPoint(string id)
     {
@@ -17,7 +17,7 @@ public class MainEntryPoint
             throw new ArgumentException("id cannot be null or empty");
         }
         Id = id;
-        HookRegistryContext = HookManager.NewRegistryContext(id);
+        HookRegistrar = HookManager.NewHookRegistrar(id);
     }
 
     public void RegisterHooks()
@@ -27,7 +27,7 @@ public class MainEntryPoint
 
     public void UnregisterHooks()
     {
-        HookRegistryContext.UnregisterHooks();
+        HookRegistrar.UnregisterHooks();
     }
 
     public void RegisterHooks(Assembly assembly)
@@ -64,7 +64,7 @@ public class MainEntryPoint
         }
         var hook = methodInfo.CreateDelegate<Hook_System_OnUpdate_Prefix>();
         var options = new HookOptions_System_OnUpdate_Prefix(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
-        HookRegistryContext.RegisterHook_System_OnUpdate_Prefix(hook, attribute.SystemType, options);
+        HookRegistrar.RegisterHook_System_OnUpdate_Prefix(hook, attribute.SystemType, options);
         var declaringType = methodInfo.DeclaringType;
         // LogUtil.LogDebug($"registered EcsSystemUpdatePrefix hook: {declaringType.FullName}.{methodInfo.Name}");
         return true;

@@ -103,10 +103,10 @@ public static class HookManager
 
     ////////////////////////////////////////////////////////////////////
 
-    public static HookRegistryContext NewRegistryContext(string id)
+    public static HookRegistrar NewHookRegistrar(string id)
     {
         var staging = new HookRegistryStaging(id, _hookRegistry, Bus, _isGameReadyForRegistration);
-        return new HookRegistryContext(id, staging);
+        return new HookRegistrar(id, staging);
     }
     
 }

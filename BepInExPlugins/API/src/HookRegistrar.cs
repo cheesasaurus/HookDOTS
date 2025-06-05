@@ -5,12 +5,12 @@ using HookDOTS.API.Hooks;
 
 namespace HookDOTS.API;
 
-public class HookRegistryContext
+public class HookRegistrar
 {
     private HookRegistryStaging _hookRegistryStaging;
     private string _id;
 
-    public HookRegistryContext(string id, HookRegistryStaging hookRegistryStaging)
+    public HookRegistrar(string id, HookRegistryStaging hookRegistryStaging)
     {
         _id = id;
         _hookRegistryStaging = hookRegistryStaging;
