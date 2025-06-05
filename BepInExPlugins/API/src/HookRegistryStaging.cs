@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using BepInEx.Logging;
+using HookDOTS.API.HookRegistration;
 using HookDOTS.API.Hooks;
 using HookDOTS.API.Utilities;
 
@@ -10,17 +12,19 @@ internal class HookRegistryStaging
     private string _id;
     private HookRegistry _hookRegistry;
     private Bus _bus;
+    private ManualLogSource _log;
     private bool _canRegister = false;
 
     private List<HookRegistry.HookHandle> _registeredHookHandles = new();
-    private Queue<RegistryEntry_System_OnUpdate_Prefix> _pendingRegistrations_System_OnUpdate_Prefix = new();
+    private Queue<RegistryEntries.System_OnUpdate_Prefix> _pendingRegistrations_System_OnUpdate_Prefix = new();
 
-    internal HookRegistryStaging(string id, HookRegistry hookRegistry, Bus bus, bool isGameReadyForRegistration)
+    internal HookRegistryStaging(string id, HookRegistry hookRegistry, Bus bus, bool isGameReadyForRegistration, ManualLogSource log)
     {
         _id = id;
         _hookRegistry = hookRegistry;
         _canRegister = isGameReadyForRegistration;
         _bus = bus;
+        _log = log;
         _bus.GameReadyForRegistration += HandleGameReadyForRegistration;
         // todo: way to cleanup event handler
     }
@@ -64,7 +68,7 @@ internal class HookRegistryStaging
 
     internal void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
     {
-        var registryEntry = new RegistryEntry_System_OnUpdate_Prefix(hook, systemType, options);
+        var registryEntry = new RegistryEntries.System_OnUpdate_Prefix(hook, systemType, options, _log);
         if (_canRegister)
         {
             RegisterHook_System_OnUpdate_Prefix(registryEntry);
@@ -76,13 +80,10 @@ internal class HookRegistryStaging
         }
     }
 
-    private void RegisterHook_System_OnUpdate_Prefix(RegistryEntry_System_OnUpdate_Prefix entry)
+    private void RegisterHook_System_OnUpdate_Prefix(RegistryEntries.System_OnUpdate_Prefix entry)
     {
         var handle = _hookRegistry.RegisterHook_System_OnUpdate_Prefix(entry.Hook, entry.SystemType, entry.Options);
         _registeredHookHandles.Add(handle);
     }
-
-    // todo: maybe better for HookRegistry to use these RegistryEntry records too
-    private record RegistryEntry_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook Hook, Il2CppSystem.Type SystemType, System_OnUpdate_Prefix.Options Options);
 
 }
