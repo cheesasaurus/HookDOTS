@@ -18,12 +18,12 @@ internal class SubRegistry_System_OnUpdate_Prefix : SubRegistry_System<RegistryE
         var systemTypeIndex = TypeManager.GetSystemTypeIndex(systemType);
         if (systemTypeIndex.Equals(SystemTypeIndex.Null))
         {
-            throw new Exception($"HookDOTS: null SystemTypeIndex for {systemType.FullName}");
+            throw new Exception($"null SystemTypeIndex for {systemType.FullName}");
         }
         else
         {
             var confirmedSystemName = TypeManager.GetSystemType(systemTypeIndex).FullName;
-            LogUtil.LogDebug($"HookDOTS: registered OnUpdate prefix hook for: {confirmedSystemName}");
+            LogUtil.LogDebug($"registered prefix hook for: {confirmedSystemName}.OnUpdate");
         }
 
         var handle = new HookHandle()
