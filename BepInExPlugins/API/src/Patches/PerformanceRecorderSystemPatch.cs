@@ -36,7 +36,10 @@ unsafe internal class PerformanceRecorderSystemPatch
         _initialized = true;
         // unless desired, Disable PerformanceRecorderSystem.OnUpdate() call as it would do actual data recording and log output.
         return _wasStaticRecordingEnabled;
-        // todo: returning false could prevent other plugins' harmony hooks running
+
+        // note: returning false won't break other plugins. Bepinex uses HarmonyX,
+        // which difers from Harmony2 in that returning false from prefixes
+        // only skips the original patched method. It doesn't skip other prefixes.
     }
 
     [HarmonyPatch(typeof(PerformanceRecorderSystem), nameof(PerformanceRecorderSystem.StartSystem))]

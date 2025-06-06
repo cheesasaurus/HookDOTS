@@ -14,9 +14,9 @@ public class EcsSystemUpdatePrefix_ExamplePatch
         var world = systemState->World;
         ExamplePlugin.LogInstance.LogInfo($"ExamplePrefix0 executing in world {world.Name}.");
 
-        // You can return false, to skip further prefix hooks and the original OnUpdate call
-        bool shouldSkipFurtherPrefixesAndTheOriginal = false; // this is false
-        return !shouldSkipFurtherPrefixesAndTheOriginal; // this will be returned, and is true. Therefore no skip.
+        // You can return false, to skip the hooked OnUpdate. Other prefix hooks will still run.
+        bool shouldSkipTheOriginal = false; // this is false
+        return !shouldSkipTheOriginal; // this will be returned, and is true. Therefore no skip.
     }
 
     // You can leave the method parameters empty if desired.

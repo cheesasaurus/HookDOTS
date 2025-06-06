@@ -4,7 +4,7 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using HookDOTS.API;
-using ProjectM.Gameplay.Systems;
+using ProjectM;
 using Unity.Entities;
 
 namespace ExamplePlugin;
@@ -38,9 +38,8 @@ public class ExamplePlugin : BasePlugin
     unsafe private void ProcedurallyRegisterHooks()
     {
         var registrar = _hookDOTS.HookRegistrar;
-        //registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHookWithSkip);
-        registrar.RegisterHook_System_OnUpdate_Prefix<DealDamageSystem>(MyHook);
-        
+        registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(MyProcedurallyRegisteredHook);
+        registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(MyProcedurallyRegisteredHookWithSkip);
     }
 
     public override bool Unload()
@@ -57,25 +56,25 @@ public class ExamplePlugin : BasePlugin
     private static TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2);
 
     private Throttle throttle1 = new Throttle(twoSeconds);
-    unsafe private bool MyHook(SystemState* systemState)
+    unsafe private bool MyProcedurallyRegisteredHook(SystemState* systemState)
     {
         if (throttle1.CheckAndTrigger())
         {
             return true;
         }
-        Log.LogInfo($"[{DateTime.Now}] MyHook executing. (limit once per 2 seconds)");
+        Log.LogInfo($"[{DateTime.Now}] MyProcedurallyRegisteredHook executing. (limit once per 2 seconds)");
         return true;
     }
 
     private Throttle throttle2 = new Throttle(twoSeconds);
-    unsafe private bool MyHookWithSkip(SystemState* systemState)
+    unsafe private bool MyProcedurallyRegisteredHookWithSkip(SystemState* systemState)
     {
-        // return false to skip further prefixes and the original
+        // return false to skip the hooked OnUpdate. Other prefixes will still run.
         if (throttle2.CheckAndTrigger())
         {
             return false;
         }
-        Log.LogInfo($"[{DateTime.Now}] MyHookWithSkip executing. (limit once per 2 seconds)");
+        Log.LogInfo($"MyProcedurallyRegisteredHookWithSkip executing. (limit once per 2 seconds)");
         return false;
     }
 

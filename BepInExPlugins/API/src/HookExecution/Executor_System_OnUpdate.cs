@@ -70,7 +70,7 @@ internal class Executor_System_OnUpdate
             var systemTypeIndex = systemState->m_SystemTypeIndex;
             bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
 
-            bool shouldStopExecutingPrefixesAndSkipTheOriginal = false;
+            bool shouldSkipTheOriginal = false;
             foreach (var registryEntry in _prefixSubRegistry.GetEntriesInReverseRegistrationOrder(systemTypeIndex))
             {
                 try
@@ -86,8 +86,7 @@ internal class Executor_System_OnUpdate
 
                     if (false == registryEntry.Hook(systemState))
                     {
-                        shouldStopExecutingPrefixesAndSkipTheOriginal = true;
-                        break;
+                        shouldSkipTheOriginal = true;
                     }
                 }
                 catch (Exception ex)
@@ -98,12 +97,12 @@ internal class Executor_System_OnUpdate
 
             }
 
-            if (shouldStopExecutingPrefixesAndSkipTheOriginal)
+            if (shouldSkipTheOriginal)
             {
                 _restoreEnabledAfterPrefixSkip_System_OnUpdate[systemTypeIndex] = systemState->Enabled;
                 systemState->Enabled = false;
             }
-            _didPrefixExpectSystemToRun[systemTypeIndex] = wouldRunSystem && !shouldStopExecutingPrefixesAndSkipTheOriginal;
+            _didPrefixExpectSystemToRun[systemTypeIndex] = wouldRunSystem && !shouldSkipTheOriginal;
         }
 
         unsafe internal void ExecutePostfixHooks(SystemState* systemState)
