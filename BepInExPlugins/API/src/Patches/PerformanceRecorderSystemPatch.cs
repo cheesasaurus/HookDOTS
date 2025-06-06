@@ -24,16 +24,19 @@ unsafe internal class PerformanceRecorderSystemPatch
     [HarmonyPrefix]
     internal static bool PerformanceRecorderSystem_OnUpdate_Prefix(PerformanceRecorderSystem __instance)
     {
+        // todo: what if something else tries to turn on StaticRecordingEnabled after this hook ran? need to deal with that
+
         // todo: maybe move some of this to an Initialize method
         if (_initialized)
         {
-            return false;
+            return _wasStaticRecordingEnabled;
         }
         _wasStaticRecordingEnabled = PerformanceRecorderSystem.StaticRecordingEnabled;
         PerformanceRecorderSystem.StaticRecordingEnabled = true;
         _initialized = true;
         // unless desired, Disable PerformanceRecorderSystem.OnUpdate() call as it would do actual data recording and log output.
         return _wasStaticRecordingEnabled;
+        // todo: returning false could prevent other plugins' harmony hooks running
     }
 
     [HarmonyPatch(typeof(PerformanceRecorderSystem), nameof(PerformanceRecorderSystem.StartSystem))]
