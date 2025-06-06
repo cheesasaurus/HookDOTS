@@ -4,9 +4,9 @@ using HookDOTS.API.HookRegistration;
 
 namespace HookDOTS.API;
 
-public static class HookManager
+internal static class HookManager
 {
-    public static Bus Bus = new(); // todo: maybe move this out of HookManager, and make the manager internal
+    private static Bus _bus = Bus.Instance;
     private static bool _initialized = false;
     private static bool _isGameReadyForRegistration = false;
 
@@ -28,7 +28,7 @@ public static class HookManager
             prefixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Prefix,
             postfixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Postfix
         );
-        Bus.GameReadyForRegistration += HandleGameReadyForRegistration;
+        _bus.GameReadyForRegistration += HandleGameReadyForRegistration;
         _initialized = true;
     }
 
@@ -38,7 +38,7 @@ public static class HookManager
         {
             return;
         }
-        Bus.GameReadyForRegistration -= HandleGameReadyForRegistration;
+        _bus.GameReadyForRegistration -= HandleGameReadyForRegistration;
         _hookRegistry = null;
         _executor_System_OnUpdate = null;
         _isGameReadyForRegistration = false;
@@ -72,7 +72,7 @@ public static class HookManager
 
     internal static HookRegistrar NewHookRegistrar(string id, ManualLogSource log)
     {
-        var staging = new HookRegistryStaging(id, _hookRegistry, Bus, _isGameReadyForRegistration, log);
+        var staging = new HookRegistryStaging(id, _hookRegistry, _bus, _isGameReadyForRegistration, log);
         return new HookRegistrar(id, staging, log);
     }
     

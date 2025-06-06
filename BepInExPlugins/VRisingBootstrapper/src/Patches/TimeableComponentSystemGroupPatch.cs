@@ -19,7 +19,7 @@ public static class TimeableComponentSystemGroupPatch
         }
         _initialized = true;
         VRisingBootstrapperPlugin.LogInstance.LogInfo("Game has bootstrapped. Worlds and systems now exist.");
-        HookManager.Bus.TriggerGameReadyForRegistration();
+        Bus.Instance.TriggerGameReadyForRegistration();
     }
 }
 
