@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>HookDOTS.API</AssemblyName>
     <Description>BepInEx plugin providing an API to hook Unity DOTS systems, for il2cpp builds</Description>
-    <Version>1.0.0-beta.1</Version>
+    <Version>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/version.txt").TrimEnd())</Version>
     <Authors>Nicholas Toby</Authors>
     <Copyright>Copyright (c) Nicholas Toby 2025</Copyright>
     <WebsiteURL>https://github.com/cheesasaurus/HookDOTS</WebsiteURL>

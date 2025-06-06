@@ -15,6 +15,6 @@ HookDOTS was originally developed for modding the game [VRising](https://playvri
 
 The [API project](https://github.com/cheesasaurus/HookDOTS/tree/main/BepInExPlugins/API) is what mods integrate with, and targets BepInEx 6.
 
-For a quick look at how this library can be used, see the [VRisingBootstrapper readme](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/VRisingBootstrapper/README.md). (Click on the "For Plugin Developers" part with the small triangle next to it)
+For a quick look at how this library can be used, see the [VRising thunderstore readme](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/VRisingThunderstorePackage/README.md). (Click on the "For Plugin Developers" part with the small triangle next to it)
 
 There is also an [Example Project](https://github.com/cheesasaurus/HookDOTS/tree/main/BepInExPlugins/ExamplePlugin).

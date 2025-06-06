@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ThunderstoreName>HookDOTS</ThunderstoreName>
+    <Description>Provides an API for mods to hook Unity DOTS systems.</Description>
+    <Version>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../API/version.txt").TrimEnd())</Version>
+    <WebsiteURL>https://github.com/cheesasaurus/HookDOTS</WebsiteURL>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\API\API.csproj"/>
+  </ItemGroup>
+
+  <Target Name="PrepareLibsForDist" AfterTargets="Publish">
+    <PropertyGroup>
+      <PublishPath>$(OutputPath)/publish</PublishPath>
+      <DistAdditionalLibs>$(PublishPath)/HookDOTS.API.dll;</DistAdditionalLibs>
+    </PropertyGroup>
+  </Target>
+
+
+  <PropertyGroup>
+    <ThunderstoreManifestContent>
+      <![CDATA[
+{
+  "name": "$(ThunderstoreName)",
+  "version_number": "$(Version)",
+  "website_url": "$(WebsiteURL)",
+  "description": "$(Description)",
+  "dependencies": [
+      "BepInEx-BepInExPack_V_Rising-1.733.2",
+  ]
+}
+    ]]>
+    </ThunderstoreManifestContent>
+  </PropertyGroup>
+
+
+  <Target Name="ThunderstoreDist" AfterTargets="PrepareLibsForDist">
+    <WriteLinesToFile Lines="$(ThunderstoreManifestContent)" File="dist/thunderstore/temp/manifest.json" WriteOnlyWhenDifferent="true" Overwrite="true" />
+    <Copy SourceFiles="../API/images/icon.png" DestinationFolder="dist/thunderstore/temp"/>
+    <Copy SourceFiles="README.md" DestinationFolder="dist/thunderstore/temp"/>
+    <Copy SourceFiles="../API/CHANGELOG.md" DestinationFolder="dist/thunderstore/temp"/>
+    <Copy SourceFiles="$(DistAdditionalLibs)" DestinationFolder="dist/thunderstore/temp"/>
+    <ZipDirectory SourceDirectory="dist/thunderstore/temp" DestinationFile="dist/thunderstore/$(AssemblyName).zip" Overwrite="true"></ZipDirectory>
+    <RemoveDir Directories="dist/thunderstore/temp"/>
+  </Target>
+
+</Project>

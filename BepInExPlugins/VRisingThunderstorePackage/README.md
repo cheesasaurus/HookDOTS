@@ -11,9 +11,7 @@ HookDOTS was created to solve this problem.
 ## Installation
 
 - Install [BepInEx](https://v-rising.thunderstore.io/package/BepInEx/BepInExPack_V_Rising/).
-- Extract both HookDOTS dll files into `(VRising folder)/BepInEx/plugins`.
-  - `HookDOTS.API.dll`
-  - `HookDOTS.VRisingBootstrapper.dll`
+- Extract `HookDOTS.API.dll` into `(VRising folder)/BepInEx/plugins`.
 
 
 ## Usage
