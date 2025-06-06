@@ -1,49 +1,4 @@
 <Project>
-  <PropertyGroup>
-    <PackageProjectURL>https://github.com/cheesasaurus/HookDOTS</PackageProjectURL>
-    <RepositoryURL>https://github.com/cheesasaurus/HookDOTS</RepositoryURL>
-    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="images/icon.png" Pack="true" PackagePath="\"/>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
-
-
-  <PropertyGroup>
-    <ThunderstoreManifestContent>
-      <![CDATA[
-{
-  "name": "$(AssemblyName)",
-  "version_number": "$(Version)",
-  "website_url": "$(WebsiteURL)",
-  "description": "$(Description)",
-  "dependencies": [
-      "BepInEx-BepInExPack_V_Rising-1.733.2",
-  ]
-}
-    ]]>
-    </ThunderstoreManifestContent>
-  </PropertyGroup>
-
-
-  <Target Name="ThunderstoreDist" AfterTargets="PrepareLibsForDist">
-    <WriteLinesToFile Lines="$(ThunderstoreManifestContent)" File="dist/thunderstore/temp/manifest.json" WriteOnlyWhenDifferent="true" Overwrite="true" />
-    <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll" DestinationFolder="dist/thunderstore/temp" />
-    <Copy SourceFiles="images/icon.png" DestinationFolder="dist/thunderstore/temp"/>
-    <Copy SourceFiles="README.md" DestinationFolder="dist/thunderstore/temp"/>
-    <Copy SourceFiles="CHANGELOG.md" DestinationFolder="dist/thunderstore/temp"/>
-    <Copy SourceFiles="$(DistAdditionalLibs)" DestinationFolder="dist/thunderstore/temp"/>
-    <ZipDirectory SourceDirectory="dist/thunderstore/temp" DestinationFile="dist/thunderstore/$(AssemblyName).zip" Overwrite="true"></ZipDirectory>
-    <RemoveDir Directories="dist/thunderstore/temp"/>
-  </Target>
-
-  <Target Name="ModpackDist" AfterTargets="PrepareLibsForDist">
-    <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll;$(DistAdditionalLibs)" DestinationFolder="../../dist/modpack" />
-  </Target>
 
   <Target Name="DeployToDev" AfterTargets="PrepareLibsForDist" Condition="'$(VRisingServerPath)' != ''">
     <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll" DestinationFolder="$(VRisingServerPath)/BepInEx/BloodpebblePlugins" />

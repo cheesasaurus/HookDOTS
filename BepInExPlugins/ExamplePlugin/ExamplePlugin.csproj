@@ -38,7 +38,7 @@
   <Import Project="..\..\ModTasks.props" />
 
   <ItemGroup>
-    <AssemblyMetadata Include="Unloadable" Value="True" />
+    <AssemblyMetadata Include="Reloadable" Value="True" />
   </ItemGroup>
   
 </Project>

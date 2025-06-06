@@ -15,6 +15,18 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PackageProjectURL>https://github.com/cheesasaurus/HookDOTS</PackageProjectURL>
+    <RepositoryURL>https://github.com/cheesasaurus/HookDOTS</RepositoryURL>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="images/icon.png" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <PropertyGroup>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
@@ -43,7 +55,7 @@
   <Import Project="..\..\ModTasks.props"/>
 
   <ItemGroup>
-    <AssemblyMetadata Include="Unloadable" Value="True" />
+    <AssemblyMetadata Include="Reloadable" Value="True" />
   </ItemGroup>
 
 </Project>
