@@ -4,6 +4,7 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using HookDOTS.API;
+using HookDOTS.API.Hooks;
 using ProjectM;
 using Unity.Entities;
 
@@ -40,6 +41,10 @@ public class ExamplePlugin : BasePlugin
         var registrar = _hookDOTS.HookRegistrar;
         registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(MyProcedurallyRegisteredHook);
         registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(MyProcedurallyRegisteredHookWithSkip);
+
+        // a HookAdapter can be used to get a function with a valid signature
+        var hookWithFullSignature = System_OnUpdate_Prefix.HookAdapter.Adapt(MyHookWithPartialSignature);
+        registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hookWithFullSignature);
     }
 
     public override bool Unload()
@@ -52,7 +57,7 @@ public class ExamplePlugin : BasePlugin
         return true;
     }
 
-    
+
     private static TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2);
 
     private Throttle throttle1 = new Throttle(twoSeconds);
@@ -62,7 +67,7 @@ public class ExamplePlugin : BasePlugin
         {
             return true;
         }
-        Log.LogInfo($"[{DateTime.Now}] MyProcedurallyRegisteredHook executing. (limit once per 2 seconds)");
+        Log.LogInfo($"MyProcedurallyRegisteredHook executing. (limit once per 2 seconds)");
         return true;
     }
 
@@ -76,6 +81,17 @@ public class ExamplePlugin : BasePlugin
         }
         Log.LogInfo($"MyProcedurallyRegisteredHookWithSkip executing. (limit once per 2 seconds)");
         return false;
+    }
+
+    private Throttle throttle3 = new Throttle(twoSeconds);
+    private void MyHookWithPartialSignature()
+    {
+        if (throttle3.CheckAndTrigger())
+        {
+            return;
+        }
+        Log.LogInfo($"MyHookWithPartialSignature executing. (limit once per 2 seconds)");
+        return;
     }
 
 }
