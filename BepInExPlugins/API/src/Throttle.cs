@@ -12,7 +12,7 @@ public class Throttle
         _interval = interval;
     }
 
-    // return true if a throttle should be applied
+    // return true if a throttle should be applied (to block execution)
     public bool CheckAndTrigger()
     {
         if (DateTime.Now < _blockUntilTime)

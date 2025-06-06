@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using HookDOTS.API;
 using ProjectM.Gameplay.Systems;
 using Unity.Entities;
 
@@ -53,30 +54,28 @@ public class ExamplePlugin : BasePlugin
     }
 
     
-    private TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2);
+    private static TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2);
 
-    private DateTime nextTime1 = DateTime.MinValue;
+    private Throttle throttle1 = new Throttle(twoSeconds);
     unsafe private bool MyHook(SystemState* systemState)
     {
-        if (DateTime.Now < nextTime1)
+        if (throttle1.CheckAndTrigger())
         {
             return true;
         }
-        nextTime1 = DateTime.Now.Add(twoSeconds);
-        Log.LogInfo($"[{DateTime.Now}] MyHook executing. (debounce 2 seconds)");
+        Log.LogInfo($"[{DateTime.Now}] MyHook executing. (limit once per 2 seconds)");
         return true;
     }
 
-    private DateTime nextTime2 = DateTime.MinValue;
+    private Throttle throttle2 = new Throttle(twoSeconds);
     unsafe private bool MyHookWithSkip(SystemState* systemState)
     {
-        // return false to skip  further prefixes and the original
-        if (DateTime.Now < nextTime2)
+        // return false to skip further prefixes and the original
+        if (throttle2.CheckAndTrigger())
         {
             return false;
         }
-        nextTime2 = DateTime.Now.Add(twoSeconds);
-        Log.LogInfo($"[{DateTime.Now}] MyHookWithSkip executing. (debounce 2 seconds)");
+        Log.LogInfo($"[{DateTime.Now}] MyHookWithSkip executing. (limit once per 2 seconds)");
         return false;
     }
 
