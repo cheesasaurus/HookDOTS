@@ -28,7 +28,7 @@ public class EcsSystemUpdatePostfix_ExamplePatch
     public static void ExamplePostfix2()
     {
         // (this is commented out, because the log would be spammed every frame)
-        // ExamplePlugin.LogInstance.LogInfo($"ExamplePrefix4 executing");
+        // ExamplePlugin.LogInstance.LogInfo($"ExamplePostfix2 executing");
     }
 
     // The [Throttle] attribute can be used to rate-limit hooks that you expect to be running too frequently.
@@ -41,19 +41,26 @@ public class EcsSystemUpdatePostfix_ExamplePatch
         ExamplePlugin.LogInstance.LogInfo($"ExamplePostfixThrottled executing (throttled to once every 2 seconds)");
     }
 
-    // This is not a valid method signature. The hook will not be registered, and an error will be logged.
-    [EcsSystemUpdatePostfix(typeof(EquipItemSystem))]
-    public static int MyInvalidPostfix(int a, int b)
-    {
-        return a + b;
-    }
-
     // If a hook throws an Exception during execution, an error will be logged and execution will continue.
     // Further postfix hooks will not be skipped.
     [EcsSystemUpdatePostfix(typeof(EquipItemSystem))]
     public static void ExamplePostfixThrows()
     {
         throw new Exception("OH NO! I CAN THROW! (in the postfix)");
+    }
+
+    // This is not a valid method signature. The hook will not be registered, and an error will be logged.
+    [EcsSystemUpdatePostfix(typeof(EquipItemSystem))]
+    public static int MyInvalidPostfix1(int a, int b)
+    {
+        return a + b;
+    }
+
+    // This is also not a valid method signature. The hook will not be registered, and an error will be logged.
+    [EcsSystemUpdatePostfix(typeof(EquipItemSystem))]
+    unsafe public static void MyInvalidPostfix2(SystemState* systemState, int c)
+    {
+        
     }
 
 }

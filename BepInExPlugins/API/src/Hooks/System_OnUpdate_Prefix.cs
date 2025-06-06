@@ -28,9 +28,15 @@ public static class System_OnUpdate_Prefix
         public static Hook Adapt(MethodInfo methodInfo)
         {
             dynamic? suppliedHook = null;
+            var paramCount = methodInfo.GetParameters().Length;
             var param0Info = methodInfo.GetParameters().ElementAtOrDefault(0);
             var param0Type = param0Info?.ParameterType;
-            if (methodInfo.ReturnType == typeof(bool))
+
+            if (paramCount > 1)
+            {
+                // invalid signature
+            }
+            else if (methodInfo.ReturnType == typeof(bool))
             {
                 if (param0Type == typeof(SystemState*))
                 {

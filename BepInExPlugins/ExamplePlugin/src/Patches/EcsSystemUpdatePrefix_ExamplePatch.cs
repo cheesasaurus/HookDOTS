@@ -61,19 +61,26 @@ public class EcsSystemUpdatePrefix_ExamplePatch
         ExamplePlugin.LogInstance.LogInfo($"ExamplePrefixThrottled executing (throttled to once every 2 seconds)");
     }
 
-    // This is not a valid method signature. The hook will not be registered, and an error will be logged.
-    [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
-    public static int MyInvalidPrefix(int a, int b)
-    {
-        return a + b;
-    }
-
     // If a hook throws an Exception during execution, an error will be logged and execution will continue.
     // Further prefix hooks will not be skipped and neither will the original OnUpdate call.
     [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
     public static bool ExamplePrefixThrows()
     {
         throw new Exception("OH NO! I CAN THROW! (in the prefix)");
+    }
+
+    // This is not a valid method signature. The hook will not be registered, and an error will be logged.
+    [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
+    public static int MyInvalidPrefix1(int a, int b)
+    {
+        return a + b;
+    }
+
+    // This is also not a valid method signature. The hook will not be registered, and an error will be logged.
+    [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
+    unsafe public static void MyInvalidPrefix2(SystemState* systemState, int c)
+    {
+        
     }
 
 }
