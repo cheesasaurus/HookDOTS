@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using BepInEx.Logging;
 using HookDOTS.API.HookRegistration;
+using Unity.Collections;
 
 namespace HookDOTS.API;
 
@@ -13,6 +14,7 @@ public static class HookManager
     private static bool _isGameReadyForRegistration = false;
 
     private static HookRegistry _hookRegistry;
+    private static Executor_System_OnUpdate _executor_System_OnUpdate;
 
     ////////////////////////////////////////////////////////////////////
 
@@ -25,6 +27,10 @@ public static class HookManager
             return;
         }
         _hookRegistry = new HookRegistry();
+        _executor_System_OnUpdate = new Executor_System_OnUpdate(
+            prefixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Prefix,
+            postfixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Postfix
+        );
         Bus.GameReadyForRegistration += HandleGameReadyForRegistration;
         _initialized = true;
     }
@@ -37,6 +43,7 @@ public static class HookManager
         }
         Bus.GameReadyForRegistration -= HandleGameReadyForRegistration;
         _hookRegistry = null;
+        _executor_System_OnUpdate = null;
         _isGameReadyForRegistration = false;
         _initialized = false;
     }
@@ -52,76 +59,14 @@ public static class HookManager
         _isGameReadyForRegistration = true;
     }
 
-    // todo: partition things by world. it's possible for a system class to be used in multiple worlds.
-    private static Dictionary<SystemTypeIndex, bool> _restoreEnabledAfterPrefixSkip_System_OnUpdate = new();
-    private static Dictionary<SystemTypeIndex, bool> _didPrefixExpectSystemToRun = new();
-
     unsafe internal static void HandleSystemUpdatePrefix(SystemState* systemState)
     {
-        var systemTypeIndex = systemState->m_SystemTypeIndex;
-        bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
-        var subRegistry = _hookRegistry.SubRegistry_System_OnUpdate_Prefix;
-
-        bool shouldStopExecutingPrefixesAndSkipTheOriginal = false;
-        foreach (var registryEntry in subRegistry.GetEntriesInReverseRegistrationOrder(systemTypeIndex))
-        {
-            try
-            {
-                if (!wouldRunSystem && registryEntry.Options.OnlyWhenSystemRuns)
-                {
-                    continue;
-                }
-
-                if (false == registryEntry.Hook(systemState))
-                {
-                    shouldStopExecutingPrefixesAndSkipTheOriginal = true;
-                    break;
-                }
-            }
-            catch (Exception ex)
-            {
-                registryEntry.Log.LogError(ex);
-                continue;
-            }
-            
-        }
-
-        if (shouldStopExecutingPrefixesAndSkipTheOriginal)
-        {
-            _restoreEnabledAfterPrefixSkip_System_OnUpdate[systemTypeIndex] = systemState->Enabled;
-            systemState->Enabled = false;
-        }
-        _didPrefixExpectSystemToRun[systemTypeIndex] = wouldRunSystem && !shouldStopExecutingPrefixesAndSkipTheOriginal;
+        _executor_System_OnUpdate.ExecutePrefixHooks(systemState);
     }
 
     unsafe internal static void HandleSystemUpdatePostfix(SystemState* systemState)
     {
-        var systemTypeIndex = systemState->m_SystemTypeIndex;
-        if (_restoreEnabledAfterPrefixSkip_System_OnUpdate.ContainsKey(systemTypeIndex))
-        {
-            systemState->Enabled = _restoreEnabledAfterPrefixSkip_System_OnUpdate[systemTypeIndex];
-            _restoreEnabledAfterPrefixSkip_System_OnUpdate.Remove(systemTypeIndex);
-        }
-
-        var didSystemProbablyRun = _didPrefixExpectSystemToRun[systemTypeIndex];
-        var subRegistry = _hookRegistry.SubRegistry_System_OnUpdate_Postfix;
-        
-        foreach (var registryEntry in subRegistry.GetEntriesInReverseRegistrationOrder(systemTypeIndex))
-        {
-            try
-            {
-                if (!didSystemProbablyRun && registryEntry.Options.OnlyWhenSystemRuns)
-                {
-                    continue;
-                }
-                registryEntry.Hook(systemState);
-            }
-            catch (Exception ex)
-            {
-                registryEntry.Log.LogError(ex);
-                continue;
-            }
-        }
+        _executor_System_OnUpdate.ExecutePostfixHooks(systemState);
     }
 
     #endregion
