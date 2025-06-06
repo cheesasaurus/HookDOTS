@@ -23,7 +23,7 @@
   <Target Name="PrepareLibsForDist" AfterTargets="Publish">
     <PropertyGroup>
       <PublishPath>$(OutputPath)/publish</PublishPath>
-      <DistAdditionalLibs></DistAdditionalLibs>
+      <DistAdditionalLibs>$(PublishPath)/HookDOTS.API.dll;</DistAdditionalLibs>
     </PropertyGroup>
   </Target>
 
