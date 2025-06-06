@@ -9,8 +9,9 @@ namespace HookDOTS.API;
 
 //
 // Summary:
-//     A HookDOTS instance is the main entry to HookDOTS. After creating one with a
-//     unique identifier, it is used to patch and query the current application domain
+//     A HookDOTS instance is the main entrypoint for a plugin to use HookDOTS.
+//     After creating one with a unique identifier,
+//     it is used to patch and query the current application domain
 public class HookDOTS
 {
     public string Id { get; }
@@ -18,7 +19,7 @@ public class HookDOTS
 
     //
     // Summary:
-    //     The HookRegistrar can be used to procedurally register hooks
+    //     The HookRegistrar can be used by a plugin to procedurally register hooks
     public HookRegistrar HookRegistrar { get; }
 
     //
@@ -44,11 +45,20 @@ public class HookDOTS
         HookRegistrar = HookManager.NewHookRegistrar(id, _log);
     }
 
+    //
+    // Summary:
+    //     RegisterHooks can be called by a plugin to scan its assembly,
+    //     and register any hooks annotated by attributes such as
+    //     [EcsSystemUpdatePrefix] and [EcsSystemUpdatePostfix]
     public void RegisterHooks()
     {
         RegisterHooks(Assembly.GetCallingAssembly());
     }
 
+    //
+    // Summary:
+    //     UnRegisterHooks can be called by a plugin to unregister
+    //     any hooks that were registered via this instance of HookDOTS.
     public void UnregisterHooks()
     {
         HookRegistrar.UnregisterHooks();

@@ -9,7 +9,6 @@ unsafe internal class PerformanceRecorderSystemPatch
     static bool _initialized = false;
     static bool _wasStaticRecordingEnabled = false;
 
-    // todo: maybe there's a method that harmony will call when unpatching. so we don't have to call it ourselves
     internal static void UnInitialize()
     {
         if (!_initialized)

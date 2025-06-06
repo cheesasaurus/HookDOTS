@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Unity.Entities;
 using BepInEx.Logging;
 using HookDOTS.API.HookRegistration;
-using Unity.Collections;
 
 namespace HookDOTS.API;
 
