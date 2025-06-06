@@ -4,7 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>HookDOTS.API</AssemblyName>
     <Description>BepInEx plugin providing an API to hook Unity DOTS systems, for il2cpp builds</Description>
-    <Version>1.0.0</Version>
+    <Version>1.0.0-beta.1</Version>
+    <Authors>Nicholas Toby</Authors>
+    <Copyright>Copyright (c) Nicholas Toby 2025</Copyright>
     <WebsiteURL>https://github.com/cheesasaurus/HookDOTS</WebsiteURL>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -12,10 +14,15 @@
     <BepInExVersion>6.0.0-be.733</BepInExVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="BepInEx.Unity.IL2CPP" Version="$(BepInExVersion)" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.Core" Version="$(BepInExVersion)" IncludeAssets="compile" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />    
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,5 +41,9 @@
   </Target>
 
   <Import Project="..\..\ModTasks.props"/>
+
+  <ItemGroup>
+    <AssemblyMetadata Include="Unloadable" Value="True" />
+  </ItemGroup>
 
 </Project>

@@ -17,6 +17,14 @@
     <PackageReference Include="BepInEx.Core" Version="$(BepInExVersion)" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
     <PackageReference Include="VRising.Unhollowed.Client" Version="1.1.8.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+
+    <PackageReference Include="HookDOTS.API" Version="1.*" />
+    
+    -->
     <ProjectReference Include="..\API\API.csproj"/>
   </ItemGroup>
 
@@ -27,6 +35,10 @@
     </PropertyGroup>
   </Target>
 
-  <Import Project="..\..\ModTasks.props"/>
+  <Import Project="..\..\ModTasks.props" />
 
+  <ItemGroup>
+    <AssemblyMetadata Include="Unloadable" Value="True" />
+  </ItemGroup>
+  
 </Project>

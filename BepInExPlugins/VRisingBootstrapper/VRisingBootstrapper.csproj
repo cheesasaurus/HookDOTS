@@ -29,4 +29,8 @@
 
   <Import Project="..\..\ModTasks.props"/>
 
+  <ItemGroup>
+    <AssemblyMetadata Include="Unloadable" Value="True" />
+  </ItemGroup>
+
 </Project>

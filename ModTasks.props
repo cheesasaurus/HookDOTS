@@ -1,4 +1,17 @@
 <Project>
+  <PropertyGroup>
+    <PackageProjectURL>https://github.com/cheesasaurus/HookDOTS</PackageProjectURL>
+    <RepositoryURL>https://github.com/cheesasaurus/HookDOTS</RepositoryURL>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="images/icon.png" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
 
   <PropertyGroup>
     <ThunderstoreManifestContent>
@@ -15,7 +28,7 @@
     ]]>
     </ThunderstoreManifestContent>
   </PropertyGroup>
-  
+
 
   <Target Name="ThunderstoreDist" AfterTargets="PrepareLibsForDist">
     <WriteLinesToFile Lines="$(ThunderstoreManifestContent)" File="dist/thunderstore/temp/manifest.json" WriteOnlyWhenDifferent="true" Overwrite="true" />
