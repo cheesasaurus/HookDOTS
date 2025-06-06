@@ -3,6 +3,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using HookDOTS.API.Patches;
 using HookDOTS.API.Utilities;
+using Unity.Entities;
 
 namespace HookDOTS.API;
 
@@ -23,6 +24,11 @@ public class ApiPlugin : BasePlugin
 
         // set up HookManager
         HookManager.Initialize();
+
+        // currently, only the type manager is needed to begin hooking,
+        // but this may change as features are added
+        TypeManager.Initialize();
+        Bus.Instance.TriggerGameReadyForHooking();
     }
 
     public override bool Unload()
