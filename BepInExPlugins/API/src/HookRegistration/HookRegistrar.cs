@@ -22,6 +22,11 @@ public class HookRegistrar
         _log = log;
     }
 
+    public void Dispose()
+    {
+        _hookRegistryStaging.Dispose();
+    }
+
     public void UnregisterHooks()
     {
         _hookRegistryStaging.CancelPendingRegistrations();

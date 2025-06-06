@@ -25,7 +25,13 @@ internal class HookRegistryStaging
         _bus = bus;
         _log = log;
         _bus.GameReadyForRegistration += HandleGameReadyForRegistration;
-        // todo: way to cleanup event handler
+    }
+
+    public void Dispose()
+    {
+        _bus.GameReadyForRegistration -= HandleGameReadyForRegistration;
+        UnregisterRegisteredHooks();
+        CancelPendingRegistrations();
     }
 
     internal void UnregisterRegisteredHooks()

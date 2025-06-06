@@ -45,8 +45,8 @@ public class ExamplePlugin : BasePlugin
 
     public override bool Unload()
     {
-        // unregister hooks
-        _hookDOTS.UnregisterHooks();
+        // be sure to call Dispose! This will unregister hooks and clean up to avoid memory leaks.
+        _hookDOTS.Dispose();
 
         // Harmony unpatching
         _harmony?.UnpatchSelf();

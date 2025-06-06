@@ -47,6 +47,16 @@ public class HookDOTS
 
     //
     // Summary:
+    //     Dispose should be called by a plugin when the plugin unloads.
+    //     This will cleanup everything set up by this instance of HookDOTS,
+    //     and help avoid memory leaks.
+    public void Dispose()
+    {
+        HookRegistrar.Dispose();
+    }
+
+    //
+    // Summary:
     //     RegisterHooks can be called by a plugin to scan its assembly,
     //     and register any hooks annotated by attributes such as
     //     [EcsSystemUpdatePrefix] and [EcsSystemUpdatePostfix]
