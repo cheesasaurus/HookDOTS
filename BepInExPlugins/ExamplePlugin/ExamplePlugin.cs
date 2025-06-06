@@ -10,7 +10,6 @@ namespace ExamplePlugin;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency("HookDOTS.API")]
-[BepInDependency("HookDOTS.VRisingBootstrapper")]
 public class ExamplePlugin : BasePlugin
 {
     public static ManualLogSource LogInstance { get; private set; }

@@ -28,7 +28,7 @@ internal static class HookManager
             prefixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Prefix,
             postfixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Postfix
         );
-        _bus.GameReadyForRegistration += HandleGameReadyForRegistration;
+        _bus.GameReadyForHooking += HandleGameReadyForRegistration;
         _initialized = true;
     }
 
@@ -38,7 +38,7 @@ internal static class HookManager
         {
             return;
         }
-        _bus.GameReadyForRegistration -= HandleGameReadyForRegistration;
+        _bus.GameReadyForHooking -= HandleGameReadyForRegistration;
         _hookRegistry = null;
         _executor_System_OnUpdate = null;
         _isGameReadyForRegistration = false;

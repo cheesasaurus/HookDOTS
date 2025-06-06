@@ -24,12 +24,12 @@ internal class HookRegistryStaging
         _canRegister = isGameReadyForRegistration;
         _bus = bus;
         _log = log;
-        _bus.GameReadyForRegistration += HandleGameReadyForRegistration;
+        _bus.GameReadyForHooking += HandleGameReadyForRegistration;
     }
 
     public void Dispose()
     {
-        _bus.GameReadyForRegistration -= HandleGameReadyForRegistration;
+        _bus.GameReadyForHooking -= HandleGameReadyForRegistration;
         UnregisterRegisteredHooks();
         CancelPendingRegistrations();
     }

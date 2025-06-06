@@ -1,16 +1,16 @@
 namespace HookDOTS.API;
 
-public delegate void GameReadyForRegistrationHandler();
+public delegate void GameReadyForHookingHandler();
 
 public class Bus
 {
     public static readonly Bus Instance = new();
 
-    public event GameReadyForRegistrationHandler GameReadyForRegistration;
+    public event GameReadyForHookingHandler GameReadyForHooking;
 
-    public void TriggerGameReadyForRegistration()
+    public void TriggerGameReadyForHooking()
     {
-        GameReadyForRegistration?.Invoke();
+        GameReadyForHooking?.Invoke();
     }
     
 }
