@@ -5,14 +5,17 @@ using Unity.Entities;
 
 namespace HookDOTS.API.Hooks;
 
+#nullable enable
 
 public static class System_OnUpdate_Prefix
 {
     unsafe public delegate bool Hook(SystemState* systemState);
 
-    public struct Options(bool onlyWhenSystemRuns = true)
+    public class Options(bool onlyWhenSystemRuns = true, Throttle? throttle = null)
     {
         public bool OnlyWhenSystemRuns = onlyWhenSystemRuns;
+        public Throttle? Throttle = throttle;
+
         public static Options Default => new Options();
     }
 
@@ -24,7 +27,7 @@ public static class System_OnUpdate_Prefix
 
         public static Hook Adapt(MethodInfo methodInfo)
         {
-            dynamic suppliedHook = null;
+            dynamic? suppliedHook = null;
             var param0Info = methodInfo.GetParameters().ElementAtOrDefault(0);
             var param0Type = param0Info?.ParameterType;
             if (methodInfo.ReturnType == typeof(bool))

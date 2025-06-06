@@ -7,9 +7,6 @@ namespace ExamplePlugin.Patches;
 
 public class EcsSystemUpdatePostfix_ExamplePatch
 {
-    private static TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2);
-    private static Throttler _throttler1 = new Throttler(twoSeconds);
-
     // The hook must be `public` and `static`. If you want SystemState* passed in, an `unsafe` context is also required.
     [EcsSystemUpdatePostfix(typeof(EquipItemSystem))]
     unsafe public static void ExamplePostfix0(SystemState* systemState)
@@ -32,6 +29,16 @@ public class EcsSystemUpdatePostfix_ExamplePatch
     {
         // (this is commented out, because the log would be spammed every frame)
         // ExamplePlugin.LogInstance.LogInfo($"ExamplePrefix4 executing");
+    }
+
+    // The [Throttle] attribute can be used to rate-limit hooks that you expect to be running too frequently.
+    // You can specify `days`, `hours`, `minutes`, `seconds`, and `milliseconds` to define the throttle interval.
+    // Internally, these are used to create a `System.TimeSpan`
+    [Throttle(seconds: 2)]
+    [EcsSystemUpdatePrefix(typeof(EquipItemSystem), onlyWhenSystemRuns: false)]
+    public static void ExamplePrefixThrottled()
+    {
+        ExamplePlugin.LogInstance.LogInfo($"ExamplePostfixThrottled executing (throttled to once every 2 seconds)");
     }
 
     // This is not a valid method signature. The hook will not be registered, and an error will be logged.

@@ -111,7 +111,10 @@ public class HookDOTS
         try
         {
             var hook = System_OnUpdate_Prefix.HookAdapter.Adapt(methodInfo);
-            var options = new System_OnUpdate_Prefix.Options(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
+            var options = new System_OnUpdate_Prefix.Options(
+                onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns,
+                throttle: methodInfo.GetCustomAttribute<ThrottleAttribute>()?.CreateThrottle()
+            );
             HookRegistrar.RegisterHook_System_OnUpdate_Prefix(hook, attribute.SystemType, options);
             return true;
         }
@@ -137,7 +140,10 @@ public class HookDOTS
         try
         {
             var hook = System_OnUpdate_Postfix.HookAdapter.Adapt(methodInfo);
-            var options = new System_OnUpdate_Postfix.Options(onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns);
+            var options = new System_OnUpdate_Postfix.Options(
+                onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns,
+                throttle: methodInfo.GetCustomAttribute<ThrottleAttribute>()?.CreateThrottle()
+            );
             HookRegistrar.RegisterHook_System_OnUpdate_Postfix(hook, attribute.SystemType, options);
             return true;
         }
@@ -146,6 +152,11 @@ public class HookDOTS
             _log.LogError(ex);
             return false;
         }
+    }
+
+    internal Throttle CreateThrottle(MethodInfo methodInfo)
+    {
+        return methodInfo.GetCustomAttribute<ThrottleAttribute>()?.CreateThrottle();
     }
 
 }

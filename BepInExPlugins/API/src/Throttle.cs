@@ -1,25 +1,26 @@
 using System;
 
-namespace ExamplePlugin;
+namespace HookDOTS.API;
 
-public class Throttler
+public class Throttle
 {
     private TimeSpan _interval;
     private DateTime _blockUntilTime = DateTime.MinValue;
 
-    public Throttler(TimeSpan interval)
+    public Throttle(TimeSpan interval)
     {
         _interval = interval;
     }
 
-    public T RunIfNotBlocked<T>(Func<T> func, T defaultReturnVal)
+    // return true if a throttle should be applied
+    public bool CheckAndTrigger()
     {
         if (DateTime.Now < _blockUntilTime)
         {
-            return defaultReturnVal;
+            return true;
         }
         _blockUntilTime = DateTime.Now.Add(_interval);
-        return func();
+        return false;
     }
 
 }

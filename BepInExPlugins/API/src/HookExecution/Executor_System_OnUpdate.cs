@@ -79,6 +79,10 @@ internal class Executor_System_OnUpdate
                     {
                         continue;
                     }
+                    if (registryEntry.Options.Throttle?.CheckAndTrigger() ?? false)
+                    {
+                        continue;
+                    }
 
                     if (false == registryEntry.Hook(systemState))
                     {
@@ -118,6 +122,10 @@ internal class Executor_System_OnUpdate
                 try
                 {
                     if (!didSystemProbablyRun && registryEntry.Options.OnlyWhenSystemRuns)
+                    {
+                        continue;
+                    }
+                    if (registryEntry.Options.Throttle?.CheckAndTrigger() ?? false)
                     {
                         continue;
                     }
