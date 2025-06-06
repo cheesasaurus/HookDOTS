@@ -56,3 +56,6 @@ nunit-*.xml
 
 # vscode
 .vs/
+
+# BepInEx-generated interops copied from the game dir
+interop/

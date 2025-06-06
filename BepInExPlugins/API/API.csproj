@@ -15,9 +15,15 @@
   <ItemGroup>
     <PackageReference Include="BepInEx.Unity.IL2CPP" Version="$(BepInExVersion)" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.Core" Version="$(BepInExVersion)" IncludeAssets="compile" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
-    <!-- todo: package that isn't tied to vrising. we just need Unity things -->
-    <PackageReference Include="VRising.Unhollowed.Client" Version="1.1.8.*" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />    
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- copy these files from your game directory. {game}/BepInEx/interop/ -->
+    <Reference Include="IL2Cppmscorlib" HintPath="..\..\interop\IL2Cppmscorlib.dll" />
+    <Reference Include="Unity.Collections" HintPath="..\..\interop\Unity.Collections.dll" />
+    <Reference Include="Unity.Entities" HintPath="..\..\interop\Unity.Entities.dll" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="..\..\interop\UnityEngine.CoreModule.dll" />
   </ItemGroup>
 
   <Target Name="PrepareLibsForDist" AfterTargets="Publish">
