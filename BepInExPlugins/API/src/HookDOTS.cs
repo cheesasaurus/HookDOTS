@@ -154,9 +154,4 @@ public class HookDOTS
         }
     }
 
-    internal Throttle CreateThrottle(MethodInfo methodInfo)
-    {
-        return methodInfo.GetCustomAttribute<ThrottleAttribute>()?.CreateThrottle();
-    }
-
 }
