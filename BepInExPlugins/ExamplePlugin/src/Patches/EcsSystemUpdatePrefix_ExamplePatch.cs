@@ -43,7 +43,6 @@ public class EcsSystemUpdatePrefix_ExamplePatch
     }
 
     // You can set `onlyWhenSystemRuns` to `false`, and the hook will be called even if the system doesn't actually run.
-    // Note that if another similar hook returns false, this hook can still get skipped.
     [EcsSystemUpdatePrefix(typeof(EquipItemSystem), onlyWhenSystemRuns: false)]
     public static void ExamplePrefix4()
     {

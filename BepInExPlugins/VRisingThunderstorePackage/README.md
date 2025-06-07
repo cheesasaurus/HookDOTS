@@ -72,11 +72,9 @@ public class ExamplePatch
         var world = systemState->World;
         ExamplePlugin.LogInstance.LogInfo($"ExamplePrefix executing in world {world.Name}.");
 
-        // You can return false, to skip further prefix hooks and the original OnUpdate call.
-        bool shouldSkipFurtherPrefixesAndTheOriginal = false;
-        
-        // This will be returned, and is true. Therefore no skip.
-        return !shouldSkipFurtherPrefixesAndTheOriginal; 
+        // You can return false, to skip the hooked OnUpdate. Other prefix hooks will still run.
+        bool shouldSkipTheOriginal = true;
+        return !shouldSkipTheOriginal; // this will be returned, and is false. Therefore the original will be skipped.
     }
 
     [EcsSystemUpdatePostfix(typeof(EquipItemSystem))]
@@ -93,7 +91,6 @@ public class ExamplePatch
 
 ### onlyWhenSystemRuns
 You can set `onlyWhenSystemRuns` to `false`, and the hook will be called even if the system doesn't actually run.\
-Note that if another similar hook returns false, this hook can still get skipped.
 
 ```C#
 [EcsSystemUpdatePrefix(typeof(EquipItemSystem), onlyWhenSystemRuns: false)]
