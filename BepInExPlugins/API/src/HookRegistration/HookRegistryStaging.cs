@@ -89,7 +89,7 @@ internal class HookRegistryStaging
         }
     }
 
-    internal void RegisterHook_System_OnUpdate_Prefix(Hooks.System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, Hooks.System_OnUpdate_Prefix.Options options)
+    internal void RegisterHook_System_OnUpdate_Prefix(Hooks.System_OnUpdate_Prefix.HookSignature hook, Il2CppSystem.Type systemType, Hooks.System_OnUpdate_Prefix.Options options)
     {
         var registryEntry = new RegistryEntries.System_OnUpdate_Prefix(hook, systemType, options, _log, _id);
         if (_canRegister)
@@ -109,7 +109,7 @@ internal class HookRegistryStaging
         _registeredHookHandles.Add(handle);
     }
 
-    internal void RegisterHook_System_OnUpdate_Postfix(Hooks.System_OnUpdate_Postfix.Hook hook, Il2CppSystem.Type systemType, Hooks.System_OnUpdate_Postfix.Options options)
+    internal void RegisterHook_System_OnUpdate_Postfix(Hooks.System_OnUpdate_Postfix.HookSignature hook, Il2CppSystem.Type systemType, Hooks.System_OnUpdate_Postfix.Options options)
     {
         var registryEntry = new RegistryEntries.System_OnUpdate_Postfix(hook, systemType, options, _log, _id);
         if (_canRegister)

@@ -37,35 +37,35 @@ public class HookRegistrar
 
     #region Hook Registration: System_OnUpdate_Prefix
 
-    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.Hook hook)
+    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.HookSignature hook)
     {
         var options = System_OnUpdate_Prefix.Options.Default;
         RegisterHook_System_OnUpdate_Prefix<TSystemType>(hook, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.Hook hook, System_OnUpdate_Prefix.Options options)
+    public void RegisterHook_System_OnUpdate_Prefix<TSystemType>(System_OnUpdate_Prefix.HookSignature hook, System_OnUpdate_Prefix.Options options)
     {
         RegisterHook_System_OnUpdate_Prefix(hook, Il2CppType.Of<TSystemType>(), options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Type systemType)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.HookSignature hook, Type systemType)
     {
         var options = System_OnUpdate_Prefix.Options.Default;
         RegisterHook_System_OnUpdate_Prefix(hook, systemType, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Type systemType, System_OnUpdate_Prefix.Options options)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.HookSignature hook, Type systemType, System_OnUpdate_Prefix.Options options)
     {
         RegisterHook_System_OnUpdate_Prefix(hook, Il2CppType.From(systemType), options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.HookSignature hook, Il2CppSystem.Type systemType)
     {
         var options = System_OnUpdate_Prefix.Options.Default;
         RegisterHook_System_OnUpdate_Prefix(hook, systemType, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
+    public void RegisterHook_System_OnUpdate_Prefix(System_OnUpdate_Prefix.HookSignature hook, Il2CppSystem.Type systemType, System_OnUpdate_Prefix.Options options)
     {
         _hookRegistryStaging.RegisterHook_System_OnUpdate_Prefix(hook, systemType, options);
     }
@@ -76,35 +76,35 @@ public class HookRegistrar
 
     #region Hook Registration: System_OnUpdate_Postfix
 
-    public void RegisterHook_System_OnUpdate_Postfix<TSystemType>(System_OnUpdate_Postfix.Hook hook)
+    public void RegisterHook_System_OnUpdate_Postfix<TSystemType>(System_OnUpdate_Postfix.HookSignature hook)
     {
         var options = System_OnUpdate_Postfix.Options.Default;
         RegisterHook_System_OnUpdate_Postfix<TSystemType>(hook, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Postfix<TSystemType>(System_OnUpdate_Postfix.Hook hook, System_OnUpdate_Postfix.Options options)
+    public void RegisterHook_System_OnUpdate_Postfix<TSystemType>(System_OnUpdate_Postfix.HookSignature hook, System_OnUpdate_Postfix.Options options)
     {
         RegisterHook_System_OnUpdate_Postfix(hook, Il2CppType.Of<TSystemType>(), options);
     }
 
-    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Type systemType)
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.HookSignature hook, Type systemType)
     {
         var options = System_OnUpdate_Postfix.Options.Default;
         RegisterHook_System_OnUpdate_Postfix(hook, systemType, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Type systemType, System_OnUpdate_Postfix.Options options)
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.HookSignature hook, Type systemType, System_OnUpdate_Postfix.Options options)
     {
         RegisterHook_System_OnUpdate_Postfix(hook, Il2CppType.From(systemType), options);
     }
 
-    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Il2CppSystem.Type systemType)
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.HookSignature hook, Il2CppSystem.Type systemType)
     {
         var options = System_OnUpdate_Postfix.Options.Default;
         RegisterHook_System_OnUpdate_Postfix(hook, systemType, options);
     }
 
-    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Postfix.Options options)
+    public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.HookSignature hook, Il2CppSystem.Type systemType, System_OnUpdate_Postfix.Options options)
     {
         _hookRegistryStaging.RegisterHook_System_OnUpdate_Postfix(hook, systemType, options);
     }

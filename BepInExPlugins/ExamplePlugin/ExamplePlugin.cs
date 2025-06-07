@@ -43,7 +43,8 @@ public class ExamplePlugin : BasePlugin
         registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(MyProcedurallyRegisteredHookWithSkip);
 
         // a HookAdapter can be used to get a function with a valid signature
-        var hookWithFullSignature = System_OnUpdate_Prefix.HookAdapter.Adapt(MyHookWithPartialSignature);
+        var method = MyHookWithPartialSignature;
+        var hookWithFullSignature = System_OnUpdate_Prefix.HookAdapter.Adapt(method.Method);
         registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hookWithFullSignature);
     }
 

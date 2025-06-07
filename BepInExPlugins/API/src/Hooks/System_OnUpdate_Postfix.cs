@@ -9,7 +9,7 @@ namespace HookDOTS.API.Hooks;
 
 public static class System_OnUpdate_Postfix
 {
-    unsafe public delegate void Hook(SystemState* systemState);
+    unsafe public delegate void HookSignature(SystemState* systemState);
 
     public class Options(bool onlyWhenSystemRuns = true, Throttle? throttle = null)
     {
@@ -20,9 +20,9 @@ public static class System_OnUpdate_Postfix
 
     public static class HookAdapter
     {
-        public delegate void HookVariant1();
+        private delegate void HookVariant1();
 
-        public static Hook Adapt(MethodInfo methodInfo)
+        public static HookSignature Adapt(MethodInfo methodInfo)
         {
             dynamic? suppliedHook = null;
             var paramCount = methodInfo.GetParameters().Length;
@@ -37,7 +37,7 @@ public static class System_OnUpdate_Postfix
             {
                 if (param0Type == typeof(SystemState*))
                 {
-                    suppliedHook = methodInfo.CreateDelegate<Hook>();
+                    suppliedHook = methodInfo.CreateDelegate<HookSignature>();
                 }
                 else if (param0Type == null)
                 {
@@ -54,12 +54,12 @@ public static class System_OnUpdate_Postfix
             return Adapt(suppliedHook);
         }
 
-        unsafe public static Hook Adapt(Hook suppliedHook)
+        unsafe private static HookSignature Adapt(HookSignature suppliedHook)
         {
             return suppliedHook;
         }
 
-        unsafe public static Hook Adapt(HookVariant1 suppliedHook)
+        unsafe private static HookSignature Adapt(HookVariant1 suppliedHook)
         {
             return (systemState) =>
             {

@@ -7,7 +7,7 @@ namespace HookDOTS.API.HookRegistration;
 internal static class RegistryEntries
 {
     internal record System_OnUpdate_Prefix(
-        Hooks.System_OnUpdate_Prefix.Hook Hook,
+        Hooks.System_OnUpdate_Prefix.HookSignature Hook,
         Il2CppSystem.Type SystemType,
         Hooks.System_OnUpdate_Prefix.Options Options,
         ManualLogSource Log,
@@ -15,7 +15,7 @@ internal static class RegistryEntries
     );
 
     internal record System_OnUpdate_Postfix(
-        Hooks.System_OnUpdate_Postfix.Hook Hook,
+        Hooks.System_OnUpdate_Postfix.HookSignature Hook,
         Il2CppSystem.Type SystemType,
         Hooks.System_OnUpdate_Postfix.Options Options,
         ManualLogSource Log,
