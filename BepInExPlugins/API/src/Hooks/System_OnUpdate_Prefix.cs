@@ -36,7 +36,7 @@ public static class System_OnUpdate_Prefix
         public static Options Default => new Options();
     }
 
-    public static class HookFunctionAdapter
+    internal static class HookFunctionAdapter
     {
         private delegate bool HookVariant1();
         unsafe private delegate void HookVariant2(SystemState* systemState);

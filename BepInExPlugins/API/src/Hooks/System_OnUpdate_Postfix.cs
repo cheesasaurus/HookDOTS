@@ -34,7 +34,7 @@ public static class System_OnUpdate_Postfix
         public static Options Default => new Options();
     }
 
-    public static class HookFunctionAdapter
+    internal static class HookFunctionAdapter
     {
         private delegate void HookVariant1();
 
