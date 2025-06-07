@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using HookDOTS.API.Utilities;
 using Unity.Entities;
 
@@ -20,11 +21,6 @@ internal class SubRegistry_System_OnUpdate_Postfix : SubRegistry_System<Registry
         {
             throw new Exception($"null SystemTypeIndex for {systemType.FullName}");
         }
-        else
-        {
-            var confirmedSystemName = TypeManager.GetSystemType(systemTypeIndex).FullName;
-            LogUtil.LogDebug($"registered postfix hook for: {confirmedSystemName}.OnUpdate");
-        }
 
         var handle = new HookHandle()
         {
@@ -33,7 +29,21 @@ internal class SubRegistry_System_OnUpdate_Postfix : SubRegistry_System<Registry
             SystemTypeIndex = systemTypeIndex,
         };
 
-        return RegisterHook(systemTypeIndex, handle, registryEntry);
+        RegisterHook(systemTypeIndex, handle, registryEntry);
+        var confirmedSystemName = TypeManager.GetSystemType(systemTypeIndex).FullName;
+        LogUtil.LogDebug(MultiLineRegistrationLogEntry(registryEntry, handle, confirmedSystemName));
+        return handle;
+    }
+
+    protected String MultiLineRegistrationLogEntry(RegistryEntries.System_OnUpdate_Postfix registryEntry, HookHandle handle, String confirmedSystemName)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"HookDOTS registered hook#{handle.Value}");
+        sb.AppendLine($"    registrant: {registryEntry.RegistrantId}");
+        sb.AppendLine($"    target:     {confirmedSystemName}.OnUpdate");
+        sb.AppendLine($"    precedence: POSTFIX");
+        sb.Append($"    detour to:  {DescribeFunction(registryEntry.Hook)}");
+        return sb.ToString();
     }
 
 }

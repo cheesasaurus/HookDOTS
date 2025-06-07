@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 using Unity.Entities;
 
 namespace HookDOTS.API.HookRegistration;
@@ -42,10 +43,20 @@ internal abstract class SubRegistry_System<TRegistryEntry>
             hooksForSystem = new Dictionary<HookHandle, TRegistryEntry>();
             _hooksBySystem.Add(systemTypeIndex, hooksForSystem);
         }
-        
+
         // register the hook
         hooksForSystem.Add(handle, registryEntry);
         return handle;
+    }
+
+    protected String DescribeFunction<T>(T hook) where T : Delegate
+    {
+        // todo: improve
+        var methodInfo = hook.Method;
+        //var x = methodInfo.DeclaringType;
+        //return methodInfo.Name;
+        return methodInfo.FullDescription();
+        // todo: will need a wrapper for adapters to store information about the original adapted method
     }
 
 }
