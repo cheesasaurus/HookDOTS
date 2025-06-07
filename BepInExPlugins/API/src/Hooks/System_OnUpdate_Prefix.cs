@@ -10,9 +10,9 @@ namespace HookDOTS.Hooks;
 public static class System_OnUpdate_Prefix
 {
     unsafe public delegate bool HookFunction(SystemState* systemState);
-    public delegate bool HookVariant1();
-    unsafe public delegate void HookVariant2(SystemState* systemState);
-    public delegate void HookVariant3();
+    public delegate bool HookFunctionVariant1();
+    unsafe public delegate void HookFunctionVariant2(SystemState* systemState);
+    public delegate void HookFunctionVariant3();
 
     public class Hook(HookFunction func, MethodInfo unwrappedMethodInfo)
     {
@@ -43,19 +43,19 @@ public static class System_OnUpdate_Prefix
         return new Hook(hookFunc, hookFunc.Method);
     }
 
-    public static Hook CreateHook(HookVariant1 hookFunc)
+    public static Hook CreateHook(HookFunctionVariant1 hookFunc)
     {
         var adaptedHook = HookFunctionAdapter.Adapt(hookFunc);
         return new Hook(adaptedHook, hookFunc.Method);
     }
 
-    public static Hook CreateHook(HookVariant2 hookFunc)
+    public static Hook CreateHook(HookFunctionVariant2 hookFunc)
     {
         var adaptedHook = HookFunctionAdapter.Adapt(hookFunc);
         return new Hook(adaptedHook, hookFunc.Method);
     }
 
-    public static Hook CreateHook(HookVariant3 hookFunc)
+    public static Hook CreateHook(HookFunctionVariant3 hookFunc)
     {
         var adaptedHook = HookFunctionAdapter.Adapt(hookFunc);
         return new Hook(adaptedHook, hookFunc.Method);
@@ -90,18 +90,18 @@ public static class System_OnUpdate_Prefix
                 }
                 else if (param0Type == null)
                 {
-                    suppliedHook = methodInfo.CreateDelegate<HookVariant1>();
+                    suppliedHook = methodInfo.CreateDelegate<HookFunctionVariant1>();
                 }
             }
             else if (methodInfo.ReturnType == typeof(void))
             {
                 if (param0Type == typeof(SystemState*))
                 {
-                    suppliedHook = methodInfo.CreateDelegate<HookVariant2>();
+                    suppliedHook = methodInfo.CreateDelegate<HookFunctionVariant2>();
                 }
                 else if (param0Type == null)
                 {
-                    suppliedHook = methodInfo.CreateDelegate<HookVariant3>();
+                    suppliedHook = methodInfo.CreateDelegate<HookFunctionVariant3>();
                 }
             }
 
@@ -119,7 +119,7 @@ public static class System_OnUpdate_Prefix
             return suppliedHook;
         }
 
-        unsafe internal static HookFunction Adapt(HookVariant1 suppliedHook)
+        unsafe internal static HookFunction Adapt(HookFunctionVariant1 suppliedHook)
         {
             return (systemState) =>
             {
@@ -127,7 +127,7 @@ public static class System_OnUpdate_Prefix
             };
         }
 
-        unsafe internal static HookFunction Adapt(HookVariant2 suppliedHook)
+        unsafe internal static HookFunction Adapt(HookFunctionVariant2 suppliedHook)
         {
             return (systemState) =>
             {
@@ -136,7 +136,7 @@ public static class System_OnUpdate_Prefix
             };
         }
 
-        unsafe internal static HookFunction Adapt(HookVariant3 suppliedHook)
+        unsafe internal static HookFunction Adapt(HookFunctionVariant3 suppliedHook)
         {
             return (systemState) =>
             {
