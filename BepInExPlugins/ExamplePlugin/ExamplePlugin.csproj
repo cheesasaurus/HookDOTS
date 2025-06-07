@@ -10,6 +10,7 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>ExamplePlugin</RootNamespace>
     <BepInExVersion>6.0.0-be.733</BepInExVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

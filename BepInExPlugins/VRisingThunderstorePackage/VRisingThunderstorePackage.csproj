@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ThunderstoreName>HookDOTS</ThunderstoreName>
+    <ThunderstoreName>HookDOTS_API</ThunderstoreName>
     <Description>Provides an API for mods to hook Unity DOTS systems.</Description>
     <Version>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../API/version.txt").TrimEnd())</Version>
     <WebsiteURL>https://github.com/cheesasaurus/HookDOTS</WebsiteURL>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,8 @@
     <PropertyGroup>
       <PublishPath>$(OutputPath)/publish</PublishPath>
       <DistAdditionalLibs>$(PublishPath)/HookDOTS.API.dll;</DistAdditionalLibs>
+      <ThunderstoreZipFileName>thunderstore.$(ThunderstoreName).$(Version).zip</ThunderstoreZipFileName>
+      <ThunderstoreZipFile>dist/$(ThunderstoreZipFileName)</ThunderstoreZipFile>
     </PropertyGroup>
   </Target>
 
@@ -43,8 +46,12 @@
     <Copy SourceFiles="README.md" DestinationFolder="dist/thunderstore/temp"/>
     <Copy SourceFiles="../API/CHANGELOG.md" DestinationFolder="dist/thunderstore/temp"/>
     <Copy SourceFiles="$(DistAdditionalLibs)" DestinationFolder="dist/thunderstore/temp"/>
-    <ZipDirectory SourceDirectory="dist/thunderstore/temp" DestinationFile="dist/thunderstore/$(AssemblyName).zip" Overwrite="true"></ZipDirectory>
+    <ZipDirectory SourceDirectory="dist/thunderstore/temp" DestinationFile="$(ThunderstoreZipFile)" Overwrite="true"></ZipDirectory>
     <RemoveDir Directories="dist/thunderstore/temp"/>
+  </Target>
+
+  <Target Name="MainDist" AfterTargets="ThunderstoreDist">
+    <Copy SourceFiles="$(ThunderstoreZipFile)" DestinationFolder="../../dist"/>
   </Target>
 
 </Project>
