@@ -71,7 +71,7 @@ internal class Executor_System_OnUpdate
             bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
 
             bool shouldSkipTheOriginal = false;
-            foreach (var registryEntry in _prefixSubRegistry.GetEntriesInReverseRegistrationOrder(systemTypeIndex))
+            foreach (var registryEntry in _prefixSubRegistry.GetEntriesInRegistrationOrder(systemTypeIndex))
             {
                 try
                 {
@@ -116,7 +116,7 @@ internal class Executor_System_OnUpdate
 
             var didSystemProbablyRun = _didPrefixExpectSystemToRun[systemTypeIndex];
 
-            foreach (var registryEntry in _postfixSubRegistry.GetEntriesInReverseRegistrationOrder(systemTypeIndex))
+            foreach (var registryEntry in _postfixSubRegistry.GetEntriesInRegistrationOrder(systemTypeIndex))
             {
                 try
                 {
