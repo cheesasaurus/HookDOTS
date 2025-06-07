@@ -51,12 +51,12 @@ public class ExamplePlugin : BasePlugin
     {
         _hookDOTS
             .SetupHooks()
-                .Before().SystemUpdates<EquipItemSystem>()
+                .BeforeSystemUpdates<EquipItemSystem>()
                     .ExecuteDetour(MyMethodA).Always()
                     .And()
                     .ExecuteDetour(MyMethodB).Always()
             .Also()
-                .After().SystemUpdates<TakeDamageInSunSystem_Server>()
+                .AfterSystemUpdates<TakeDamageInSunSystem_Server>()
                     .ExecuteAction(MyMethodC).Throttled(seconds: 2)
             .RegisterChain(); // be sure to call RegisterChain. Otherwise the entire chain will be discarded.
 
@@ -107,11 +107,6 @@ public class ExamplePlugin : BasePlugin
     private void MyMethodC()
     {
         Log.LogInfo($"MyMethodC executing.");
-    }
-
-    private void MyMethodD()
-    {
-        Log.LogInfo($"MyMethodD executing.");
     }
 
 }

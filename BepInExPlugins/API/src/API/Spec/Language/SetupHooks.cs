@@ -9,16 +9,17 @@ public class SetupHooks
 
     internal SetupHooks(Specification spec)
     {
-       _spec = spec;
+        _spec = spec;
     }
 
-    public After After()
+    public BeforeSystemUpdates BeforeSystemUpdates<TSystemType>()
     {
-        return new After(_spec);
+        return new BeforeSystemUpdates(_spec, typeof(TSystemType));
     }
 
-    public Before Before()
+    public AfterSystemUpdates AfterSystemUpdates<TSystemType>()
     {
-        return new Before(_spec);
+        return new AfterSystemUpdates(_spec, typeof(TSystemType));
     }
+    
 }
