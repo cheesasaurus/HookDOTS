@@ -9,7 +9,7 @@ HookDOTS was created to solve this problem.
 
 Notable attributes provided (for plugin developers):
 
-- `[EcsSystemUpdatePretfix(typeof(EquipItemSystem))]`
+- `[EcsSystemUpdatePrefix(typeof(EquipItemSystem))]`
 - `[EcsSystemUpdatePostfix(typeof(EquipItemSystem))]`
 
 
@@ -50,7 +50,7 @@ public override void Load()
 
     // Register your plugin's hooks with HookDOTS
     _hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
-    _hookDOTS.RegisterHooks();
+    _hookDOTS.RegisterAnnotatedHooks();
 }
 ```
 
@@ -95,7 +95,7 @@ public class ExamplePatch
 ```
 
 ### onlyWhenSystemRuns
-You can set `onlyWhenSystemRuns` to `false`, and the hook will be called even if the system doesn't actually run.\
+You can set `onlyWhenSystemRuns` to `false`, and the hook will be called even if the system doesn't actually run.
 
 ```C#
 [EcsSystemUpdatePrefix(typeof(EquipItemSystem), onlyWhenSystemRuns: false)]
@@ -120,7 +120,38 @@ public static void ExamplePrefixThrottled()
 }
 ```
 
+
+### Alternative ways to register hooks
+Procedurally, using a HookRegistrar:
+```C#
+var hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
+//...
+var hook = System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
+hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
+```
+Builder-style, using SetupHooks:
+```C#
+var hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
+//...
+hookDOTS
+    .SetupHooks()
+        .BeforeSystemUpdates<EquipItemSystem>()
+            .ExecuteDetour(MyMethodA).Always()
+            .And()
+            .ExecuteDetour(MyMethodB).Always()
+    .Also()
+        .AfterSystemUpdates<TakeDamageInSunSystem_Server>()
+            .ExecuteAction(MyMethodC).Throttled(seconds: 2)
+    .Also()
+        .BeforeSystemUpdates<DropInventoryItemSystem>(onlyWhenSystemRuns: false)
+            .ExecuteDetour(MyMethodD).Throttled(seconds: 5)
+    .RegisterChain();
+    // be sure to call RegisterChain! Otherwise the entire chain will be discarded.
+```
+
+
 ### Example project
+
 A full [example project](https://github.com/cheesasaurus/HookDOTS/tree/main/BepInExPlugins/ExamplePlugin) is available. Of particular interest:
 - [Plugin entry point](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/ExamplePlugin/ExamplePlugin.cs)
 - [Prefix hook examples](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/ExamplePlugin/src/Patches/EcsSystemUpdatePrefix_ExamplePatch.cs)
