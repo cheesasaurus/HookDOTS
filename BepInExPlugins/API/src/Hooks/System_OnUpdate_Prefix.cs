@@ -20,6 +20,12 @@ public static class System_OnUpdate_Prefix
         {
             return Func(systemState);
         }
+        public string FullName()
+        {
+            var declarerName = UnwrappedMethodInfo?.DeclaringType?.FullName;
+            var methodName = UnwrappedMethodInfo?.Name;
+            return $"{declarerName}.{methodName}";
+        }
     }
 
     public static Hook CreateHook(MethodInfo methodInfo)

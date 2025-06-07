@@ -36,14 +36,14 @@ internal class SubRegistry_System_OnUpdate_Prefix : SubRegistry_System<RegistryE
         return handle;
     }
 
-    protected String MultiLineRegistrationLogEntry(RegistryEntries.System_OnUpdate_Prefix registryEntry, HookHandle handle, String confirmedSystemName)
+    protected string MultiLineRegistrationLogEntry(RegistryEntries.System_OnUpdate_Prefix registryEntry, HookHandle handle, String confirmedSystemName)
     {
         var sb = new StringBuilder();
         sb.AppendLine($"HookDOTS registered hook#{handle.Value}.");
         sb.AppendLine($"    registrant: {registryEntry.RegistrantId}");
         sb.AppendLine($"    target:     {confirmedSystemName}.OnUpdate");
         sb.AppendLine($"    precedence: PREFIX");
-        sb.Append($"    detour to:  {registryEntry.Hook.ToString()}"); // todo: method on Hook class
+        sb.Append($"    detour to:  {registryEntry.Hook.FullName()}");
         return sb.ToString();
     }
 
