@@ -12,14 +12,14 @@ public class SetupHooks
         _spec = spec;
     }
 
-    public BeforeSystemUpdates BeforeSystemUpdates<TSystemType>()
+    public BeforeSystemUpdates BeforeSystemUpdates<TSystemType>(bool onlyWhenSystemRuns = true)
     {
-        return new BeforeSystemUpdates(_spec, typeof(TSystemType));
+        return new BeforeSystemUpdates(_spec, typeof(TSystemType), onlyWhenSystemRuns);
     }
 
-    public AfterSystemUpdates AfterSystemUpdates<TSystemType>()
+    public AfterSystemUpdates AfterSystemUpdates<TSystemType>(bool onlyWhenSystemRuns = true)
     {
-        return new AfterSystemUpdates(_spec, typeof(TSystemType));
+        return new AfterSystemUpdates(_spec, typeof(TSystemType), onlyWhenSystemRuns);
     }
     
 }

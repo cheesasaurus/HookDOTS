@@ -9,13 +9,15 @@ public class BeforeSystemUpdatesExecuteDetourThrottled : IEndpoint
 {
     private Specification _spec;
     private Type _systemType;
+    private bool _onlyWhenSystemRuns;
     private Hooks.System_OnUpdate_Prefix.Hook _hook;
     private TimeSpan _throttleInterval;
 
-    internal BeforeSystemUpdatesExecuteDetourThrottled(Specification spec, Type systemType, Hooks.System_OnUpdate_Prefix.Hook hook, TimeSpan throttleInterval)
+    internal BeforeSystemUpdatesExecuteDetourThrottled(Specification spec, Type systemType, bool onlyWhenSystemRuns, Hooks.System_OnUpdate_Prefix.Hook hook, TimeSpan throttleInterval)
     {
         _spec = spec;
         _systemType = systemType;
+        _onlyWhenSystemRuns = onlyWhenSystemRuns;
         _hook = hook;
         _throttleInterval = throttleInterval;
     }
@@ -23,7 +25,7 @@ public class BeforeSystemUpdatesExecuteDetourThrottled : IEndpoint
     public BeforeSystemUpdates And()
     {
         AddRuleToSpec();
-        return new BeforeSystemUpdates(_spec, _systemType);
+        return new BeforeSystemUpdates(_spec, _systemType, _onlyWhenSystemRuns);
     }
 
     public SetupHooks Also()
@@ -45,18 +47,20 @@ public class BeforeSystemUpdatesExecuteDetourThrottled : IEndpoint
 
     private IRule CreateRule()
     {
-        return new Rule(_systemType, _hook, _throttleInterval);
+        return new Rule(_systemType, _onlyWhenSystemRuns, _hook, _throttleInterval);
     }
 
     private class Rule: IRule
     {
         private Type _systemType;
+        private bool _onlyWhenSystemRuns;
         private Hooks.System_OnUpdate_Prefix.Hook _hook;
         private TimeSpan _throttleInterval;
 
-        internal Rule(Type systemType, Hooks.System_OnUpdate_Prefix.Hook hook, TimeSpan throttleInterval)
+        internal Rule(Type systemType, bool onlyWhenSystemRuns, Hooks.System_OnUpdate_Prefix.Hook hook, TimeSpan throttleInterval)
         {
             _systemType = systemType;
+            _onlyWhenSystemRuns = onlyWhenSystemRuns;
             _hook = hook;
             _throttleInterval = throttleInterval;
         }
@@ -65,7 +69,7 @@ public class BeforeSystemUpdatesExecuteDetourThrottled : IEndpoint
         {
             var options = new Hooks.System_OnUpdate_Prefix.Options()
             {
-                OnlyWhenSystemRuns = true,
+                OnlyWhenSystemRuns = _onlyWhenSystemRuns,
                 Throttle = new Throttle(_throttleInterval)
             };
             context.Registrar.RegisterHook_System_OnUpdate_Prefix(_hook, _systemType, options);

@@ -58,8 +58,11 @@ public class ExamplePlugin : BasePlugin
             .Also()
                 .AfterSystemUpdates<TakeDamageInSunSystem_Server>()
                     .ExecuteAction(MyMethodC).Throttled(seconds: 2)
-            .RegisterChain(); // be sure to call RegisterChain. Otherwise the entire chain will be discarded.
-
+            .Also()
+                .BeforeSystemUpdates<DropInventoryItemSystem>(onlyWhenSystemRuns: false)
+                    .ExecuteDetour(MyMethodD).Throttled(seconds: 5)
+            .RegisterChain();
+            // be sure to call RegisterChain! Otherwise the entire chain will be discarded.
     }
 
     public override bool Unload()
@@ -107,6 +110,11 @@ public class ExamplePlugin : BasePlugin
     private void MyMethodC()
     {
         Log.LogInfo($"MyMethodC executing.");
+    }
+
+    private void MyMethodD()
+    {
+        Log.LogInfo($"MyMethodD executing.");
     }
 
 }

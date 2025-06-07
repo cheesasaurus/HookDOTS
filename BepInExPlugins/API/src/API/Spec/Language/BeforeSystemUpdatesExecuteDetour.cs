@@ -7,18 +7,20 @@ public class BeforeSystemUpdatesExecuteDetour
 {
     private Specification _spec;
     private Type _systemType;
+    private bool _onlyWhenSystemRuns;
     private Hooks.System_OnUpdate_Prefix.Hook _hook;
 
-    internal BeforeSystemUpdatesExecuteDetour(Specification spec, Type systemType, Hooks.System_OnUpdate_Prefix.Hook hook)
+    internal BeforeSystemUpdatesExecuteDetour(Specification spec, Type systemType, bool onlyWhenSystemRuns, Hooks.System_OnUpdate_Prefix.Hook hook)
     {
         _spec = spec;
         _systemType = systemType;
+        _onlyWhenSystemRuns = onlyWhenSystemRuns;
         _hook = hook;
     }
 
     public BeforeSystemUpdatesExecuteDetourAlways Always()
     {
-        return new BeforeSystemUpdatesExecuteDetourAlways(_spec, _systemType, _hook);
+        return new BeforeSystemUpdatesExecuteDetourAlways(_spec, _systemType, _onlyWhenSystemRuns, _hook);
     }
 
     public BeforeSystemUpdatesExecuteDetourThrottled Throttled(int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0)
@@ -30,7 +32,7 @@ public class BeforeSystemUpdatesExecuteDetour
             seconds: seconds,
             milliseconds: milliseconds
         );
-        return new BeforeSystemUpdatesExecuteDetourThrottled(_spec, _systemType, _hook, throttleInterval);
+        return new BeforeSystemUpdatesExecuteDetourThrottled(_spec, _systemType, _onlyWhenSystemRuns, _hook, throttleInterval);
     }
 
 }
