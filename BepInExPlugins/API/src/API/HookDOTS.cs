@@ -2,8 +2,8 @@ using System;
 using System.Reflection;
 using BepInEx.Logging;
 using HookDOTS.API.Attributes;
-using HookDOTS.API.HookRegistration;
-using HookDOTS.API.Hooks;
+using HookDOTS.HookRegistration;
+using HookDOTS.Hooks;
 
 namespace HookDOTS.API;
 

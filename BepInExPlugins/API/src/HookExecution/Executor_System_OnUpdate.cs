@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Entities;
 
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 
 //

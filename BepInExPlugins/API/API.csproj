@@ -10,7 +10,7 @@
     <WebsiteURL>https://github.com/cheesasaurus/HookDOTS</WebsiteURL>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>HookDOTS.API</RootNamespace>
+    <RootNamespace>HookDOTS</RootNamespace>
     <BepInExVersion>6.0.0-be.733</BepInExVersion>
   </PropertyGroup>
 

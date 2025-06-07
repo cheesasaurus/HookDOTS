@@ -1,9 +1,9 @@
 using System;
 using System.Text;
-using HookDOTS.API.Utilities;
+using HookDOTS.Utilities;
 using Unity.Entities;
 
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 internal class SubRegistry_System_OnUpdate_Postfix : SubRegistry_System<RegistryEntries.System_OnUpdate_Postfix>
 {

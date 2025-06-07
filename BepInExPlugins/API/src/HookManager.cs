@@ -1,8 +1,8 @@
 using Unity.Entities;
 using BepInEx.Logging;
-using HookDOTS.API.HookRegistration;
+using HookDOTS.HookRegistration;
 
-namespace HookDOTS.API;
+namespace HookDOTS;
 
 internal static class HookManager
 {

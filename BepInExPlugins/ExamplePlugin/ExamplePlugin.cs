@@ -2,8 +2,8 @@
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using HookDOTS.API;
-using HookDOTS.API.Hooks;
+using HookDOTS;
+using HookDOTS.Hooks;
 using ProjectM;
 using Unity.Entities;
 

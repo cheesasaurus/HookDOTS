@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using BepInEx.Logging;
 
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 // todo: split this up
 internal class HookRegistryStaging

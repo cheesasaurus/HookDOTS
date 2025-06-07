@@ -1,8 +1,8 @@
 ﻿using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using HookDOTS.API.Patches;
-using HookDOTS.API.Utilities;
+using HookDOTS.Patches;
+using HookDOTS.Utilities;
 using Unity.Entities;
 
 namespace HookDOTS.API;

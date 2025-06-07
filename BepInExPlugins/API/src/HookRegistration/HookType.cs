@@ -1,6 +1,6 @@
 
 
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 
 internal enum HookType

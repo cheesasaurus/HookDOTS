@@ -1,6 +1,6 @@
 using System;
 
-namespace HookDOTS.API;
+namespace HookDOTS;
 
 public class Throttle
 {

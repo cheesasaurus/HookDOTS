@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
 using Unity.Entities;
 
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 
 internal abstract class SubRegistry_System<TRegistryEntry>

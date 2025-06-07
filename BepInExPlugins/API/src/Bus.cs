@@ -1,4 +1,4 @@
-namespace HookDOTS.API;
+namespace HookDOTS;
 
 public delegate void GameReadyForHookingHandler();
 

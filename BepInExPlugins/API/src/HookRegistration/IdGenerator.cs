@@ -1,4 +1,4 @@
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 
 internal interface IdGenerator

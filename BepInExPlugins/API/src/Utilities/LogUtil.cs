@@ -1,6 +1,6 @@
 using BepInEx.Logging;
 
-namespace HookDOTS.API.Utilities;
+namespace HookDOTS.Utilities;
 
 internal static class LogUtil {
     public static ManualLogSource Logger;

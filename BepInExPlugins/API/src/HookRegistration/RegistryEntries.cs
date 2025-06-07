@@ -2,7 +2,7 @@ using System;
 using BepInEx.Logging;
 
 
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 internal static class RegistryEntries
 {

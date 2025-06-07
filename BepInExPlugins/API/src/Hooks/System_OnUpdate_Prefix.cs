@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Unity.Entities;
 
-namespace HookDOTS.API.Hooks;
+namespace HookDOTS.Hooks;
 
 #nullable enable
 

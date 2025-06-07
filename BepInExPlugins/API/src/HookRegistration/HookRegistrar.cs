@@ -1,10 +1,10 @@
 using System;
 using Il2CppInterop.Runtime;
-using HookDOTS.API.Hooks;
+using HookDOTS.Hooks;
 using BepInEx.Logging;
 
 
-namespace HookDOTS.API.HookRegistration;
+namespace HookDOTS.HookRegistration;
 
 //
 // Summary:
