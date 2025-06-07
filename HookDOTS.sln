@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePlugin", "BepInExPlu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRisingThunderstorePackage", "BepInExPlugins\VRisingThunderstorePackage\VRisingThunderstorePackage.csproj", "{DC3C9315-2C58-4209-B5D8-283257E10253}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core", "Core\Core.shproj", "{2FEC4D6F-234D-4FDE-977B-E0F594BE41E9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,12 +65,5 @@ Global
 		{7597990F-CCEC-4483-96FA-E6392C6EA5AD} = {7D8597F0-604A-73FE-498F-EB701F30ED31}
 		{892BB096-4CD1-483C-A62E-0EFFE82A68DA} = {7D8597F0-604A-73FE-498F-EB701F30ED31}
 		{DC3C9315-2C58-4209-B5D8-283257E10253} = {7D8597F0-604A-73FE-498F-EB701F30ED31}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FE8C246B-EEF0-4C70-9AEE-162E71F52381}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Core\Core.projitems*{2fec4d6f-234d-4fde-977b-e0f594be41e9}*SharedItemsImports = 13
-		Core\Core.projitems*{7597990f-ccec-4483-96fa-e6392c6ea5ad}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

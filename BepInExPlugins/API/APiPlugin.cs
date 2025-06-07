@@ -29,8 +29,6 @@ public class ApiPlugin : BasePlugin
         // but this may change as features are added
         TypeManager.Initialize();
         Bus.Instance.TriggerGameReadyForHooking();
-
-        var x = Core.Hello.Hi; // todo: remove
     }
 
     public override bool Unload()
