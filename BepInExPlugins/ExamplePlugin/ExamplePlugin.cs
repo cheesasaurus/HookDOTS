@@ -37,8 +37,12 @@ public class ExamplePlugin : BasePlugin
 
     unsafe private void ProcedurallyRegisterHooks()
     {
+        // todo: this is not nice. do something with method chaining
         var hook = System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
         _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
+
+        var hook2 = System_OnUpdate_Prefix.CreateHook(MyHookWithPartialSignature);
+        _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook2);
     }
 
     public override bool Unload()
@@ -51,15 +55,26 @@ public class ExamplePlugin : BasePlugin
         return true;
     }
 
-    private Throttle throttle = new Throttle(seconds: 2);
+    private Throttle throttle1 = new Throttle(seconds: 2);
     unsafe private bool MyProcedurallyRegisteredHook(SystemState* systemState)
     {
-        if (throttle.CheckAndTrigger())
+        if (throttle1.CheckAndTrigger())
         {
             return false;
         }
         Log.LogInfo($"MyProcedurallyRegisteredHook executing. (limit once per 2 seconds)");
         return false;
+    }
+
+    private Throttle throttle2 = new Throttle(seconds: 2);
+    private void MyHookWithPartialSignature()
+    {
+        if (throttle2.CheckAndTrigger())
+        {
+            return;
+        }
+        Log.LogInfo($"MyHookWithPartialSignature executing. (limit once per 2 seconds)");
+        return;
     }
 
 }
