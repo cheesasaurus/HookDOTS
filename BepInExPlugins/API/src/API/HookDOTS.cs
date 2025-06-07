@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using BepInEx.Logging;
 using HookDOTS.API.Attributes;
+using HookDOTS.API.Spec.Language;
 using HookDOTS.HookRegistration;
 using HookDOTS.Hooks;
 
@@ -16,11 +17,6 @@ public class HookDOTS
 {
     public string Id { get; }
     private ManualLogSource _log;
-
-    //
-    // Summary:
-    //     The HookRegistrar can be used by a plugin to procedurally register hooks
-    public HookRegistrar HookRegistrar { get; }
 
     //
     // Summary:
@@ -57,10 +53,25 @@ public class HookDOTS
 
     //
     // Summary:
+    //     The HookRegistrar can be used by a plugin to register hooks, procedurally
+    public HookRegistrar HookRegistrar { get; }
+
+    //
+    // Summary:
+    //     SetupHooks can be used by a plugin to register hooks, with a builder-like syntax
+    public SetupHooks SetupHooks()
+    {
+        var context = new SpecificationContext(HookRegistrar);
+        var specification = new Specification(context);
+        return new SetupHooks(specification);
+    }
+
+    //
+    // Summary:
     //     RegisterHooks can be called by a plugin to scan its assembly,
     //     and register any hooks annotated by attributes such as
     //     [EcsSystemUpdatePrefix] and [EcsSystemUpdatePostfix]
-    public void RegisterHooks()
+    public void RegisterAnnotatedHooks()
     {
         RegisterHooks(Assembly.GetCallingAssembly());
     }

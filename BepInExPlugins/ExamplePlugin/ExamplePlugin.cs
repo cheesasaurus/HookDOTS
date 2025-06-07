@@ -29,20 +29,37 @@ public class ExamplePlugin : BasePlugin
 
         // register hooks from attributes. (you can see some used in src/patches/EcsSystemUpdatePrefix_ExamplePatch.cs)
         _hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
-        _hookDOTS.RegisterHooks();
+        _hookDOTS.RegisterAnnotatedHooks();
 
-        // It's also possible to procedurally register hooks
-        ProcedurallyRegisterHooks();
+        // It's possible to procedurally register hooks
+        RegisterHooks_Procedurally();
+
+        // Also possible to register hooks with a builder-like syntax
+        RegisterHooks_BuilderStyle();
     }
 
-    unsafe private void ProcedurallyRegisterHooks()
+    unsafe private void RegisterHooks_Procedurally()
     {
-        // todo: this is not nice. do something with method chaining
         var hook = System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
         _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
 
         var hook2 = System_OnUpdate_Prefix.CreateHook(MyHookWithPartialSignature);
         _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook2);
+    }
+
+    unsafe private void RegisterHooks_BuilderStyle()
+    {
+        _hookDOTS
+            .SetupHooks()
+                .Before().SystemUpdates<EquipItemSystem>()
+                    .ExecuteDetour(MyMethodA).Always()
+                    .And()
+                    .ExecuteDetour(MyMethodB).Always()
+            .Also()
+                .After().SystemUpdates<TakeDamageInSunSystem_Server>()
+                    .ExecuteAction(MyMethodC).Throttled(seconds: 2)
+            .RegisterChain(); // be sure to call RegisterChain. Otherwise the entire chain will be discarded.
+
     }
 
     public override bool Unload()
@@ -75,6 +92,26 @@ public class ExamplePlugin : BasePlugin
         }
         Log.LogInfo($"MyHookWithPartialSignature executing. (limit once per 2 seconds)");
         return;
+    }
+
+    private void MyMethodA()
+    {
+        Log.LogInfo($"MyMethodA executing.");
+    }
+
+    private void MyMethodB()
+    {
+        Log.LogInfo($"MyMethodB executing.");
+    }
+
+    private void MyMethodC()
+    {
+        Log.LogInfo($"MyMethodC executing.");
+    }
+
+    private void MyMethodD()
+    {
+        Log.LogInfo($"MyMethodD executing.");
     }
 
 }
