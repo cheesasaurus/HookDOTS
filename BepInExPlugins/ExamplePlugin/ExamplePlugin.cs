@@ -54,12 +54,10 @@ public class ExamplePlugin : BasePlugin
         return true;
     }
 
-
-    private static TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2); // todo: this is annoying. add a similar constructor to Throttle
-    private Throttle throttle1 = new Throttle(twoSeconds);
+    private Throttle throttle = new Throttle(seconds: 2);
     unsafe private bool MyProcedurallyRegisteredHook(SystemState* systemState)
     {
-        if (throttle1.CheckAndTrigger())
+        if (throttle.CheckAndTrigger())
         {
             return false;
         }
