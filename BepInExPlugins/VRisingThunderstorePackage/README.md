@@ -1,4 +1,4 @@
-# HookDOTS
+# HookDOTS API
 
 HookDOTS is a modding library for hooking [Unity DOTS](https://unity.com/dots) games. By itself, it doesn't do anything.
 
@@ -6,6 +6,11 @@ HookDOTS is a modding library for hooking [Unity DOTS](https://unity.com/dots) g
 
 [Harmony](https://github.com/BepInEx/HarmonyX) is an excellent tool, but it fails at one important thing: Hooking [unmanaged systems](https://docs.unity3d.com/Packages/com.unity.entities@1.3/api/Unity.Entities.ISystem.html) in [IL2CPP](https://docs.unity3d.com/6000.1/Documentation/Manual/scripting-backends-il2cpp.html) builds.\
 HookDOTS was created to solve this problem.
+
+Notable attributes provided (for plugin developers):
+
+- `[EcsSystemUpdatePretfix(typeof(EquipItemSystem))]`
+- `[EcsSystemUpdatePostfix(typeof(EquipItemSystem))]`
 
 
 ## Installation
