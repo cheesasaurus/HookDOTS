@@ -28,6 +28,11 @@ public static class System_OnUpdate_Postfix
             return $"{declarerName}.{methodName}";
         }
     }
+    public static Hook CreateHook(HookFunction hookFunc)
+    {
+        return new Hook(hookFunc, hookFunc.Method);
+    }
+    
     public static Hook CreateHook(MethodInfo methodInfo)
     {
         var hookFunc = HookFunctionAdapter.Adapt(methodInfo);

@@ -1,5 +1,4 @@
-﻿using System;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
@@ -38,9 +37,7 @@ public class ExamplePlugin : BasePlugin
 
     unsafe private void ProcedurallyRegisterHooks()
     {
-        // todo: this isn't working and however we go about it, it's inconvenient compared to attributes. would anybody actually use this feature?
-        var delegateInferredFromMethodGroup = MyProcedurallyRegisteredHook;
-        var hook = System_OnUpdate_Prefix.CreateHook(delegateInferredFromMethodGroup.Method);
+        var hook = System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
         _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
     }
 
