@@ -10,6 +10,7 @@ namespace HookDOTS.API.Hooks;
 public static class System_OnUpdate_Postfix
 {
     unsafe public delegate void HookFunction(SystemState* systemState);
+    public delegate void HookFunctionVariant1();
 
     public class Hook(HookFunction func, MethodInfo unwrappedMethodInfo)
     {
@@ -28,15 +29,22 @@ public static class System_OnUpdate_Postfix
             return $"{declarerName}.{methodName}";
         }
     }
-    public static Hook CreateHook(HookFunction hookFunc)
-    {
-        return new Hook(hookFunc, hookFunc.Method);
-    }
-    
+
     public static Hook CreateHook(MethodInfo methodInfo)
     {
         var hookFunc = HookFunctionAdapter.Adapt(methodInfo);
         return new Hook(hookFunc, methodInfo);
+    }
+
+    public static Hook CreateHook(HookFunction hookFunc)
+    {
+        return new Hook(hookFunc, hookFunc.Method);
+    }
+
+    public static Hook CreateHook(HookFunctionVariant1 hookFunc)
+    {
+        var adaptedHook = HookFunctionAdapter.Adapt(hookFunc);
+        return new Hook(adaptedHook, hookFunc.Method);
     }
 
     public class Options(bool onlyWhenSystemRuns = true, Throttle? throttle = null)
@@ -48,8 +56,6 @@ public static class System_OnUpdate_Postfix
 
     internal static class HookFunctionAdapter
     {
-        private delegate void HookVariant1();
-
         public static HookFunction Adapt(MethodInfo methodInfo)
         {
             dynamic? suppliedHook = null;
@@ -69,7 +75,7 @@ public static class System_OnUpdate_Postfix
                 }
                 else if (param0Type == null)
                 {
-                    suppliedHook = methodInfo.CreateDelegate<HookVariant1>();
+                    suppliedHook = methodInfo.CreateDelegate<HookFunctionVariant1>();
                 }
             }
 
@@ -82,12 +88,12 @@ public static class System_OnUpdate_Postfix
             return Adapt(suppliedHook);
         }
 
-        unsafe private static HookFunction Adapt(HookFunction suppliedHook)
+        unsafe internal static HookFunction Adapt(HookFunction suppliedHook)
         {
             return suppliedHook;
         }
 
-        unsafe private static HookFunction Adapt(HookVariant1 suppliedHook)
+        unsafe internal static HookFunction Adapt(HookFunctionVariant1 suppliedHook)
         {
             return (systemState) =>
             {

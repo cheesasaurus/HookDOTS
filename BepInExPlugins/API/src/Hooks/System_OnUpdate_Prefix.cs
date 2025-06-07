@@ -10,6 +10,9 @@ namespace HookDOTS.API.Hooks;
 public static class System_OnUpdate_Prefix
 {
     unsafe public delegate bool HookFunction(SystemState* systemState);
+    public delegate bool HookVariant1();
+    unsafe public delegate void HookVariant2(SystemState* systemState);
+    public delegate void HookVariant3();
 
     public class Hook(HookFunction func, MethodInfo unwrappedMethodInfo)
     {
@@ -20,6 +23,7 @@ public static class System_OnUpdate_Prefix
         {
             return Func(systemState);
         }
+        
         public string FullName()
         {
             var declarerName = UnwrappedMethodInfo?.DeclaringType?.FullName;
@@ -28,15 +32,33 @@ public static class System_OnUpdate_Prefix
         }
     }
 
+    public static Hook CreateHook(MethodInfo methodInfo)
+    {
+        var hookFunc = HookFunctionAdapter.Adapt(methodInfo);
+        return new Hook(hookFunc, methodInfo);
+    }
+
     public static Hook CreateHook(HookFunction hookFunc)
     {
         return new Hook(hookFunc, hookFunc.Method);
     }
 
-    public static Hook CreateHook(MethodInfo methodInfo)
+    public static Hook CreateHook(HookVariant1 hookFunc)
     {
-        var hookFunc = HookFunctionAdapter.Adapt(methodInfo);
-        return new Hook(hookFunc, methodInfo);
+        var adaptedHook = HookFunctionAdapter.Adapt(hookFunc);
+        return new Hook(adaptedHook, hookFunc.Method);
+    }
+
+    public static Hook CreateHook(HookVariant2 hookFunc)
+    {
+        var adaptedHook = HookFunctionAdapter.Adapt(hookFunc);
+        return new Hook(adaptedHook, hookFunc.Method);
+    }
+
+    public static Hook CreateHook(HookVariant3 hookFunc)
+    {
+        var adaptedHook = HookFunctionAdapter.Adapt(hookFunc);
+        return new Hook(adaptedHook, hookFunc.Method);
     }
 
     public class Options(bool onlyWhenSystemRuns = true, Throttle? throttle = null)
@@ -49,10 +71,6 @@ public static class System_OnUpdate_Prefix
 
     internal static class HookFunctionAdapter
     {
-        private delegate bool HookVariant1();
-        unsafe private delegate void HookVariant2(SystemState* systemState);
-        private delegate void HookVariant3();
-
         public static HookFunction Adapt(MethodInfo methodInfo)
         {
             dynamic? suppliedHook = null;
@@ -96,12 +114,12 @@ public static class System_OnUpdate_Prefix
             return Adapt(suppliedHook);
         }
 
-        unsafe private static HookFunction Adapt(HookFunction suppliedHook)
+        unsafe internal static HookFunction Adapt(HookFunction suppliedHook)
         {
             return suppliedHook;
         }
 
-        unsafe private static HookFunction Adapt(HookVariant1 suppliedHook)
+        unsafe internal static HookFunction Adapt(HookVariant1 suppliedHook)
         {
             return (systemState) =>
             {
@@ -109,7 +127,7 @@ public static class System_OnUpdate_Prefix
             };
         }
 
-        unsafe private static HookFunction Adapt(HookVariant2 suppliedHook)
+        unsafe internal static HookFunction Adapt(HookVariant2 suppliedHook)
         {
             return (systemState) =>
             {
@@ -118,7 +136,7 @@ public static class System_OnUpdate_Prefix
             };
         }
 
-        unsafe private static HookFunction Adapt(HookVariant3 suppliedHook)
+        unsafe internal static HookFunction Adapt(HookVariant3 suppliedHook)
         {
             return (systemState) =>
             {
