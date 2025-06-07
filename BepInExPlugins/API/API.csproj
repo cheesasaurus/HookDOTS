@@ -22,8 +22,8 @@
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="images/icon.png" Pack="true" PackagePath="\"/>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="images/icon.png" Pack="true" PackagePath="\" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -52,7 +52,8 @@
     </PropertyGroup>
   </Target>
 
-  <Import Project="..\..\ModTasks.props"/>
+  <Import Project="..\..\Core\Core.projitems" Label="Shared" />
+  <Import Project="..\..\ModTasks.props" />
 
   <ItemGroup>
     <AssemblyMetadata Include="Reloadable" Value="True" />
