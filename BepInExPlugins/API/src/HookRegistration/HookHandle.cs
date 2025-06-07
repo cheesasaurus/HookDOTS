@@ -7,5 +7,8 @@ internal struct HookHandle
 {
     public int Value;
     public HookType HookType;
-    public SystemTypeIndex SystemTypeIndex;
+
+    // this isn't relevant for everything. currently using SystemTypeIndex.Null for those cases
+    // but might refactor
+    public SystemTypeIndex SystemTypeIndex; 
 }

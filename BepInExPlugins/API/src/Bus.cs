@@ -1,16 +1,29 @@
+using System;
+
 namespace HookDOTS;
 
-public delegate void GameReadyForHookingHandler();
 
 public class Bus
 {
     public static readonly Bus Instance = new();
 
-    public event GameReadyForHookingHandler GameReadyForHooking;
+    public event Action EventGameReadyForHooking;
+    public event Action EventWorldsMayHaveChanged;
+    public event Action CommandRunHooks_WorldsCreated;
 
-    public void TriggerGameReadyForHooking()
+    public void TriggerEventGameReadyForHooking()
     {
-        GameReadyForHooking?.Invoke();
+        EventGameReadyForHooking?.Invoke();
+    }
+
+    public void TriggerEventWorldsMayHaveChanged()
+    {
+        EventWorldsMayHaveChanged?.Invoke();
+    }
+    
+    public void TriggerCommandRunHooks_WorldsCreated()
+    {
+        CommandRunHooks_WorldsCreated?.Invoke();
     }
     
 }

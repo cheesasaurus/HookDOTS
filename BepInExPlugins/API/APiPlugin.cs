@@ -28,7 +28,7 @@ public class ApiPlugin : BasePlugin
         // currently, only the type manager is needed to begin hooking,
         // but this may change as features are added
         TypeManager.Initialize();
-        Bus.Instance.TriggerGameReadyForHooking();
+        Bus.Instance.TriggerEventGameReadyForHooking();
     }
 
     public override bool Unload()

@@ -1,9 +1,11 @@
-﻿using BepInEx;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using HookDOTS;
-using HookDOTS.Hooks;
 using ProjectM;
 using Unity.Entities;
 
@@ -40,11 +42,17 @@ public class ExamplePlugin : BasePlugin
 
     unsafe private void RegisterHooks_Procedurally()
     {
-        var hook = System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
-        _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
+        var hook1 = HookDOTS.Hooks.System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
+        _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook1);
 
-        var hook2 = System_OnUpdate_Prefix.CreateHook(MyHookWithPartialSignature);
+        var hook2 = HookDOTS.Hooks.System_OnUpdate_Prefix.CreateHook(MyHookWithPartialSignature);
         _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook2);
+
+        var hook3 = HookDOTS.Hooks.WhenCreatedWorldsContainAny.CreateHook(LogFirstGivenWorld);
+        _hookDOTS.HookRegistrar.RegisterHook_WhenCreatedWorldsContainAny(hook3, ["Bilbo", "Default World", "Server"]);
+
+        var hook4 = HookDOTS.Hooks.WhenCreatedWorldsContainAll.CreateHook(LogGivenWorlds);
+        _hookDOTS.HookRegistrar.RegisterHook_WhenCreatedWorldsContainAll(hook4, ["Default World", "Server"]);
     }
 
     unsafe private void RegisterHooks_BuilderStyle()
@@ -62,7 +70,7 @@ public class ExamplePlugin : BasePlugin
                 .BeforeSystemUpdates<DropInventoryItemSystem>(onlyWhenSystemRuns: false)
                     .ExecuteDetour(MyMethodD).Throttled(seconds: 5)
             .RegisterChain();
-            // be sure to call RegisterChain! Otherwise the entire chain will be discarded.
+        // be sure to call RegisterChain! Otherwise the entire chain will be discarded.
     }
 
     public override bool Unload()
@@ -115,6 +123,18 @@ public class ExamplePlugin : BasePlugin
     private void MyMethodD()
     {
         Log.LogInfo($"MyMethodD executing.");
+    }
+
+    private void LogFirstGivenWorld(IEnumerable<World> worlds)
+    {
+        Log.LogWarning($"First world: {worlds.First().Name}");
+    }
+
+    private void LogGivenWorlds(IEnumerable<World> worlds)
+    {
+        var worldNames = worlds.Select(w => w.Name);
+        var worldNamesString = string.Join(", ", worldNames);
+        Log.LogInfo($"All worlds: {worldNamesString}");
     }
 
 }

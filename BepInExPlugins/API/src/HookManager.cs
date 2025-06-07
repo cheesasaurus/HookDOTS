@@ -12,6 +12,7 @@ internal static class HookManager
 
     private static HookRegistry _hookRegistry;
     private static Executor_System_OnUpdate _executor_System_OnUpdate;
+    private static Executor_WhenCreatedWorldsContain _executor_WhenCreatedWorldsContain;
 
     ////////////////////////////////////////////////////////////////////
 
@@ -28,7 +29,14 @@ internal static class HookManager
             prefixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Prefix,
             postfixSubRegistry: _hookRegistry.SubRegistry_System_OnUpdate_Postfix
         );
-        _bus.GameReadyForHooking += HandleGameReadyForRegistration;
+        _executor_WhenCreatedWorldsContain = new Executor_WhenCreatedWorldsContain(
+            _hookRegistry.SubRegistry_WhenCreatedWorldsContainAny,
+            _hookRegistry.SubRegistry_WhenCreatedWorldsContainAll,
+            new WorldWatcher()
+        );
+        _bus.EventGameReadyForHooking += HandleGameReadyForRegistration;
+        _bus.EventWorldsMayHaveChanged += HandleWorldsMayHaveChanged;
+        _bus.CommandRunHooks_WorldsCreated += HandlerCommandRunHooks_WorldsCreated;
         _initialized = true;
     }
 
@@ -38,9 +46,12 @@ internal static class HookManager
         {
             return;
         }
-        _bus.GameReadyForHooking -= HandleGameReadyForRegistration;
+        _bus.EventGameReadyForHooking -= HandleGameReadyForRegistration;
+        _bus.EventWorldsMayHaveChanged -= HandleWorldsMayHaveChanged;
+        _bus.CommandRunHooks_WorldsCreated -= HandlerCommandRunHooks_WorldsCreated;
         _hookRegistry = null;
         _executor_System_OnUpdate = null;
+        _executor_WhenCreatedWorldsContain = null;
         _isGameReadyForRegistration = false;
         _initialized = false;
     }
@@ -64,6 +75,16 @@ internal static class HookManager
     unsafe internal static void HandleSystemUpdatePostfix(SystemState* systemState)
     {
         _executor_System_OnUpdate.ExecutePostfixHooks(systemState);
+    }
+
+    unsafe internal static void HandleWorldsMayHaveChanged()
+    {
+        _executor_WhenCreatedWorldsContain.ExecuteAndRemoveHooks();
+    }
+
+    unsafe internal static void HandlerCommandRunHooks_WorldsCreated()
+    {
+        _executor_WhenCreatedWorldsContain.ExecuteAndRemoveHooks();
     }
 
     #endregion

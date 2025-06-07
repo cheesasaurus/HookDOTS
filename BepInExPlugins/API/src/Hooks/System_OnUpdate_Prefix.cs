@@ -13,7 +13,8 @@ public static class System_OnUpdate_Prefix
     public delegate bool HookFunctionVariant1();
     unsafe public delegate void HookFunctionVariant2(SystemState* systemState);
     public delegate void HookFunctionVariant3();
-
+    
+    // todo: extract common things to AbstractHook if possible
     public class Hook(HookFunction func, MethodInfo unwrappedMethodInfo)
     {
         public HookFunction Func { get; } = func;
@@ -23,7 +24,7 @@ public static class System_OnUpdate_Prefix
         {
             return Func(systemState);
         }
-        
+
         public string FullName()
         {
             var declarerName = UnwrappedMethodInfo?.DeclaringType?.FullName;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BepInEx.Logging;
 
 
@@ -18,6 +19,20 @@ internal static class RegistryEntries
         Hooks.System_OnUpdate_Postfix.Hook Hook,
         Il2CppSystem.Type SystemType,
         Hooks.System_OnUpdate_Postfix.Options Options,
+        ManualLogSource Log,
+        String RegistrantId
+    );
+
+    internal record WhenCreatedWorldsContainAny(
+        Hooks.WhenCreatedWorldsContainAny.Hook Hook,
+        ISet<string> WorldNames,
+        ManualLogSource Log,
+        String RegistrantId
+    );
+
+    internal record WhenCreatedWorldsContainAll(
+        Hooks.WhenCreatedWorldsContainAll.Hook Hook,
+        ISet<string> WorldNames,
         ManualLogSource Log,
         String RegistrantId
     );

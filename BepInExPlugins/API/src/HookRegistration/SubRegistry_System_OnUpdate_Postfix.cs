@@ -42,7 +42,7 @@ internal class SubRegistry_System_OnUpdate_Postfix : SubRegistry_System<Registry
         sb.AppendLine($"    registrant: {registryEntry.RegistrantId}");
         sb.AppendLine($"    target:     {confirmedSystemName}.OnUpdate");
         sb.AppendLine($"    precedence: POSTFIX");
-        sb.Append($"    detour to:  {registryEntry.Hook.FullName()}");
+        sb.Append($"    invoke:  {registryEntry.Hook.FullName()}");
         return sb.ToString();
     }
 

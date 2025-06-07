@@ -1,26 +1,25 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Unity.Entities;
 
 namespace HookDOTS.Hooks;
 
-#nullable enable
-
-public static class System_OnUpdate_Postfix
+public static class WhenCreatedWorldsContainAll
 {
-    unsafe public delegate void HookFunction(SystemState* systemState);
+    public delegate void HookFunction(IEnumerable<World> worlds);
     public delegate void HookFunctionVariant1();
-    
+
     // todo: extract common things to AbstractHook if possible
     public class Hook(HookFunction func, MethodInfo unwrappedMethodInfo)
     {
         public HookFunction Func { get; } = func;
         public MethodInfo UnwrappedMethodInfo { get; } = unwrappedMethodInfo;
 
-        unsafe public void Invoke(SystemState* systemState)
+        unsafe public void Invoke(IEnumerable<World> worlds)
         {
-            Func(systemState);
+            Func(worlds);
         }
 
         public string FullName()
@@ -48,18 +47,13 @@ public static class System_OnUpdate_Postfix
         return new Hook(adaptedHook, hookFunc.Method);
     }
 
-    public class Options(bool onlyWhenSystemRuns = true, Throttle? throttle = null)
-    {
-        public bool OnlyWhenSystemRuns = onlyWhenSystemRuns;
-        public Throttle? Throttle = throttle;
-        public static Options Default => new Options();
-    }
-
+    // can this be extracted? currently the same as the adapter in WhenCreatedWorldsContainAny
+    // But they would likely change for different reasons, so leaving as is for now
     internal static class HookFunctionAdapter
     {
         public static HookFunction Adapt(MethodInfo methodInfo)
         {
-            dynamic? suppliedHook = null;
+            dynamic suppliedHook = null;
             var paramCount = methodInfo.GetParameters().Length;
             var param0Info = methodInfo.GetParameters().ElementAtOrDefault(0);
             var param0Type = param0Info?.ParameterType;
@@ -70,7 +64,7 @@ public static class System_OnUpdate_Postfix
             }
             else if (methodInfo.ReturnType == typeof(void))
             {
-                if (param0Type == typeof(SystemState*))
+                if (param0Type.IsAssignableFrom(typeof(IEnumerable<World>)))
                 {
                     suppliedHook = methodInfo.CreateDelegate<HookFunction>();
                 }
@@ -96,7 +90,7 @@ public static class System_OnUpdate_Postfix
 
         unsafe internal static HookFunction Adapt(HookFunctionVariant1 suppliedHook)
         {
-            return (systemState) =>
+            return (worlds) =>
             {
                 suppliedHook();
             };

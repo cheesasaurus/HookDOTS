@@ -2,6 +2,8 @@ using System;
 using Il2CppInterop.Runtime;
 using HookDOTS.Hooks;
 using BepInEx.Logging;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace HookDOTS.HookRegistration;
@@ -107,6 +109,36 @@ public class HookRegistrar
     public void RegisterHook_System_OnUpdate_Postfix(System_OnUpdate_Postfix.Hook hook, Il2CppSystem.Type systemType, System_OnUpdate_Postfix.Options options)
     {
         _hookRegistryStaging.RegisterHook_System_OnUpdate_Postfix(hook, systemType, options);
+    }
+
+    #endregion
+
+    ////////////////////////////////////////////////////////////////////
+
+    #region Hook Registration: WhenCreatedWorldsContainAny
+
+    public void RegisterHook_WhenCreatedWorldsContainAny(WhenCreatedWorldsContainAny.Hook hook, IEnumerable<string> worldNames)
+    {
+        if (!worldNames.Any())
+        {
+            throw new ArgumentOutOfRangeException("worldNames cannot be empty");
+        }
+        _hookRegistryStaging.RegisterHook_WhenCreatedWorldsContainAny(hook, worldNames.ToHashSet());
+    }
+
+    #endregion
+
+    ////////////////////////////////////////////////////////////////////
+
+    #region Hook Registration: WhenCreatedWorldsContainAll
+
+    public void RegisterHook_WhenCreatedWorldsContainAll(WhenCreatedWorldsContainAll.Hook hook, IEnumerable<string> worldNames)
+    {
+        if (!worldNames.Any())
+        {
+            throw new ArgumentException("worldNames cannot be empty");
+        }
+        _hookRegistryStaging.RegisterHook_WhenCreatedWorldsContainAll(hook, worldNames.ToHashSet());
     }
 
     #endregion
