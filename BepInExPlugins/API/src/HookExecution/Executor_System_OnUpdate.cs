@@ -84,7 +84,7 @@ internal class Executor_System_OnUpdate
                         continue;
                     }
 
-                    if (false == registryEntry.Hook(systemState))
+                    if (false == registryEntry.Hook.Invoke(systemState))
                     {
                         shouldSkipTheOriginal = true;
                     }
@@ -128,7 +128,7 @@ internal class Executor_System_OnUpdate
                     {
                         continue;
                     }
-                    registryEntry.Hook(systemState);
+                    registryEntry.Hook.Invoke(systemState);
                 }
                 catch (Exception ex)
                 {

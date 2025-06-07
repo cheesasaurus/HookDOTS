@@ -110,7 +110,7 @@ public class HookDOTS
 
         try
         {
-            var hook = System_OnUpdate_Prefix.HookFunctionAdapter.Adapt(methodInfo);
+            var hook = System_OnUpdate_Prefix.CreateHook(methodInfo);
             var options = new System_OnUpdate_Prefix.Options(
                 onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns,
                 throttle: methodInfo.GetCustomAttribute<ThrottleAttribute>()?.CreateThrottle()
@@ -139,7 +139,7 @@ public class HookDOTS
 
         try
         {
-            var hook = System_OnUpdate_Postfix.HookFunctionAdapter.Adapt(methodInfo);
+            var hook = System_OnUpdate_Postfix.CreateHook(methodInfo);
             var options = new System_OnUpdate_Postfix.Options(
                 onlyWhenSystemRuns: attribute.OnlyWhenSystemRuns,
                 throttle: methodInfo.GetCustomAttribute<ThrottleAttribute>()?.CreateThrottle()

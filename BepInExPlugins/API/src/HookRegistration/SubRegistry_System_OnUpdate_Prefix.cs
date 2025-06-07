@@ -43,7 +43,7 @@ internal class SubRegistry_System_OnUpdate_Prefix : SubRegistry_System<RegistryE
         sb.AppendLine($"    registrant: {registryEntry.RegistrantId}");
         sb.AppendLine($"    target:     {confirmedSystemName}.OnUpdate");
         sb.AppendLine($"    precedence: PREFIX");
-        sb.Append($"    detour to:  {DescribeFunction(registryEntry.Hook)}");
+        sb.Append($"    detour to:  {registryEntry.Hook.ToString()}"); // todo: method on Hook class
         return sb.ToString();
     }
 

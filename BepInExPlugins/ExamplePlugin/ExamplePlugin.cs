@@ -38,14 +38,10 @@ public class ExamplePlugin : BasePlugin
 
     unsafe private void ProcedurallyRegisterHooks()
     {
-        var registrar = _hookDOTS.HookRegistrar;
-        registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(MyProcedurallyRegisteredHook);
-        registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(MyProcedurallyRegisteredHookWithSkip);
-
-        // a HookAdapter can be used to get a function with a valid signature
-        var method = MyHookWithPartialSignature;
-        var hookWithFullSignature = System_OnUpdate_Prefix.HookFunctionAdapter.Adapt(method.Method);
-        registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hookWithFullSignature);
+        // todo: this isn't working and however we go about it, it's inconvenient compared to attributes. would anybody actually use this feature?
+        var delegateInferredFromMethodGroup = MyProcedurallyRegisteredHook;
+        var hook = System_OnUpdate_Prefix.CreateHook(delegateInferredFromMethodGroup.Method);
+        _hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
     }
 
     public override bool Unload()
@@ -59,40 +55,16 @@ public class ExamplePlugin : BasePlugin
     }
 
 
-    private static TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2);
-
+    private static TimeSpan twoSeconds = new TimeSpan(hours: 0, minutes: 0, seconds: 2); // todo: this is annoying. add a similar constructor to Throttle
     private Throttle throttle1 = new Throttle(twoSeconds);
     unsafe private bool MyProcedurallyRegisteredHook(SystemState* systemState)
     {
         if (throttle1.CheckAndTrigger())
         {
-            return true;
-        }
-        Log.LogInfo($"MyProcedurallyRegisteredHook executing. (limit once per 2 seconds)");
-        return true;
-    }
-
-    private Throttle throttle2 = new Throttle(twoSeconds);
-    unsafe private bool MyProcedurallyRegisteredHookWithSkip(SystemState* systemState)
-    {
-        // return false to skip the hooked OnUpdate. Other prefixes will still run.
-        if (throttle2.CheckAndTrigger())
-        {
             return false;
         }
-        Log.LogInfo($"MyProcedurallyRegisteredHookWithSkip executing. (limit once per 2 seconds)");
+        Log.LogInfo($"MyProcedurallyRegisteredHook executing. (limit once per 2 seconds)");
         return false;
-    }
-
-    private Throttle throttle3 = new Throttle(twoSeconds);
-    private void MyHookWithPartialSignature()
-    {
-        if (throttle3.CheckAndTrigger())
-        {
-            return;
-        }
-        Log.LogInfo($"MyHookWithPartialSignature executing. (limit once per 2 seconds)");
-        return;
     }
 
 }

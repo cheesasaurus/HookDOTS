@@ -49,14 +49,4 @@ internal abstract class SubRegistry_System<TRegistryEntry>
         return handle;
     }
 
-    protected String DescribeFunction<T>(T hook) where T : Delegate
-    {
-        // todo: improve
-        var methodInfo = hook.Method;
-        //var x = methodInfo.DeclaringType;
-        //return methodInfo.Name;
-        return methodInfo.FullDescription();
-        // todo: will need a wrapper for adapters to store information about the original adapted method
-    }
-
 }
