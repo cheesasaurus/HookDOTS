@@ -44,7 +44,7 @@ public class ExamplePlugin : BasePlugin
 
         // a HookAdapter can be used to get a function with a valid signature
         var method = MyHookWithPartialSignature;
-        var hookWithFullSignature = System_OnUpdate_Prefix.HookAdapter.Adapt(method.Method);
+        var hookWithFullSignature = System_OnUpdate_Prefix.HookFunctionAdapter.Adapt(method.Method);
         registrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hookWithFullSignature);
     }
 

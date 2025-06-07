@@ -9,7 +9,23 @@ namespace HookDOTS.API.Hooks;
 
 public static class System_OnUpdate_Postfix
 {
-    unsafe public delegate void HookSignature(SystemState* systemState);
+    unsafe public delegate void HookFunction(SystemState* systemState);
+
+    public class Hook(HookFunction func, MethodInfo unwrappedMethodInfo)
+    {
+        public HookFunction Func { get; } = func;
+        public MethodInfo UnwrappedMethodInfo { get; } = unwrappedMethodInfo;
+
+        unsafe public void Invoke(SystemState* systemState)
+        {
+            Func(systemState);
+        }
+    }
+    public static Hook CreateHook(MethodInfo methodInfo)
+    {
+        var hookFunc = HookFunctionAdapter.Adapt(methodInfo);
+        return new Hook(hookFunc, methodInfo);
+    }
 
     public class Options(bool onlyWhenSystemRuns = true, Throttle? throttle = null)
     {
@@ -18,11 +34,11 @@ public static class System_OnUpdate_Postfix
         public static Options Default => new Options();
     }
 
-    public static class HookAdapter
+    public static class HookFunctionAdapter
     {
         private delegate void HookVariant1();
 
-        public static HookSignature Adapt(MethodInfo methodInfo)
+        public static HookFunction Adapt(MethodInfo methodInfo)
         {
             dynamic? suppliedHook = null;
             var paramCount = methodInfo.GetParameters().Length;
@@ -37,7 +53,7 @@ public static class System_OnUpdate_Postfix
             {
                 if (param0Type == typeof(SystemState*))
                 {
-                    suppliedHook = methodInfo.CreateDelegate<HookSignature>();
+                    suppliedHook = methodInfo.CreateDelegate<HookFunction>();
                 }
                 else if (param0Type == null)
                 {
@@ -54,12 +70,12 @@ public static class System_OnUpdate_Postfix
             return Adapt(suppliedHook);
         }
 
-        unsafe private static HookSignature Adapt(HookSignature suppliedHook)
+        unsafe private static HookFunction Adapt(HookFunction suppliedHook)
         {
             return suppliedHook;
         }
 
-        unsafe private static HookSignature Adapt(HookVariant1 suppliedHook)
+        unsafe private static HookFunction Adapt(HookVariant1 suppliedHook)
         {
             return (systemState) =>
             {

@@ -9,7 +9,24 @@ namespace HookDOTS.API.Hooks;
 
 public static class System_OnUpdate_Prefix
 {
-    unsafe public delegate bool HookSignature(SystemState* systemState);
+    unsafe public delegate bool HookFunction(SystemState* systemState);
+
+    public class Hook(HookFunction func, MethodInfo unwrappedMethodInfo)
+    {
+        public HookFunction Func { get; } = func;
+        public MethodInfo UnwrappedMethodInfo { get; } = unwrappedMethodInfo;
+
+        unsafe public bool Invoke(SystemState* systemState)
+        {
+            return Func(systemState);
+        }
+    }
+
+    public static Hook CreateHook(MethodInfo methodInfo)
+    {
+        var hookFunc = HookFunctionAdapter.Adapt(methodInfo);
+        return new Hook(hookFunc, methodInfo);
+    }
 
     public class Options(bool onlyWhenSystemRuns = true, Throttle? throttle = null)
     {
@@ -19,13 +36,13 @@ public static class System_OnUpdate_Prefix
         public static Options Default => new Options();
     }
 
-    public static class HookAdapter
+    public static class HookFunctionAdapter
     {
         private delegate bool HookVariant1();
         unsafe private delegate void HookVariant2(SystemState* systemState);
         private delegate void HookVariant3();
 
-        public static HookSignature Adapt(MethodInfo methodInfo)
+        public static HookFunction Adapt(MethodInfo methodInfo)
         {
             dynamic? suppliedHook = null;
             var paramCount = methodInfo.GetParameters().Length;
@@ -40,7 +57,7 @@ public static class System_OnUpdate_Prefix
             {
                 if (param0Type == typeof(SystemState*))
                 {
-                    suppliedHook = methodInfo.CreateDelegate<HookSignature>();
+                    suppliedHook = methodInfo.CreateDelegate<HookFunction>();
                 }
                 else if (param0Type == null)
                 {
@@ -68,12 +85,12 @@ public static class System_OnUpdate_Prefix
             return Adapt(suppliedHook);
         }
 
-        unsafe private static HookSignature Adapt(HookSignature suppliedHook)
+        unsafe private static HookFunction Adapt(HookFunction suppliedHook)
         {
             return suppliedHook;
         }
 
-        unsafe private static HookSignature Adapt(HookVariant1 suppliedHook)
+        unsafe private static HookFunction Adapt(HookVariant1 suppliedHook)
         {
             return (systemState) =>
             {
@@ -81,7 +98,7 @@ public static class System_OnUpdate_Prefix
             };
         }
 
-        unsafe private static HookSignature Adapt(HookVariant2 suppliedHook)
+        unsafe private static HookFunction Adapt(HookVariant2 suppliedHook)
         {
             return (systemState) =>
             {
@@ -90,7 +107,7 @@ public static class System_OnUpdate_Prefix
             };
         }
 
-        unsafe private static HookSignature Adapt(HookVariant3 suppliedHook)
+        unsafe private static HookFunction Adapt(HookVariant3 suppliedHook)
         {
             return (systemState) =>
             {
