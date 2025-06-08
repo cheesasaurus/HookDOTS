@@ -11,6 +11,7 @@ Notable attributes provided (for plugin developers):
 
 - `[EcsSystemUpdatePrefix(typeof(EquipItemSystem))]`
 - `[EcsSystemUpdatePostfix(typeof(EquipItemSystem))]`
+- `[WhenCreatedWorldsContainAny(["Server", "Client_0"])]`
 
 
 ## Installation
@@ -126,7 +127,7 @@ Procedurally, using a HookRegistrar:
 ```C#
 var hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
 //...
-var hook = System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
+var hook = HookDOTS.Hooks.System_OnUpdate_Prefix.CreateHook(MyHookMethod);
 hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
 ```
 Builder-style, using SetupHooks:
@@ -148,6 +149,31 @@ hookDOTS
     .RegisterChain();
     // be sure to call RegisterChain! Otherwise the entire chain will be discarded.
 ```
+
+
+### World Readiness triggers for Initialization
+
+There are world readiness checks/triggers if you need to defer something until after worlds are created.
+
+Worlds are immediately checked during hook registration, in case they were already set up.\
+Each registered hook will only be executed once. (Even if it doesn't complete, e.g. due to errors)
+
+```C#
+// The hook must be `public` and `static`.
+[WhenCreatedWorldsContainAny(["Server", "Client_0"])]
+unsafe public static void ExampleInitializer1(IEnumerable<World> worlds)
+{
+    ExamplePlugin.LogInstance.LogInfo($"{worlds.First()} world is ready.");
+}
+
+// there is also an "All" version (instead of "Any")
+[WhenCreatedWorldsContainAll(["Server", "Default World"])]
+public static void ExampleInitializerAll()
+{
+    ExamplePlugin.LogInstance.LogInfo($"ExampleInitializerAll executing.");
+}
+```
+
 
 
 ### Example project
