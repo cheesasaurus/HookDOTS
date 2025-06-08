@@ -160,14 +160,14 @@ Each registered hook will only be executed once. (Even if it doesn't complete, e
 
 ```C#
 // The hook must be `public` and `static`.
-[WhenCreatedWorldsContainAny(["Server", "Client_0"])]
+[WhenCreatedWorldsContainAny("Server", "Client_0")]
 unsafe public static void ExampleInitializer1(IEnumerable<World> worlds)
 {
     ExamplePlugin.LogInstance.LogInfo($"{worlds.First().Name} world is ready.");
 }
 
 // there is also an "All" version (instead of "Any")
-[WhenCreatedWorldsContainAll(["Server", "Default World"])]
+[WhenCreatedWorldsContainAll("Server", "Default World")]
 public static void ExampleInitializerAll()
 {
     ExamplePlugin.LogInstance.LogInfo($"ExampleInitializerAll executing.");

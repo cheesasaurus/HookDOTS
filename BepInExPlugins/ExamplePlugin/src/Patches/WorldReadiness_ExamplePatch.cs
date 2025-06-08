@@ -8,14 +8,14 @@ namespace ExamplePlugin.Patches;
 public class WorldReadiness_ExamplePatch
 {
     // The hook must be `public` and `static`.
-    [WhenCreatedWorldsContainAny(["Server", "Client_0"])]
+    [WhenCreatedWorldsContainAny("Server", "Client_0")]
     unsafe public static void ExampleInitializer1(IEnumerable<World> worlds)
     {
         ExamplePlugin.LogInstance.LogError($"ExampleInitializer1 executing because \"{worlds.First().Name}\" world is ready.");
     }
 
     // You can leave the METHOD parameters empty if desired.
-    [WhenCreatedWorldsContainAny(["Server"])]
+    [WhenCreatedWorldsContainAny("Server")]
     public static void ExampleInitializer2()
     {
         ExamplePlugin.LogInstance.LogInfo($"ExampleInitializer2 executing.");
@@ -30,7 +30,7 @@ public class WorldReadiness_ExamplePatch
     }
 
     // there is an "All" version (instead of "Any")
-    [WhenCreatedWorldsContainAll(["Server", "Default World"])]
+    [WhenCreatedWorldsContainAll("Server", "Default World")]
     public static void ExampleInitializerAll()
     {
         ExamplePlugin.LogInstance.LogInfo($"ExampleInitializerAll executing.");

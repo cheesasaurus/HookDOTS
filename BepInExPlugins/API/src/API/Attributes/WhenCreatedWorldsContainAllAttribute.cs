@@ -8,7 +8,7 @@ public class WhenCreatedWorldsContainAllAttribute : Attribute
 {
     public IEnumerable<string> WorldNames;
 
-    public WhenCreatedWorldsContainAllAttribute(string[] worldNames)
+    public WhenCreatedWorldsContainAllAttribute(params string[] worldNames)
     {
         WorldNames = worldNames;
     }
