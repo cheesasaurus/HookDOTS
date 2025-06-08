@@ -163,7 +163,7 @@ Each registered hook will only be executed once. (Even if it doesn't complete, e
 [WhenCreatedWorldsContainAny(["Server", "Client_0"])]
 unsafe public static void ExampleInitializer1(IEnumerable<World> worlds)
 {
-    ExamplePlugin.LogInstance.LogInfo($"{worlds.First()} world is ready.");
+    ExamplePlugin.LogInstance.LogInfo($"{worlds.First().Name} world is ready.");
 }
 
 // there is also an "All" version (instead of "Any")
