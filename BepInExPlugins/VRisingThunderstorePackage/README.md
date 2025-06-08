@@ -16,8 +16,8 @@ Notable attributes provided (for plugin developers):
 
 ## Installation
 
-- Install [BepInEx](https://v-rising.thunderstore.io/package/BepInEx/BepInExPack_V_Rising/).
-- Extract `HookDOTS.API.dll` into `(VRising folder)/BepInEx/plugins`.
+1. Install [BepInEx](https://v-rising.thunderstore.io/package/BepInEx/BepInExPack_V_Rising/)
+2. Extract `HookDOTS.API.dll` into `(VRising folder)/BepInEx/plugins`
 
 
 ## Usage
@@ -193,6 +193,7 @@ A full [example project](https://github.com/cheesasaurus/HookDOTS/tree/main/BepI
 - [Plugin entry point](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/ExamplePlugin/ExamplePlugin.cs)
 - [Prefix hook examples](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/ExamplePlugin/src/Patches/EcsSystemUpdatePrefix_ExamplePatch.cs)
 - [Postfix hook examples](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/ExamplePlugin/src/Patches/EcsSystemUpdatePostfix_ExamplePatch.cs)
+- [World readiness examples](https://github.com/cheesasaurus/HookDOTS/blob/main/BepInExPlugins/ExamplePlugin/src/Patches/WorldReadiness_ExamplePatch.cs)
 
 </details>
 

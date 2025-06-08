@@ -29,7 +29,7 @@ public class WorldReadiness_ExamplePatch
         ExamplePlugin.LogInstance.LogInfo($"ExampleInitializerInvalidAttribute executing.");
     }
 
-    // there is an "All" version (instead of "Any")
+    // there is also an "All" version (instead of "Any")
     [WhenCreatedWorldsContainAll("Server", "Default World")]
     public static void ExampleInitializerAll()
     {
