@@ -39,6 +39,16 @@ public class ExamplePlugin : BasePlugin
         RegisterHooks_BuilderStyle();
     }
 
+    public override bool Unload()
+    {
+        // be sure to call Dispose! This will unregister hooks and clean up to avoid memory leaks.
+        _hookDOTS.Dispose();
+
+        // Harmony unpatching
+        _harmony?.UnpatchSelf();
+        return true;
+    }
+
     unsafe private void RegisterHooks_Procedurally()
     {
         var hook1 = HookDOTS.Hooks.System_OnUpdate_Prefix.CreateHook(MyProcedurallyRegisteredHook);
@@ -68,18 +78,11 @@ public class ExamplePlugin : BasePlugin
             .Also()
                 .BeforeSystemUpdates<DropInventoryItemSystem>(onlyWhenSystemRuns: false)
                     .ExecuteDetour(MyMethodD).Throttled(seconds: 5)
+            .Also()
+                .WhenCreatedWorldsContainAny(["Server", "Default World"])
+                    .ExecuteActionOnce(DeferredInitialize)
             .RegisterChain();
         // be sure to call RegisterChain! Otherwise the entire chain will be discarded.
-    }
-
-    public override bool Unload()
-    {
-        // be sure to call Dispose! This will unregister hooks and clean up to avoid memory leaks.
-        _hookDOTS.Dispose();
-
-        // Harmony unpatching
-        _harmony?.UnpatchSelf();
-        return true;
     }
 
     private Throttle throttle1 = new Throttle(seconds: 2);
@@ -134,6 +137,12 @@ public class ExamplePlugin : BasePlugin
         var worldNames = worlds.Select(w => w.Name);
         var worldNamesString = string.Join(", ", worldNames);
         Log.LogInfo($"All worlds: {worldNamesString}");
+    }
+
+    private void DeferredInitialize(IEnumerable<World> worlds)
+    {
+        var firstWorld = worlds.First();
+        Log.LogInfo($"Executing deferred Initialization with world {firstWorld.Name}");
     }
 
 }

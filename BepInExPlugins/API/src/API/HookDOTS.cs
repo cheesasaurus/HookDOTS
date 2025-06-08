@@ -181,7 +181,7 @@ public class HookDOTS
 
         try
         {
-            var hook = WhenCreatedWorldsContainAny.CreateHook(methodInfo);
+            var hook = Hooks.WhenCreatedWorldsContainAny.CreateHook(methodInfo);
             HookRegistrar.RegisterHook_WhenCreatedWorldsContainAny(hook, attribute.WorldNames);
             return true;
         }
@@ -206,7 +206,7 @@ public class HookDOTS
 
         try
         {
-            var hook = WhenCreatedWorldsContainAll.CreateHook(methodInfo);
+            var hook = Hooks.WhenCreatedWorldsContainAll.CreateHook(methodInfo);
             HookRegistrar.RegisterHook_WhenCreatedWorldsContainAll(hook, attribute.WorldNames);
             return true;
         }

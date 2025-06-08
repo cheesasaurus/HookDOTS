@@ -130,7 +130,7 @@ var hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
 var hook = HookDOTS.Hooks.System_OnUpdate_Prefix.CreateHook(MyHookMethod);
 hookDOTS.HookRegistrar.RegisterHook_System_OnUpdate_Prefix<TakeDamageInSunSystem_Server>(hook);
 ```
-Builder-style, using SetupHooks:
+Builder style, using SetupHooks:
 ```C#
 var hookDOTS = new HookDOTS.API.HookDOTS(MyPluginInfo.PLUGIN_GUID, Log);
 //...
@@ -172,6 +172,17 @@ public static void ExampleInitializerAll()
 {
     ExamplePlugin.LogInstance.LogInfo($"ExampleInitializerAll executing.");
 }
+```
+Builder style, using SetupHooks:
+```C#
+hookDOTS
+    .SetupHooks()
+        .WhenCreatedWorldsContainAny(["Server", "Default World"])
+            .ExecuteActionOnce(LogSomething)
+            .And()
+            .ExecuteActionOnce(DeferredInitialize)
+    .RegisterChain();
+    // be sure to call RegisterChain! Otherwise the entire chain will be discarded.
 ```
 
 
