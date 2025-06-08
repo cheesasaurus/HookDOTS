@@ -11,7 +11,7 @@ Notable attributes provided (for plugin developers):
 
 - `[EcsSystemUpdatePrefix(typeof(EquipItemSystem))]`
 - `[EcsSystemUpdatePostfix(typeof(EquipItemSystem))]`
-- `[WhenCreatedWorldsContainAny(["Server", "Client_0"])]`
+- `[WhenCreatedWorldsContainAny("Server", "Client_0")]`
 
 
 ## Installation
