@@ -64,7 +64,7 @@ public static class WhenCreatedWorldsContainAll
             }
             else if (methodInfo.ReturnType == typeof(void))
             {
-                if (param0Type.IsAssignableFrom(typeof(IEnumerable<World>)))
+                if (param0Type?.IsAssignableFrom(typeof(IEnumerable<World>)) ?? false)
                 {
                     suppliedHook = methodInfo.CreateDelegate<HookFunction>();
                 }

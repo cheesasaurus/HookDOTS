@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BepInEx;
+using HookDOTS.Utilities;
 using Unity.Entities;
 
 namespace HookDOTS.Hooks;
@@ -63,8 +65,8 @@ public static class WhenCreatedWorldsContainAny
                 // invalid signature
             }
             else if (methodInfo.ReturnType == typeof(void))
-            {
-                if (param0Type.IsAssignableFrom(typeof(IEnumerable<World>)))
+            {                
+                if (param0Type?.IsAssignableFrom(typeof(IEnumerable<World>)) ?? false)
                 {
                     suppliedHook = methodInfo.CreateDelegate<HookFunction>();
                 }
@@ -72,7 +74,7 @@ public static class WhenCreatedWorldsContainAny
                 {
                     suppliedHook = methodInfo.CreateDelegate<HookFunctionVariant1>();
                 }
-            }
+            }            
 
             if (suppliedHook == null)
             {

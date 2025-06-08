@@ -105,6 +105,8 @@ public class HookDOTS
     {
         RegisterEcsSystemUpdatePrefix(methodInfo);
         RegisterEcsSystemUpdatePostfix(methodInfo);
+        RegisterWhenCreatedWorldsContainAny(methodInfo);
+        RegisterWhenCreatedWorldsContainAll(methodInfo);
     }
 
     internal bool RegisterEcsSystemUpdatePrefix(MethodInfo methodInfo)
@@ -156,6 +158,56 @@ public class HookDOTS
                 throttle: methodInfo.GetCustomAttribute<ThrottleAttribute>()?.CreateThrottle()
             );
             HookRegistrar.RegisterHook_System_OnUpdate_Postfix(hook, attribute.SystemType, options);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex);
+            return false;
+        }
+    }
+
+    internal bool RegisterWhenCreatedWorldsContainAny(MethodInfo methodInfo)
+    {
+        if (!methodInfo.IsStatic)
+        {
+            return false;
+        }
+        var attribute = methodInfo.GetCustomAttribute<WhenCreatedWorldsContainAnyAttribute>();
+        if (attribute is null)
+        {
+            return false;
+        }
+
+        try
+        {
+            var hook = WhenCreatedWorldsContainAny.CreateHook(methodInfo);
+            HookRegistrar.RegisterHook_WhenCreatedWorldsContainAny(hook, attribute.WorldNames);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex);
+            return false;
+        }
+    }
+
+    internal bool RegisterWhenCreatedWorldsContainAll(MethodInfo methodInfo)
+    {
+        if (!methodInfo.IsStatic)
+        {
+            return false;
+        }
+        var attribute = methodInfo.GetCustomAttribute<WhenCreatedWorldsContainAllAttribute>();
+        if (attribute is null)
+        {
+            return false;
+        }
+
+        try
+        {
+            var hook = WhenCreatedWorldsContainAll.CreateHook(methodInfo);
+            HookRegistrar.RegisterHook_WhenCreatedWorldsContainAll(hook, attribute.WorldNames);
             return true;
         }
         catch (Exception ex)

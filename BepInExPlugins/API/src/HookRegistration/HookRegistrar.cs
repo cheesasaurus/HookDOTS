@@ -121,7 +121,7 @@ public class HookRegistrar
     {
         if (!worldNames.Any())
         {
-            throw new ArgumentOutOfRangeException("worldNames cannot be empty");
+            throw new ArgumentException("worldNames must not be empty");
         }
         _hookRegistryStaging.RegisterHook_WhenCreatedWorldsContainAny(hook, worldNames.ToHashSet());
     }
@@ -136,7 +136,7 @@ public class HookRegistrar
     {
         if (!worldNames.Any())
         {
-            throw new ArgumentException("worldNames cannot be empty");
+            throw new ArgumentException("worldNames must not be empty");
         }
         _hookRegistryStaging.RegisterHook_WhenCreatedWorldsContainAll(hook, worldNames.ToHashSet());
     }
