@@ -11,7 +11,7 @@ public class WorldReadiness_ExamplePatch
     [WhenCreatedWorldsContainAny("Server", "Client_0")]
     unsafe public static void ExampleInitializer1(IEnumerable<World> worlds)
     {
-        ExamplePlugin.LogInstance.LogError($"ExampleInitializer1 executing because \"{worlds.First().Name}\" world is ready.");
+        ExamplePlugin.LogInstance.LogInfo($"ExampleInitializer1 executing because \"{worlds.First().Name}\" world is ready.");
     }
 
     // You can leave the METHOD parameters empty if desired.

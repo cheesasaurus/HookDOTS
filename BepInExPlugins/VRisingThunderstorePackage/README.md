@@ -33,7 +33,7 @@ By itself, HookDOTS doesn't do anything. It is required by other plugins and sho
 ## How to use
 
 #### 1. Add a reference to the plugin.
->`dotnet add package HookDOTS.API`
+>`dotnet add package HookDOTS.API -v 1.*`
 
 #### 2. Add the API plugin as a dependency via the `BepInDependency` attribute on your plugin class.
 ```C#

@@ -21,12 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--
-
     <PackageReference Include="HookDOTS.API" Version="1.*" />
-    
-    -->
+    <!--
     <ProjectReference Include="..\API\API.csproj"/>
+    -->
   </ItemGroup>
 
   <Target Name="PrepareLibsForDist" AfterTargets="Publish">
