@@ -19,8 +19,11 @@ internal class SubRegistry_WhenCreatedWorldsContainAny : SubRegistry_WhenCreated
     internal IEnumerable<RegistryEntries.WhenCreatedWorldsContainAny> ExtractMatchesInRegistrationOrder(IWorldWatcher worldWatcher)
     {
         var matchedKeys = _hooks.Keys.Where(k => worldWatcher.AreAnyWorldsCreated(_hooks[k].WorldNames));
-        var matchedValues = matchedKeys.Select(_hooks.GetValueOrDefault);
-        matchedKeys.Select(_hooks.Remove); // unregister matches
+        var matchedValues = matchedKeys.Select(_hooks.GetValueOrDefault).ToList();
+        foreach (var k in matchedKeys) // don't use LINQ for this, it has deferred execution
+        {
+            _hooks.Remove(k);
+        }
         return matchedValues;
     }
 

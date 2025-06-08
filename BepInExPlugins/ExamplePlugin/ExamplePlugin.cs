@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BepInEx;
 using BepInEx.Logging;
@@ -127,7 +126,7 @@ public class ExamplePlugin : BasePlugin
 
     private void LogFirstGivenWorld(IEnumerable<World> worlds)
     {
-        Log.LogWarning($"First world: {worlds.First().Name}");
+        Log.LogInfo($"First world: {worlds.First().Name}");
     }
 
     private void LogGivenWorlds(IEnumerable<World> worlds)
