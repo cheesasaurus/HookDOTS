@@ -2,6 +2,7 @@ using System;
 using HookDOTS.API.Attributes;
 using Unity.Entities;
 using ProjectM;
+using ProjectM.Gameplay.Systems;
 
 namespace ExamplePlugin.Patches;
 
@@ -58,6 +59,14 @@ public class EcsSystemUpdatePrefix_ExamplePatch
     public static void ExamplePrefixThrottled()
     {
         ExamplePlugin.LogInstance.LogInfo($"ExamplePrefixThrottled executing (throttled to once every 2 seconds)");
+    }
+
+    // Unmanaged systems can of course be hooked too.
+    [Throttle(seconds: 2)]
+    [EcsSystemUpdatePrefix(typeof(DealDamageSystem), onlyWhenSystemRuns: false)]
+    public static void ExamplePrefixThrottled2()
+    {
+        ExamplePlugin.LogInstance.LogInfo($"ExamplePrefixThrottled2 executing (throttled to once every 2 seconds)");
     }
 
     // If a hook throws an Exception during execution, an error will be logged and execution will continue.

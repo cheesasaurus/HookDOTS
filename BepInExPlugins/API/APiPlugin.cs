@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using HookDOTS.Patches;
 using HookDOTS.Utilities;
 using Unity.Entities;
 
@@ -34,8 +33,6 @@ public class ApiPlugin : BasePlugin
     public override bool Unload()
     {
         HookManager.UnInitialize();
-        PerformanceRecorderSystemPatch.UnInitialize();
-
         _harmony?.UnpatchSelf();
         return true;
     }

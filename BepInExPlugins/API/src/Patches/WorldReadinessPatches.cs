@@ -3,7 +3,7 @@ using HookDOTS;
 using HookDOTS.Utilities;
 using Unity.Entities;
 
-namespace ExamplePlugin.Patches;
+namespace HookDOTS.Patches;
 
 [HarmonyPatch]
 unsafe internal class WorldReadinessPatches
