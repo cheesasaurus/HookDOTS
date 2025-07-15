@@ -67,9 +67,9 @@ internal static class HookManager
         _isGameReadyForRegistration = true;
     }
 
-    unsafe internal static void HandleSystemUpdatePrefix(SystemState* systemState)
+    unsafe internal static bool HandleSystemUpdatePrefix(SystemState* systemState)
     {
-        _executor_System_OnUpdate.ExecutePrefixHooks(systemState);
+        return _executor_System_OnUpdate.ExecutePrefixHooks(systemState);
     }
 
     unsafe internal static void HandleSystemUpdatePostfix(SystemState* systemState)

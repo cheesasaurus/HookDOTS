@@ -13,9 +13,9 @@ unsafe internal class SystemUpdatePatches
     /// </remarks>
     [HarmonyPatch(typeof(SystemBase), nameof(SystemBase.Update))]
     [HarmonyPrefix]
-    unsafe internal static void SystemManaged_MightUpdate_Prefix(SystemBase __instance)
+    unsafe internal static bool SystemManaged_MightUpdate_Prefix(SystemBase __instance)
     {
-        HookManager.HandleSystemUpdatePrefix(__instance.CheckedState());
+        return HookManager.HandleSystemUpdatePrefix(__instance.CheckedState());
     }
 
     [HarmonyPatch(typeof(SystemBase), nameof(SystemBase.Update))]
@@ -35,9 +35,9 @@ unsafe internal class SystemUpdatePatches
     /// </remarks>
     [HarmonyPatch(typeof(WorldUnmanagedImpl), nameof(WorldUnmanagedImpl.UnmanagedUpdate))]
     [HarmonyPrefix]
-    unsafe internal static void SystemUnmanaged_MightUpdate_Prefix(void* pSystemState)
+    unsafe internal static bool SystemUnmanaged_MightUpdate_Prefix(void* pSystemState)
     {
-        HookManager.HandleSystemUpdatePrefix((SystemState*)pSystemState);
+        return HookManager.HandleSystemUpdatePrefix((SystemState*)pSystemState);
     }
 
     [HarmonyPatch(typeof(WorldUnmanagedImpl), nameof(WorldUnmanagedImpl.UnmanagedUpdate))]

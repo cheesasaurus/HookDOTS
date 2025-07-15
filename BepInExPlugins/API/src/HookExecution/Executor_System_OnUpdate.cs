@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using HookDOTS.API;
 using Unity.Entities;
 
 namespace HookDOTS.HookRegistration;
@@ -36,10 +37,10 @@ internal class Executor_System_OnUpdate
         return executor;
     }
 
-    unsafe internal void ExecutePrefixHooks(SystemState* systemState)
+    unsafe internal bool ExecutePrefixHooks(SystemState* systemState)
     {
         var executor = GetOrCreateWorldboundExecutor(systemState->World);
-        executor.ExecutePrefixHooks(systemState);
+        return executor.ExecutePrefixHooks(systemState);
     }
 
     unsafe internal void ExecutePostfixHooks(SystemState* systemState)
@@ -61,11 +62,9 @@ internal class Executor_System_OnUpdate
             _prefixSubRegistry = prefixSubRegistry;
             _postfixSubRegistry = postfixSubRegistry;
         }
-
-        private static Dictionary<SystemTypeIndex, bool> _restoreEnabledAfterPrefixSkip_System_OnUpdate = new();
         private static Dictionary<SystemTypeIndex, bool> _didPrefixExpectSystemToRun = new();
 
-        unsafe internal void ExecutePrefixHooks(SystemState* systemState)
+        unsafe internal bool ExecutePrefixHooks(SystemState* systemState)
         {
             var systemTypeIndex = systemState->m_SystemTypeIndex;
             bool wouldRunSystem = systemState->Enabled && systemState->ShouldRunSystem();
@@ -96,24 +95,13 @@ internal class Executor_System_OnUpdate
                 }
 
             }
-
-            if (shouldSkipTheOriginal)
-            {
-                _restoreEnabledAfterPrefixSkip_System_OnUpdate[systemTypeIndex] = systemState->Enabled;
-                systemState->Enabled = false;
-            }
             _didPrefixExpectSystemToRun[systemTypeIndex] = wouldRunSystem && !shouldSkipTheOriginal;
+            return shouldSkipTheOriginal ? AfterDetours.SkipOriginalMethod : AfterDetours.OkToRunOriginalMethod;
         }
 
         unsafe internal void ExecutePostfixHooks(SystemState* systemState)
         {
             var systemTypeIndex = systemState->m_SystemTypeIndex;
-            if (_restoreEnabledAfterPrefixSkip_System_OnUpdate.ContainsKey(systemTypeIndex))
-            {
-                systemState->Enabled = _restoreEnabledAfterPrefixSkip_System_OnUpdate[systemTypeIndex];
-                _restoreEnabledAfterPrefixSkip_System_OnUpdate.Remove(systemTypeIndex);
-            }
-
             var didSystemProbablyRun = _didPrefixExpectSystemToRun[systemTypeIndex];
 
             foreach (var registryEntry in _postfixSubRegistry.GetEntriesInRegistrationOrder(systemTypeIndex))
