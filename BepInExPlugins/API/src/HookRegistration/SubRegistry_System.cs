@@ -20,13 +20,13 @@ internal abstract class SubRegistry_System<TRegistryEntry>
     // HarmonyX runs hooks in the order that they were registered, so we aim to do the same
     internal IEnumerable<TRegistryEntry> GetEntriesInRegistrationOrder(SystemTypeIndex systemTypeIndex)
     {
-        if (!_hooksBySystem.ContainsKey(systemTypeIndex))
+        // todo: OrderedDictionary kind of thing. Problem is that it's not generic, so using a regular Dictionary for now.
+        // it seems to just work
+        if (!_hooksBySystem.TryGetValue(systemTypeIndex, out var hooks))
         {
             return _emptyCollection;
         }
-        // todo: OrderedDictionary kind of thing. Problem is that it's not generic, so using a regular Dictionary for now
-        // it seems to just work
-        return _hooksBySystem[systemTypeIndex].Values;
+        return hooks.Values;        
     }
 
     protected HookHandle RegisterHook(SystemTypeIndex systemTypeIndex, HookHandle handle, TRegistryEntry registryEntry)
