@@ -83,6 +83,16 @@ public class ExamplePatch
         return !shouldSkipTheOriginal; // this will be returned, and is false. Therefore the original will be skipped.
     }
 
+    [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
+    unsafe public static bool ExamplePrefixNoSkip(SystemState* systemState)
+    {
+        // Prefer to use the AfterDetours constants instead of true/false.
+
+        // return AfterDetours.SkipOriginalMethod;
+        return AfterDetours.OkToRunOriginalMethod;
+        
+    }
+
     [EcsSystemUpdatePostfix(typeof(EquipItemSystem))]
     unsafe public static void ExamplePostfix(SystemState* systemState)
     {

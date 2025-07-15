@@ -8,13 +8,14 @@ using HookDOTS.Hooks;
 
 namespace HookDOTS.API;
 
-//
-// Summary:
-//     A HookDOTS instance is the main entrypoint for a plugin to use HookDOTS.
-//     After creating one with a unique identifier,
-//     it is used to patch and query the current application domain
+
+/// <summary>
+/// A HookDOTS instance is the main entrypoint for a plugin to use HookDOTS.
+/// After creating one with a unique identifier,
+/// it is used to patch and query the current application domain.
+/// </summary>
 public class HookDOTS
-{
+{    
     public string Id { get; }
     private ManualLogSource _log;
 

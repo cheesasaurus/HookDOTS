@@ -3,6 +3,7 @@ using HookDOTS.API.Attributes;
 using Unity.Entities;
 using ProjectM;
 using ProjectM.Gameplay.Systems;
+using HookDOTS.API;
 
 namespace ExamplePlugin.Patches;
 
@@ -20,12 +21,20 @@ public class EcsSystemUpdatePrefix_ExamplePatch
         return !shouldSkipTheOriginal; // this will be returned, and is true. Therefore no skip.
     }
 
+    [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
+    unsafe public static bool ExamplePrefixNoSkip(SystemState* systemState)
+    {
+        // Prefer to use the AfterDetours constants instead of true/false.
+        return AfterDetours.OkToRunOriginalMethod;
+        // return AfterDetours.SkipOriginalMethod;
+    }
+
     // You can leave the method parameters empty if desired.
     [EcsSystemUpdatePrefix(typeof(EquipItemSystem))]
     public static bool ExamplePrefix1()
     {
         ExamplePlugin.LogInstance.LogInfo($"ExamplePrefix1 executing.");
-        return true;
+        return AfterDetours.OkToRunOriginalMethod;
     }
 
     // You don't have to return a bool. `void` is permitted.
